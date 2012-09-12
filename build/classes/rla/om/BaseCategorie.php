@@ -54,6 +54,11 @@ abstract class BaseCategorie extends BaseObject  implements Persistent
 	protected $collArchievements;
 
 	/**
+	 * @var        array Group[] Collection to store aggregation of Group objects.
+	 */
+	protected $collGroups;
+
+	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var        boolean
@@ -72,6 +77,12 @@ abstract class BaseCategorie extends BaseObject  implements Persistent
 	 * @var		array
 	 */
 	protected $archievementsScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $groupsScheduledForDeletion = null;
 
 	/**
 	 * Get the [id] column value.
@@ -270,6 +281,8 @@ abstract class BaseCategorie extends BaseObject  implements Persistent
 
 			$this->collArchievements = null;
 
+			$this->collGroups = null;
+
 		} // if (deep)
 	}
 
@@ -402,6 +415,23 @@ abstract class BaseCategorie extends BaseObject  implements Persistent
 
 			if ($this->collArchievements !== null) {
 				foreach ($this->collArchievements as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->groupsScheduledForDeletion !== null) {
+				if (!$this->groupsScheduledForDeletion->isEmpty()) {
+					GroupQuery::create()
+						->filterByPrimaryKeys($this->groupsScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->groupsScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collGroups !== null) {
+				foreach ($this->collGroups as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -567,6 +597,14 @@ abstract class BaseCategorie extends BaseObject  implements Persistent
 					}
 				}
 
+				if ($this->collGroups !== null) {
+					foreach ($this->collGroups as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 
 			$this->alreadyInValidation = false;
 		}
@@ -645,6 +683,9 @@ abstract class BaseCategorie extends BaseObject  implements Persistent
 		if ($includeForeignObjects) {
 			if (null !== $this->collArchievements) {
 				$result['Archievements'] = $this->collArchievements->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+			if (null !== $this->collGroups) {
+				$result['Groups'] = $this->collGroups->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
 		}
 		return $result;
@@ -805,6 +846,12 @@ abstract class BaseCategorie extends BaseObject  implements Persistent
 				}
 			}
 
+			foreach ($this->getGroups() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addGroup($relObj->copy($deepCopy));
+				}
+			}
+
 			//unflag object copy
 			$this->startCopy = false;
 		} // if ($deepCopy)
@@ -866,6 +913,9 @@ abstract class BaseCategorie extends BaseObject  implements Persistent
 	{
 		if ('Archievement' == $relationName) {
 			return $this->initArchievements();
+		}
+		if ('Group' == $relationName) {
+			return $this->initGroups();
 		}
 	}
 
@@ -1043,6 +1093,154 @@ abstract class BaseCategorie extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Clears out the collGroups collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addGroups()
+	 */
+	public function clearGroups()
+	{
+		$this->collGroups = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collGroups collection.
+	 *
+	 * By default this just sets the collGroups collection to an empty array (like clearcollGroups());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initGroups($overrideExisting = true)
+	{
+		if (null !== $this->collGroups && !$overrideExisting) {
+			return;
+		}
+		$this->collGroups = new PropelObjectCollection();
+		$this->collGroups->setModel('Group');
+	}
+
+	/**
+	 * Gets an array of Group objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Categorie is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Group[] List of Group objects
+	 * @throws     PropelException
+	 */
+	public function getGroups($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collGroups || null !== $criteria) {
+			if ($this->isNew() && null === $this->collGroups) {
+				// return empty collection
+				$this->initGroups();
+			} else {
+				$collGroups = GroupQuery::create(null, $criteria)
+					->filterByCategorie($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collGroups;
+				}
+				$this->collGroups = $collGroups;
+			}
+		}
+		return $this->collGroups;
+	}
+
+	/**
+	 * Sets a collection of Group objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $groups A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setGroups(PropelCollection $groups, PropelPDO $con = null)
+	{
+		$this->groupsScheduledForDeletion = $this->getGroups(new Criteria(), $con)->diff($groups);
+
+		foreach ($groups as $group) {
+			// Fix issue with collection modified by reference
+			if ($group->isNew()) {
+				$group->setCategorie($this);
+			}
+			$this->addGroup($group);
+		}
+
+		$this->collGroups = $groups;
+	}
+
+	/**
+	 * Returns the number of related Group objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Group objects.
+	 * @throws     PropelException
+	 */
+	public function countGroups(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collGroups || null !== $criteria) {
+			if ($this->isNew() && null === $this->collGroups) {
+				return 0;
+			} else {
+				$query = GroupQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByCategorie($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collGroups);
+		}
+	}
+
+	/**
+	 * Method called to associate a Group object to this object
+	 * through the Group foreign key attribute.
+	 *
+	 * @param      Group $l Group
+	 * @return     Categorie The current object (for fluent API support)
+	 */
+	public function addGroup(Group $l)
+	{
+		if ($this->collGroups === null) {
+			$this->initGroups();
+		}
+		if (!$this->collGroups->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddGroup($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	Group $group The group object to add.
+	 */
+	protected function doAddGroup($group)
+	{
+		$this->collGroups[]= $group;
+		$group->setCategorie($this);
+	}
+
+	/**
 	 * Clears the current object and sets all attributes to their default values
 	 */
 	public function clear()
@@ -1075,12 +1273,21 @@ abstract class BaseCategorie extends BaseObject  implements Persistent
 					$o->clearAllReferences($deep);
 				}
 			}
+			if ($this->collGroups) {
+				foreach ($this->collGroups as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
 		} // if ($deep)
 
 		if ($this->collArchievements instanceof PropelCollection) {
 			$this->collArchievements->clearIterator();
 		}
 		$this->collArchievements = null;
+		if ($this->collGroups instanceof PropelCollection) {
+			$this->collGroups->clearIterator();
+		}
+		$this->collGroups = null;
 	}
 
 	/**

@@ -9,14 +9,22 @@
  * @method     GroupQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     GroupQuery orderByName($order = Criteria::ASC) Order by the name column
  * @method     GroupQuery orderByDescription($order = Criteria::ASC) Order by the description column
+ * @method     GroupQuery orderByCategoryId($order = Criteria::ASC) Order by the category_id column
+ * @method     GroupQuery orderByGroupType($order = Criteria::ASC) Order by the group_type column
  *
  * @method     GroupQuery groupById() Group by the id column
  * @method     GroupQuery groupByName() Group by the name column
  * @method     GroupQuery groupByDescription() Group by the description column
+ * @method     GroupQuery groupByCategoryId() Group by the category_id column
+ * @method     GroupQuery groupByGroupType() Group by the group_type column
  *
  * @method     GroupQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     GroupQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     GroupQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ *
+ * @method     GroupQuery leftJoinCategorie($relationAlias = null) Adds a LEFT JOIN clause to the query using the Categorie relation
+ * @method     GroupQuery rightJoinCategorie($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Categorie relation
+ * @method     GroupQuery innerJoinCategorie($relationAlias = null) Adds a INNER JOIN clause to the query using the Categorie relation
  *
  * @method     GroupQuery leftJoinArchievement($relationAlias = null) Adds a LEFT JOIN clause to the query using the Archievement relation
  * @method     GroupQuery rightJoinArchievement($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Archievement relation
@@ -28,10 +36,14 @@
  * @method     Group findOneById(int $id) Return the first Group filtered by the id column
  * @method     Group findOneByName(string $name) Return the first Group filtered by the name column
  * @method     Group findOneByDescription(string $description) Return the first Group filtered by the description column
+ * @method     Group findOneByCategoryId(int $category_id) Return the first Group filtered by the category_id column
+ * @method     Group findOneByGroupType(int $group_type) Return the first Group filtered by the group_type column
  *
  * @method     array findById(int $id) Return Group objects filtered by the id column
  * @method     array findByName(string $name) Return Group objects filtered by the name column
  * @method     array findByDescription(string $description) Return Group objects filtered by the description column
+ * @method     array findByCategoryId(int $category_id) Return Group objects filtered by the category_id column
+ * @method     array findByGroupType(int $group_type) Return Group objects filtered by the group_type column
  *
  * @package    propel.generator.rla.om
  */
@@ -79,10 +91,10 @@ abstract class BaseGroupQuery extends ModelCriteria
 	 * Go fast if the query is untouched.
 	 *
 	 * <code>
-	 * $obj  = $c->findPk(12, $con);
+	 * $obj = $c->findPk(array(12, 34), $con);
 	 * </code>
 	 *
-	 * @param     mixed $key Primary key to use for the query
+	 * @param     array[$id, $category_id] $key Primary key to use for the query
 	 * @param     PropelPDO $con an optional connection object
 	 *
 	 * @return    Group|array|mixed the result, formatted by the current formatter
@@ -92,7 +104,7 @@ abstract class BaseGroupQuery extends ModelCriteria
 		if ($key === null) {
 			return null;
 		}
-		if ((null !== ($obj = GroupPeer::getInstanceFromPool((string) $key))) && !$this->formatter) {
+		if ((null !== ($obj = GroupPeer::getInstanceFromPool(serialize(array((string) $key[0], (string) $key[1]))))) && !$this->formatter) {
 			// the object is alredy in the instance pool
 			return $obj;
 		}
@@ -120,10 +132,11 @@ abstract class BaseGroupQuery extends ModelCriteria
 	 */
 	protected function findPkSimple($key, $con)
 	{
-		$sql = 'SELECT `ID`, `NAME`, `DESCRIPTION` FROM `groups` WHERE `ID` = :p0';
+		$sql = 'SELECT `ID`, `NAME`, `DESCRIPTION`, `CATEGORY_ID`, `GROUP_TYPE` FROM `groups` WHERE `ID` = :p0 AND `CATEGORY_ID` = :p1';
 		try {
 			$stmt = $con->prepare($sql);
-			$stmt->bindValue(':p0', $key, PDO::PARAM_INT);
+			$stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
+			$stmt->bindValue(':p1', $key[1], PDO::PARAM_INT);
 			$stmt->execute();
 		} catch (Exception $e) {
 			Propel::log($e->getMessage(), Propel::LOG_ERR);
@@ -133,7 +146,7 @@ abstract class BaseGroupQuery extends ModelCriteria
 		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
 			$obj = new Group();
 			$obj->hydrate($row);
-			GroupPeer::addInstanceToPool($obj, (string) $row[0]);
+			GroupPeer::addInstanceToPool($obj, serialize(array((string) $row[0], (string) $row[1])));
 		}
 		$stmt->closeCursor();
 
@@ -161,7 +174,7 @@ abstract class BaseGroupQuery extends ModelCriteria
 	/**
 	 * Find objects by primary key
 	 * <code>
-	 * $objs = $c->findPks(array(12, 56, 832), $con);
+	 * $objs = $c->findPks(array(array(12, 56), array(832, 123), array(123, 456)), $con);
 	 * </code>
 	 * @param     array $keys Primary keys to use for the query
 	 * @param     PropelPDO $con an optional connection object
@@ -190,7 +203,10 @@ abstract class BaseGroupQuery extends ModelCriteria
 	 */
 	public function filterByPrimaryKey($key)
 	{
-		return $this->addUsingAlias(GroupPeer::ID, $key, Criteria::EQUAL);
+		$this->addUsingAlias(GroupPeer::ID, $key[0], Criteria::EQUAL);
+		$this->addUsingAlias(GroupPeer::CATEGORY_ID, $key[1], Criteria::EQUAL);
+
+		return $this;
 	}
 
 	/**
@@ -202,7 +218,17 @@ abstract class BaseGroupQuery extends ModelCriteria
 	 */
 	public function filterByPrimaryKeys($keys)
 	{
-		return $this->addUsingAlias(GroupPeer::ID, $keys, Criteria::IN);
+		if (empty($keys)) {
+			return $this->add(null, '1<>1', Criteria::CUSTOM);
+		}
+		foreach ($keys as $key) {
+			$cton0 = $this->getNewCriterion(GroupPeer::ID, $key[0], Criteria::EQUAL);
+			$cton1 = $this->getNewCriterion(GroupPeer::CATEGORY_ID, $key[1], Criteria::EQUAL);
+			$cton0->addAnd($cton1);
+			$this->addOr($cton0);
+		}
+
+		return $this;
 	}
 
 	/**
@@ -288,6 +314,140 @@ abstract class BaseGroupQuery extends ModelCriteria
 	}
 
 	/**
+	 * Filter the query on the category_id column
+	 *
+	 * Example usage:
+	 * <code>
+	 * $query->filterByCategoryId(1234); // WHERE category_id = 1234
+	 * $query->filterByCategoryId(array(12, 34)); // WHERE category_id IN (12, 34)
+	 * $query->filterByCategoryId(array('min' => 12)); // WHERE category_id > 12
+	 * </code>
+	 *
+	 * @see       filterByCategorie()
+	 *
+	 * @param     mixed $categoryId The value to use as filter.
+	 *              Use scalar values for equality.
+	 *              Use array values for in_array() equivalent.
+	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    GroupQuery The current query, for fluid interface
+	 */
+	public function filterByCategoryId($categoryId = null, $comparison = null)
+	{
+		if (is_array($categoryId) && null === $comparison) {
+			$comparison = Criteria::IN;
+		}
+		return $this->addUsingAlias(GroupPeer::CATEGORY_ID, $categoryId, $comparison);
+	}
+
+	/**
+	 * Filter the query on the group_type column
+	 *
+	 * @param     mixed $groupType The value to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    GroupQuery The current query, for fluid interface
+	 */
+	public function filterByGroupType($groupType = null, $comparison = null)
+	{
+		$valueSet = GroupPeer::getValueSet(GroupPeer::GROUP_TYPE);
+		if (is_scalar($groupType)) {
+			if (!in_array($groupType, $valueSet)) {
+				throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $groupType));
+			}
+			$groupType = array_search($groupType, $valueSet);
+		} elseif (is_array($groupType)) {
+			$convertedValues = array();
+			foreach ($groupType as $value) {
+				if (!in_array($value, $valueSet)) {
+					throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $value));
+				}
+				$convertedValues []= array_search($value, $valueSet);
+			}
+			$groupType = $convertedValues;
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+		}
+		return $this->addUsingAlias(GroupPeer::GROUP_TYPE, $groupType, $comparison);
+	}
+
+	/**
+	 * Filter the query by a related Categorie object
+	 *
+	 * @param     Categorie|PropelCollection $categorie The related object(s) to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    GroupQuery The current query, for fluid interface
+	 */
+	public function filterByCategorie($categorie, $comparison = null)
+	{
+		if ($categorie instanceof Categorie) {
+			return $this
+				->addUsingAlias(GroupPeer::CATEGORY_ID, $categorie->getId(), $comparison);
+		} elseif ($categorie instanceof PropelCollection) {
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+			return $this
+				->addUsingAlias(GroupPeer::CATEGORY_ID, $categorie->toKeyValue('PrimaryKey', 'Id'), $comparison);
+		} else {
+			throw new PropelException('filterByCategorie() only accepts arguments of type Categorie or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Categorie relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    GroupQuery The current query, for fluid interface
+	 */
+	public function joinCategorie($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Categorie');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Categorie');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Categorie relation Categorie object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    CategorieQuery A secondary query class using the current class as primary query
+	 */
+	public function useCategorieQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinCategorie($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Categorie', 'CategorieQuery');
+	}
+
+	/**
 	 * Filter the query by a related Archievement object
 	 *
 	 * @param     Archievement $archievement  the related object to use as filter
@@ -370,7 +530,9 @@ abstract class BaseGroupQuery extends ModelCriteria
 	public function prune($group = null)
 	{
 		if ($group) {
-			$this->addUsingAlias(GroupPeer::ID, $group->getId(), Criteria::NOT_EQUAL);
+			$this->addCond('pruneCond0', $this->getAliasedColName(GroupPeer::ID), $group->getId(), Criteria::NOT_EQUAL);
+			$this->addCond('pruneCond1', $this->getAliasedColName(GroupPeer::CATEGORY_ID), $group->getCategoryId(), Criteria::NOT_EQUAL);
+			$this->combine(array('pruneCond0', 'pruneCond1'), Criteria::LOGICAL_OR);
 		}
 
 		return $this;

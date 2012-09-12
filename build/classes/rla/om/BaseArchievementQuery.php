@@ -9,6 +9,7 @@
  * @method     ArchievementQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ArchievementQuery orderByName($order = Criteria::ASC) Order by the name column
  * @method     ArchievementQuery orderByDescription($order = Criteria::ASC) Order by the description column
+ * @method     ArchievementQuery orderByPoints($order = Criteria::ASC) Order by the points column
  * @method     ArchievementQuery orderByCategoryId($order = Criteria::ASC) Order by the category_id column
  * @method     ArchievementQuery orderByGroupId($order = Criteria::ASC) Order by the group_id column
  * @method     ArchievementQuery orderByWeight($order = Criteria::ASC) Order by the weight column
@@ -16,6 +17,7 @@
  * @method     ArchievementQuery groupById() Group by the id column
  * @method     ArchievementQuery groupByName() Group by the name column
  * @method     ArchievementQuery groupByDescription() Group by the description column
+ * @method     ArchievementQuery groupByPoints() Group by the points column
  * @method     ArchievementQuery groupByCategoryId() Group by the category_id column
  * @method     ArchievementQuery groupByGroupId() Group by the group_id column
  * @method     ArchievementQuery groupByWeight() Group by the weight column
@@ -42,6 +44,7 @@
  * @method     Archievement findOneById(int $id) Return the first Archievement filtered by the id column
  * @method     Archievement findOneByName(string $name) Return the first Archievement filtered by the name column
  * @method     Archievement findOneByDescription(string $description) Return the first Archievement filtered by the description column
+ * @method     Archievement findOneByPoints(int $points) Return the first Archievement filtered by the points column
  * @method     Archievement findOneByCategoryId(int $category_id) Return the first Archievement filtered by the category_id column
  * @method     Archievement findOneByGroupId(int $group_id) Return the first Archievement filtered by the group_id column
  * @method     Archievement findOneByWeight(int $weight) Return the first Archievement filtered by the weight column
@@ -49,6 +52,7 @@
  * @method     array findById(int $id) Return Archievement objects filtered by the id column
  * @method     array findByName(string $name) Return Archievement objects filtered by the name column
  * @method     array findByDescription(string $description) Return Archievement objects filtered by the description column
+ * @method     array findByPoints(int $points) Return Archievement objects filtered by the points column
  * @method     array findByCategoryId(int $category_id) Return Archievement objects filtered by the category_id column
  * @method     array findByGroupId(int $group_id) Return Archievement objects filtered by the group_id column
  * @method     array findByWeight(int $weight) Return Archievement objects filtered by the weight column
@@ -140,7 +144,7 @@ abstract class BaseArchievementQuery extends ModelCriteria
 	 */
 	protected function findPkSimple($key, $con)
 	{
-		$sql = 'SELECT `ID`, `NAME`, `DESCRIPTION`, `CATEGORY_ID`, `GROUP_ID`, `WEIGHT` FROM `archievements` WHERE `ID` = :p0 AND `CATEGORY_ID` = :p1 AND `GROUP_ID` = :p2';
+		$sql = 'SELECT `ID`, `NAME`, `DESCRIPTION`, `POINTS`, `CATEGORY_ID`, `GROUP_ID`, `WEIGHT` FROM `archievements` WHERE `ID` = :p0 AND `CATEGORY_ID` = :p1 AND `GROUP_ID` = :p2';
 		try {
 			$stmt = $con->prepare($sql);
 			$stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
@@ -323,6 +327,46 @@ abstract class BaseArchievementQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(ArchievementPeer::DESCRIPTION, $description, $comparison);
+	}
+
+	/**
+	 * Filter the query on the points column
+	 *
+	 * Example usage:
+	 * <code>
+	 * $query->filterByPoints(1234); // WHERE points = 1234
+	 * $query->filterByPoints(array(12, 34)); // WHERE points IN (12, 34)
+	 * $query->filterByPoints(array('min' => 12)); // WHERE points > 12
+	 * </code>
+	 *
+	 * @param     mixed $points The value to use as filter.
+	 *              Use scalar values for equality.
+	 *              Use array values for in_array() equivalent.
+	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    ArchievementQuery The current query, for fluid interface
+	 */
+	public function filterByPoints($points = null, $comparison = null)
+	{
+		if (is_array($points)) {
+			$useMinMax = false;
+			if (isset($points['min'])) {
+				$this->addUsingAlias(ArchievementPeer::POINTS, $points['min'], Criteria::GREATER_EQUAL);
+				$useMinMax = true;
+			}
+			if (isset($points['max'])) {
+				$this->addUsingAlias(ArchievementPeer::POINTS, $points['max'], Criteria::LESS_EQUAL);
+				$useMinMax = true;
+			}
+			if ($useMinMax) {
+				return $this;
+			}
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+		}
+		return $this->addUsingAlias(ArchievementPeer::POINTS, $points, $comparison);
 	}
 
 	/**

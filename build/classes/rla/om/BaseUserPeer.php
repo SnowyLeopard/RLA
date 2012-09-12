@@ -26,13 +26,13 @@ abstract class BaseUserPeer {
 	const TM_CLASS = 'UserTableMap';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 3;
+	const NUM_COLUMNS = 5;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-	const NUM_HYDRATE_COLUMNS = 3;
+	const NUM_HYDRATE_COLUMNS = 5;
 
 	/** the column name for the ID field */
 	const ID = 'users.ID';
@@ -42,6 +42,17 @@ abstract class BaseUserPeer {
 
 	/** the column name for the PASSWORD field */
 	const PASSWORD = 'users.PASSWORD';
+
+	/** the column name for the HASH field */
+	const HASH = 'users.HASH';
+
+	/** the column name for the LEVEL field */
+	const LEVEL = 'users.LEVEL';
+
+	/** The enumerated values for the LEVEL field */
+	const LEVEL_ADMIN = 'admin';
+	const LEVEL_MOD = 'mod';
+	const LEVEL_USER = 'user';
 
 	/** The default string format for model objects of the related table **/
 	const DEFAULT_STRING_FORMAT = 'YAML';
@@ -62,12 +73,12 @@ abstract class BaseUserPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Username', 'Password', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'username', 'password', ),
-		BasePeer::TYPE_COLNAME => array (self::ID, self::USERNAME, self::PASSWORD, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'USERNAME', 'PASSWORD', ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'username', 'password', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Username', 'Password', 'Hash', 'Level', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'username', 'password', 'hash', 'level', ),
+		BasePeer::TYPE_COLNAME => array (self::ID, self::USERNAME, self::PASSWORD, self::HASH, self::LEVEL, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'USERNAME', 'PASSWORD', 'HASH', 'LEVEL', ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'username', 'password', 'hash', 'level', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	/**
@@ -77,12 +88,21 @@ abstract class BaseUserPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Username' => 1, 'Password' => 2, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'username' => 1, 'password' => 2, ),
-		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::USERNAME => 1, self::PASSWORD => 2, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'USERNAME' => 1, 'PASSWORD' => 2, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'username' => 1, 'password' => 2, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Username' => 1, 'Password' => 2, 'Hash' => 3, 'Level' => 4, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'username' => 1, 'password' => 2, 'hash' => 3, 'level' => 4, ),
+		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::USERNAME => 1, self::PASSWORD => 2, self::HASH => 3, self::LEVEL => 4, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'USERNAME' => 1, 'PASSWORD' => 2, 'HASH' => 3, 'LEVEL' => 4, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'username' => 1, 'password' => 2, 'hash' => 3, 'level' => 4, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+	);
+
+	/** The enumerated values for this table */
+	protected static $enumValueSets = array(
+		self::LEVEL => array(
+			UserPeer::LEVEL_ADMIN,
+			UserPeer::LEVEL_MOD,
+			UserPeer::LEVEL_USER,
+		),
 	);
 
 	/**
@@ -123,6 +143,25 @@ abstract class BaseUserPeer {
 	}
 
 	/**
+	 * Gets the list of values for all ENUM columns
+	 * @return array
+	 */
+	public static function getValueSets()
+	{
+	  return UserPeer::$enumValueSets;
+	}
+
+	/**
+	 * Gets the list of values for an ENUM column
+	 * @return array list of possible values for the column
+	 */
+	public static function getValueSet($colname)
+	{
+		$valueSets = self::getValueSets();
+		return $valueSets[$colname];
+	}
+
+	/**
 	 * Convenience method which changes table.column to alias.column.
 	 *
 	 * Using this method you can maintain SQL abstraction while using column aliases.
@@ -157,10 +196,14 @@ abstract class BaseUserPeer {
 			$criteria->addSelectColumn(UserPeer::ID);
 			$criteria->addSelectColumn(UserPeer::USERNAME);
 			$criteria->addSelectColumn(UserPeer::PASSWORD);
+			$criteria->addSelectColumn(UserPeer::HASH);
+			$criteria->addSelectColumn(UserPeer::LEVEL);
 		} else {
 			$criteria->addSelectColumn($alias . '.ID');
 			$criteria->addSelectColumn($alias . '.USERNAME');
 			$criteria->addSelectColumn($alias . '.PASSWORD');
+			$criteria->addSelectColumn($alias . '.HASH');
+			$criteria->addSelectColumn($alias . '.LEVEL');
 		}
 	}
 

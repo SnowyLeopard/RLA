@@ -49,6 +49,18 @@ abstract class BaseUser extends BaseObject  implements Persistent
 	protected $password;
 
 	/**
+	 * The value for the hash field.
+	 * @var        string
+	 */
+	protected $hash;
+
+	/**
+	 * The value for the level field.
+	 * @var        int
+	 */
+	protected $level;
+
+	/**
 	 * @var        array ArchievementUser[] Collection to store aggregation of ArchievementUser objects.
 	 */
 	protected $collArchievementUsers;
@@ -115,6 +127,33 @@ abstract class BaseUser extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Get the [hash] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getHash()
+	{
+		return $this->hash;
+	}
+
+	/**
+	 * Get the [level] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getLevel()
+	{
+		if (null === $this->level) {
+			return null;
+		}
+		$valueSet = UserPeer::getValueSet(UserPeer::LEVEL);
+		if (!isset($valueSet[$this->level])) {
+			throw new PropelException('Unknown stored enum key: ' . $this->level);
+		}
+		return $valueSet[$this->level];
+	}
+
+	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
@@ -175,6 +214,50 @@ abstract class BaseUser extends BaseObject  implements Persistent
 	} // setPassword()
 
 	/**
+	 * Set the value of [hash] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     User The current object (for fluent API support)
+	 */
+	public function setHash($v)
+	{
+		if ($v !== null) {
+			$v = (string) $v;
+		}
+
+		if ($this->hash !== $v) {
+			$this->hash = $v;
+			$this->modifiedColumns[] = UserPeer::HASH;
+		}
+
+		return $this;
+	} // setHash()
+
+	/**
+	 * Set the value of [level] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     User The current object (for fluent API support)
+	 */
+	public function setLevel($v)
+	{
+		if ($v !== null) {
+			$valueSet = UserPeer::getValueSet(UserPeer::LEVEL);
+			if (!in_array($v, $valueSet)) {
+				throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $v));
+			}
+			$v = array_search($v, $valueSet);
+		}
+
+		if ($this->level !== $v) {
+			$this->level = $v;
+			$this->modifiedColumns[] = UserPeer::LEVEL;
+		}
+
+		return $this;
+	} // setLevel()
+
+	/**
 	 * Indicates whether the columns in this object are only set to default values.
 	 *
 	 * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -209,6 +292,8 @@ abstract class BaseUser extends BaseObject  implements Persistent
 			$this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
 			$this->username = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
 			$this->password = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
+			$this->hash = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
+			$this->level = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -217,7 +302,7 @@ abstract class BaseUser extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 3; // 3 = UserPeer::NUM_HYDRATE_COLUMNS.
+			return $startcol + 5; // 5 = UserPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating User object", $e);
@@ -469,6 +554,12 @@ abstract class BaseUser extends BaseObject  implements Persistent
 		if ($this->isColumnModified(UserPeer::PASSWORD)) {
 			$modifiedColumns[':p' . $index++]  = '`PASSWORD`';
 		}
+		if ($this->isColumnModified(UserPeer::HASH)) {
+			$modifiedColumns[':p' . $index++]  = '`HASH`';
+		}
+		if ($this->isColumnModified(UserPeer::LEVEL)) {
+			$modifiedColumns[':p' . $index++]  = '`LEVEL`';
+		}
 
 		$sql = sprintf(
 			'INSERT INTO `users` (%s) VALUES (%s)',
@@ -488,6 +579,12 @@ abstract class BaseUser extends BaseObject  implements Persistent
 						break;
 					case '`PASSWORD`':
 						$stmt->bindValue($identifier, $this->password, PDO::PARAM_STR);
+						break;
+					case '`HASH`':
+						$stmt->bindValue($identifier, $this->hash, PDO::PARAM_STR);
+						break;
+					case '`LEVEL`':
+						$stmt->bindValue($identifier, $this->level, PDO::PARAM_INT);
 						break;
 				}
 			}
@@ -636,6 +733,12 @@ abstract class BaseUser extends BaseObject  implements Persistent
 			case 2:
 				return $this->getPassword();
 				break;
+			case 3:
+				return $this->getHash();
+				break;
+			case 4:
+				return $this->getLevel();
+				break;
 			default:
 				return null;
 				break;
@@ -668,6 +771,8 @@ abstract class BaseUser extends BaseObject  implements Persistent
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getUsername(),
 			$keys[2] => $this->getPassword(),
+			$keys[3] => $this->getHash(),
+			$keys[4] => $this->getLevel(),
 		);
 		if ($includeForeignObjects) {
 			if (null !== $this->collArchievementUsers) {
@@ -713,6 +818,16 @@ abstract class BaseUser extends BaseObject  implements Persistent
 			case 2:
 				$this->setPassword($value);
 				break;
+			case 3:
+				$this->setHash($value);
+				break;
+			case 4:
+				$valueSet = UserPeer::getValueSet(UserPeer::LEVEL);
+				if (isset($valueSet[$value])) {
+					$value = $valueSet[$value];
+				}
+				$this->setLevel($value);
+				break;
 		} // switch()
 	}
 
@@ -740,6 +855,8 @@ abstract class BaseUser extends BaseObject  implements Persistent
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setUsername($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setPassword($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setHash($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setLevel($arr[$keys[4]]);
 	}
 
 	/**
@@ -754,6 +871,8 @@ abstract class BaseUser extends BaseObject  implements Persistent
 		if ($this->isColumnModified(UserPeer::ID)) $criteria->add(UserPeer::ID, $this->id);
 		if ($this->isColumnModified(UserPeer::USERNAME)) $criteria->add(UserPeer::USERNAME, $this->username);
 		if ($this->isColumnModified(UserPeer::PASSWORD)) $criteria->add(UserPeer::PASSWORD, $this->password);
+		if ($this->isColumnModified(UserPeer::HASH)) $criteria->add(UserPeer::HASH, $this->hash);
+		if ($this->isColumnModified(UserPeer::LEVEL)) $criteria->add(UserPeer::LEVEL, $this->level);
 
 		return $criteria;
 	}
@@ -818,6 +937,8 @@ abstract class BaseUser extends BaseObject  implements Persistent
 	{
 		$copyObj->setUsername($this->getUsername());
 		$copyObj->setPassword($this->getPassword());
+		$copyObj->setHash($this->getHash());
+		$copyObj->setLevel($this->getLevel());
 
 		if ($deepCopy && !$this->startCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
@@ -1229,6 +1350,8 @@ abstract class BaseUser extends BaseObject  implements Persistent
 		$this->id = null;
 		$this->username = null;
 		$this->password = null;
+		$this->hash = null;
+		$this->level = null;
 		$this->alreadyInSave = false;
 		$this->alreadyInValidation = false;
 		$this->clearAllReferences();

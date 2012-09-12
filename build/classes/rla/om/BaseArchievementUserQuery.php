@@ -8,9 +8,13 @@
  *
  * @method     ArchievementUserQuery orderByUserId($order = Criteria::ASC) Order by the user_id column
  * @method     ArchievementUserQuery orderByArchievementId($order = Criteria::ASC) Order by the archievement_id column
+ * @method     ArchievementUserQuery orderByConfirmed($order = Criteria::ASC) Order by the confirmed column
+ * @method     ArchievementUserQuery orderByDate($order = Criteria::ASC) Order by the date column
  *
  * @method     ArchievementUserQuery groupByUserId() Group by the user_id column
  * @method     ArchievementUserQuery groupByArchievementId() Group by the archievement_id column
+ * @method     ArchievementUserQuery groupByConfirmed() Group by the confirmed column
+ * @method     ArchievementUserQuery groupByDate() Group by the date column
  *
  * @method     ArchievementUserQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ArchievementUserQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -29,9 +33,13 @@
  *
  * @method     ArchievementUser findOneByUserId(int $user_id) Return the first ArchievementUser filtered by the user_id column
  * @method     ArchievementUser findOneByArchievementId(int $archievement_id) Return the first ArchievementUser filtered by the archievement_id column
+ * @method     ArchievementUser findOneByConfirmed(boolean $confirmed) Return the first ArchievementUser filtered by the confirmed column
+ * @method     ArchievementUser findOneByDate(string $date) Return the first ArchievementUser filtered by the date column
  *
  * @method     array findByUserId(int $user_id) Return ArchievementUser objects filtered by the user_id column
  * @method     array findByArchievementId(int $archievement_id) Return ArchievementUser objects filtered by the archievement_id column
+ * @method     array findByConfirmed(boolean $confirmed) Return ArchievementUser objects filtered by the confirmed column
+ * @method     array findByDate(string $date) Return ArchievementUser objects filtered by the date column
  *
  * @package    propel.generator.rla.om
  */
@@ -120,7 +128,7 @@ abstract class BaseArchievementUserQuery extends ModelCriteria
 	 */
 	protected function findPkSimple($key, $con)
 	{
-		$sql = 'SELECT `USER_ID`, `ARCHIEVEMENT_ID` FROM `archievement_user` WHERE `USER_ID` = :p0 AND `ARCHIEVEMENT_ID` = :p1';
+		$sql = 'SELECT `USER_ID`, `ARCHIEVEMENT_ID`, `CONFIRMED`, `DATE` FROM `archievement_user` WHERE `USER_ID` = :p0 AND `ARCHIEVEMENT_ID` = :p1';
 		try {
 			$stmt = $con->prepare($sql);
 			$stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
@@ -273,6 +281,74 @@ abstract class BaseArchievementUserQuery extends ModelCriteria
 			$comparison = Criteria::IN;
 		}
 		return $this->addUsingAlias(ArchievementUserPeer::ARCHIEVEMENT_ID, $archievementId, $comparison);
+	}
+
+	/**
+	 * Filter the query on the confirmed column
+	 *
+	 * Example usage:
+	 * <code>
+	 * $query->filterByConfirmed(true); // WHERE confirmed = true
+	 * $query->filterByConfirmed('yes'); // WHERE confirmed = true
+	 * </code>
+	 *
+	 * @param     boolean|string $confirmed The value to use as filter.
+	 *              Non-boolean arguments are converted using the following rules:
+	 *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+	 *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+	 *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    ArchievementUserQuery The current query, for fluid interface
+	 */
+	public function filterByConfirmed($confirmed = null, $comparison = null)
+	{
+		if (is_string($confirmed)) {
+			$confirmed = in_array(strtolower($confirmed), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+		}
+		return $this->addUsingAlias(ArchievementUserPeer::CONFIRMED, $confirmed, $comparison);
+	}
+
+	/**
+	 * Filter the query on the date column
+	 *
+	 * Example usage:
+	 * <code>
+	 * $query->filterByDate('2011-03-14'); // WHERE date = '2011-03-14'
+	 * $query->filterByDate('now'); // WHERE date = '2011-03-14'
+	 * $query->filterByDate(array('max' => 'yesterday')); // WHERE date > '2011-03-13'
+	 * </code>
+	 *
+	 * @param     mixed $date The value to use as filter.
+	 *              Values can be integers (unix timestamps), DateTime objects, or strings.
+	 *              Empty strings are treated as NULL.
+	 *              Use scalar values for equality.
+	 *              Use array values for in_array() equivalent.
+	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    ArchievementUserQuery The current query, for fluid interface
+	 */
+	public function filterByDate($date = null, $comparison = null)
+	{
+		if (is_array($date)) {
+			$useMinMax = false;
+			if (isset($date['min'])) {
+				$this->addUsingAlias(ArchievementUserPeer::DATE, $date['min'], Criteria::GREATER_EQUAL);
+				$useMinMax = true;
+			}
+			if (isset($date['max'])) {
+				$this->addUsingAlias(ArchievementUserPeer::DATE, $date['max'], Criteria::LESS_EQUAL);
+				$useMinMax = true;
+			}
+			if ($useMinMax) {
+				return $this;
+			}
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+		}
+		return $this->addUsingAlias(ArchievementUserPeer::DATE, $date, $comparison);
 	}
 
 	/**

@@ -43,6 +43,18 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	protected $archievement_id;
 
 	/**
+	 * The value for the confirmed field.
+	 * @var        boolean
+	 */
+	protected $confirmed;
+
+	/**
+	 * The value for the date field.
+	 * @var        string
+	 */
+	protected $date;
+
+	/**
 	 * @var        User
 	 */
 	protected $aUser;
@@ -84,6 +96,54 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	public function getArchievementId()
 	{
 		return $this->archievement_id;
+	}
+
+	/**
+	 * Get the [confirmed] column value.
+	 * 
+	 * @return     boolean
+	 */
+	public function getConfirmed()
+	{
+		return $this->confirmed;
+	}
+
+	/**
+	 * Get the [optionally formatted] temporal [date] column value.
+	 * 
+	 *
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the raw DateTime object will be returned.
+	 * @return     mixed Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
+	 * @throws     PropelException - if unable to parse/validate the date/time value.
+	 */
+	public function getDate($format = 'Y-m-d H:i:s')
+	{
+		if ($this->date === null) {
+			return null;
+		}
+
+
+		if ($this->date === '0000-00-00 00:00:00') {
+			// while technically this is not a default value of NULL,
+			// this seems to be closest in meaning.
+			return null;
+		} else {
+			try {
+				$dt = new DateTime($this->date);
+			} catch (Exception $x) {
+				throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->date, true), $x);
+			}
+		}
+
+		if ($format === null) {
+			// Because propel.useDateTimeClass is TRUE, we return a DateTime object.
+			return $dt;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $dt->format('U'));
+		} else {
+			return $dt->format($format);
+		}
 	}
 
 	/**
@@ -135,6 +195,56 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	} // setArchievementId()
 
 	/**
+	 * Sets the value of the [confirmed] column.
+	 * Non-boolean arguments are converted using the following rules:
+	 *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+	 *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+	 * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+	 * 
+	 * @param      boolean|integer|string $v The new value
+	 * @return     ArchievementUser The current object (for fluent API support)
+	 */
+	public function setConfirmed($v)
+	{
+		if ($v !== null) {
+			if (is_string($v)) {
+				$v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+			} else {
+				$v = (boolean) $v;
+			}
+		}
+
+		if ($this->confirmed !== $v) {
+			$this->confirmed = $v;
+			$this->modifiedColumns[] = ArchievementUserPeer::CONFIRMED;
+		}
+
+		return $this;
+	} // setConfirmed()
+
+	/**
+	 * Sets the value of [date] column to a normalized version of the date/time value specified.
+	 * 
+	 * @param      mixed $v string, integer (timestamp), or DateTime value.
+	 *               Empty strings are treated as NULL.
+	 * @return     ArchievementUser The current object (for fluent API support)
+	 */
+	public function setDate($v)
+	{
+		$dt = PropelDateTime::newInstance($v, null, 'DateTime');
+		if ($this->date !== null || $dt !== null) {
+			$currentDateAsString = ($this->date !== null && $tmpDt = new DateTime($this->date)) ? $tmpDt->format('Y-m-d H:i:s') : null;
+			$newDateAsString = $dt ? $dt->format('Y-m-d H:i:s') : null;
+			if ($currentDateAsString !== $newDateAsString) {
+				$this->date = $newDateAsString;
+				$this->modifiedColumns[] = ArchievementUserPeer::DATE;
+			}
+		} // if either are not null
+
+		return $this;
+	} // setDate()
+
+	/**
 	 * Indicates whether the columns in this object are only set to default values.
 	 *
 	 * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -168,6 +278,8 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 
 			$this->user_id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
 			$this->archievement_id = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
+			$this->confirmed = ($row[$startcol + 2] !== null) ? (boolean) $row[$startcol + 2] : null;
+			$this->date = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -176,7 +288,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 2; // 2 = ArchievementUserPeer::NUM_HYDRATE_COLUMNS.
+			return $startcol + 4; // 4 = ArchievementUserPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ArchievementUser object", $e);
@@ -413,6 +525,12 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 		if ($this->isColumnModified(ArchievementUserPeer::ARCHIEVEMENT_ID)) {
 			$modifiedColumns[':p' . $index++]  = '`ARCHIEVEMENT_ID`';
 		}
+		if ($this->isColumnModified(ArchievementUserPeer::CONFIRMED)) {
+			$modifiedColumns[':p' . $index++]  = '`CONFIRMED`';
+		}
+		if ($this->isColumnModified(ArchievementUserPeer::DATE)) {
+			$modifiedColumns[':p' . $index++]  = '`DATE`';
+		}
 
 		$sql = sprintf(
 			'INSERT INTO `archievement_user` (%s) VALUES (%s)',
@@ -429,6 +547,12 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 						break;
 					case '`ARCHIEVEMENT_ID`':
 						$stmt->bindValue($identifier, $this->archievement_id, PDO::PARAM_INT);
+						break;
+					case '`CONFIRMED`':
+						$stmt->bindValue($identifier, (int) $this->confirmed, PDO::PARAM_INT);
+						break;
+					case '`DATE`':
+						$stmt->bindValue($identifier, $this->date, PDO::PARAM_STR);
 						break;
 				}
 			}
@@ -577,6 +701,12 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 			case 1:
 				return $this->getArchievementId();
 				break;
+			case 2:
+				return $this->getConfirmed();
+				break;
+			case 3:
+				return $this->getDate();
+				break;
 			default:
 				return null;
 				break;
@@ -608,6 +738,8 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 		$result = array(
 			$keys[0] => $this->getUserId(),
 			$keys[1] => $this->getArchievementId(),
+			$keys[2] => $this->getConfirmed(),
+			$keys[3] => $this->getDate(),
 		);
 		if ($includeForeignObjects) {
 			if (null !== $this->aUser) {
@@ -653,6 +785,12 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 			case 1:
 				$this->setArchievementId($value);
 				break;
+			case 2:
+				$this->setConfirmed($value);
+				break;
+			case 3:
+				$this->setDate($value);
+				break;
 		} // switch()
 	}
 
@@ -679,6 +817,8 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 
 		if (array_key_exists($keys[0], $arr)) $this->setUserId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setArchievementId($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setConfirmed($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setDate($arr[$keys[3]]);
 	}
 
 	/**
@@ -692,6 +832,8 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 
 		if ($this->isColumnModified(ArchievementUserPeer::USER_ID)) $criteria->add(ArchievementUserPeer::USER_ID, $this->user_id);
 		if ($this->isColumnModified(ArchievementUserPeer::ARCHIEVEMENT_ID)) $criteria->add(ArchievementUserPeer::ARCHIEVEMENT_ID, $this->archievement_id);
+		if ($this->isColumnModified(ArchievementUserPeer::CONFIRMED)) $criteria->add(ArchievementUserPeer::CONFIRMED, $this->confirmed);
+		if ($this->isColumnModified(ArchievementUserPeer::DATE)) $criteria->add(ArchievementUserPeer::DATE, $this->date);
 
 		return $criteria;
 	}
@@ -763,6 +905,8 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	{
 		$copyObj->setUserId($this->getUserId());
 		$copyObj->setArchievementId($this->getArchievementId());
+		$copyObj->setConfirmed($this->getConfirmed());
+		$copyObj->setDate($this->getDate());
 
 		if ($deepCopy && !$this->startCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
@@ -925,6 +1069,8 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	{
 		$this->user_id = null;
 		$this->archievement_id = null;
+		$this->confirmed = null;
+		$this->date = null;
 		$this->alreadyInSave = false;
 		$this->alreadyInValidation = false;
 		$this->clearAllReferences();

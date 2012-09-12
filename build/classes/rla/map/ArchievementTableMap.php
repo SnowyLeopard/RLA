@@ -41,6 +41,7 @@ class ArchievementTableMap extends TableMap
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
 		$this->addColumn('NAME', 'Name', 'VARCHAR', true, 255, null);
 		$this->addColumn('DESCRIPTION', 'Description', 'VARCHAR', true, 255, null);
+		$this->addColumn('POINTS', 'Points', 'TINYINT', true, null, null);
 		$this->addForeignPrimaryKey('CATEGORY_ID', 'CategoryId', 'INTEGER' , 'categories', 'ID', true, null, null);
 		$this->addForeignPrimaryKey('GROUP_ID', 'GroupId', 'INTEGER' , 'groups', 'ID', true, null, null);
 		$this->addColumn('WEIGHT', 'Weight', 'TINYINT', true, null, null);

@@ -41,6 +41,8 @@ class ArchievementUserTableMap extends TableMap
 		// columns
 		$this->addForeignPrimaryKey('USER_ID', 'UserId', 'INTEGER' , 'users', 'ID', true, null, null);
 		$this->addForeignPrimaryKey('ARCHIEVEMENT_ID', 'ArchievementId', 'INTEGER' , 'archievements', 'ID', true, null, null);
+		$this->addColumn('CONFIRMED', 'Confirmed', 'BOOLEAN', true, 1, null);
+		$this->addColumn('DATE', 'Date', 'TIMESTAMP', false, null, null);
 		// validators
 	} // initialize()
 

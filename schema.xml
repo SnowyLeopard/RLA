@@ -1,46 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <database name="RLA" defaultIdMethod="native">
-	<table name="users" phpName="User">
-		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
-		<column name="username" type="varchar" size="30" required="true" />
-		<column name="password" type="varchar" size="60" required="true" />
-	</table>
+  <table name="users" phpName="User">
+    <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+    <column name="username" type="varchar" size="30" required="true" />
+    <column name="password" type="varchar" size="60" required="true" />
+    <column name="hash" type="varchar" size="60" required="true" />
+    <column name="level" type="enum" required="true" valueSet="admin,mod,user" />
+  </table>
 
-	<table name="archievements" phpName="Archievement">
-		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
-		<column name="name" type="varchar" size="255" required="true" />
-		<column name="description" type="varchar" size="255" required="true" />
-		<column name="category_id" type="integer" required="true" primaryKey="true" />
-		<column name="group_id" type="integer" primaryKey="true" />
-		<column name="weight" type="tinyint" required="true" />
-		<foreign-key foreignTable="categories">
-			<reference local="category_id" foreign="id" />
-		</foreign-key>
-		<foreign-key foreignTable="groups">
-			<reference local="group_id" foreign="id" />
-		</foreign-key>
-	</table>
-	
-	<table name="groups" phpName="Group">
-		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
-		<column name="name" type="varchar" size="255" required="true" />
-		<column name="description" type="varchar" size="255" required="true" />
-	</table>
-	
-	<table name="categories" phpName="Categorie">
-		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
-		<column name="name" type="varchar" size="255" required="true" />
-		<column name="description" type="varchar" size="255" required="true" />
-	</table>
+  <table name="archievements" phpName="Archievement">
+    <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+    <column name="name" type="varchar" size="255" required="true" />
+    <column name="description" type="varchar" size="255" required="true" />
+    <column name="points" type="tinyint" required="true" />
+    <column name="category_id" type="integer" required="true" primaryKey="true" />
+    <column name="group_id" type="integer" primaryKey="true" />
+    <column name="weight" type="tinyint" required="true" />
+    <foreign-key foreignTable="categories">
+      <reference local="category_id" foreign="id" />
+    </foreign-key>
+    <foreign-key foreignTable="groups">
+      <reference local="group_id" foreign="id" />
+    </foreign-key>
+  </table>
+  
+  <table name="groups" phpName="Group">
+    <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+    <column name="name" type="varchar" size="255" required="true" />
+    <column name="description" type="varchar" size="255" required="true" />
+    <column name="category_id" type="integer" primaryKey="true" />
+    <column name="group_type" type="enum" required="true" valueSet="group,chain" />
+    <foreign-key foreignTable="categories">
+      <reference local="category_id" foreign="id" />
+    </foreign-key>
+  </table>
+  
+  <table name="categories" phpName="Categorie">
+    <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+    <column name="name" type="varchar" size="255" required="true" />
+    <column name="description" type="varchar" size="255" required="true" />
+  </table>
 
-	<table name="archievement_user" isCrossRef="true">
-		<column name="user_id" type="integer" primaryKey="true" />
-		<column name="archievement_id" type="integer" primaryKey="true" />
-		<foreign-key foreignTable="users">
-			<reference local="user_id" foreign="id" />
-		</foreign-key>
-		<foreign-key foreignTable="archievements">
-			<reference local="archievement_id" foreign="id" />
-		</foreign-key>
-	</table>
+  <table name="archievement_user" isCrossRef="true">
+    <column name="user_id" type="integer" primaryKey="true" />
+    <column name="archievement_id" type="integer" primaryKey="true" />
+    <column name="confirmed" type="boolean" required="true" />
+    <column name="date" type="timestamp" />
+    <foreign-key foreignTable="users">
+      <reference local="user_id" foreign="id" />
+    </foreign-key>
+    <foreign-key foreignTable="archievements">
+      <reference local="archievement_id" foreign="id" />
+    </foreign-key>
+  </table>
 </database>

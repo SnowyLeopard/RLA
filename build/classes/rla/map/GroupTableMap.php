@@ -41,6 +41,12 @@ class GroupTableMap extends TableMap
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
 		$this->addColumn('NAME', 'Name', 'VARCHAR', true, 255, null);
 		$this->addColumn('DESCRIPTION', 'Description', 'VARCHAR', true, 255, null);
+		$this->addForeignPrimaryKey('CATEGORY_ID', 'CategoryId', 'INTEGER' , 'categories', 'ID', true, null, null);
+		$this->addColumn('GROUP_TYPE', 'GroupType', 'ENUM', true, null, null);
+		$this->getColumn('GROUP_TYPE', false)->setValueSet(array (
+  0 => 'group',
+  1 => 'chain',
+));
 		// validators
 	} // initialize()
 
@@ -49,6 +55,7 @@ class GroupTableMap extends TableMap
 	 */
 	public function buildRelations()
 	{
+		$this->addRelation('Categorie', 'Categorie', RelationMap::MANY_TO_ONE, array('category_id' => 'id', ), null, null);
 		$this->addRelation('Archievement', 'Archievement', RelationMap::ONE_TO_MANY, array('id' => 'group_id', ), null, null, 'Archievements');
 	} // buildRelations()
 

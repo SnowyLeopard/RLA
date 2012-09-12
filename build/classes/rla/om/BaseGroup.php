@@ -49,6 +49,23 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 	protected $description;
 
 	/**
+	 * The value for the category_id field.
+	 * @var        int
+	 */
+	protected $category_id;
+
+	/**
+	 * The value for the group_type field.
+	 * @var        int
+	 */
+	protected $group_type;
+
+	/**
+	 * @var        Categorie
+	 */
+	protected $aCategorie;
+
+	/**
 	 * @var        array Archievement[] Collection to store aggregation of Archievement objects.
 	 */
 	protected $collArchievements;
@@ -101,6 +118,33 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 	public function getDescription()
 	{
 		return $this->description;
+	}
+
+	/**
+	 * Get the [category_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getCategoryId()
+	{
+		return $this->category_id;
+	}
+
+	/**
+	 * Get the [group_type] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getGroupType()
+	{
+		if (null === $this->group_type) {
+			return null;
+		}
+		$valueSet = GroupPeer::getValueSet(GroupPeer::GROUP_TYPE);
+		if (!isset($valueSet[$this->group_type])) {
+			throw new PropelException('Unknown stored enum key: ' . $this->group_type);
+		}
+		return $valueSet[$this->group_type];
 	}
 
 	/**
@@ -164,6 +208,54 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 	} // setDescription()
 
 	/**
+	 * Set the value of [category_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     Group The current object (for fluent API support)
+	 */
+	public function setCategoryId($v)
+	{
+		if ($v !== null) {
+			$v = (int) $v;
+		}
+
+		if ($this->category_id !== $v) {
+			$this->category_id = $v;
+			$this->modifiedColumns[] = GroupPeer::CATEGORY_ID;
+		}
+
+		if ($this->aCategorie !== null && $this->aCategorie->getId() !== $v) {
+			$this->aCategorie = null;
+		}
+
+		return $this;
+	} // setCategoryId()
+
+	/**
+	 * Set the value of [group_type] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     Group The current object (for fluent API support)
+	 */
+	public function setGroupType($v)
+	{
+		if ($v !== null) {
+			$valueSet = GroupPeer::getValueSet(GroupPeer::GROUP_TYPE);
+			if (!in_array($v, $valueSet)) {
+				throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $v));
+			}
+			$v = array_search($v, $valueSet);
+		}
+
+		if ($this->group_type !== $v) {
+			$this->group_type = $v;
+			$this->modifiedColumns[] = GroupPeer::GROUP_TYPE;
+		}
+
+		return $this;
+	} // setGroupType()
+
+	/**
 	 * Indicates whether the columns in this object are only set to default values.
 	 *
 	 * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -198,6 +290,8 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 			$this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
 			$this->name = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
 			$this->description = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
+			$this->category_id = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
+			$this->group_type = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -206,7 +300,7 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 3; // 3 = GroupPeer::NUM_HYDRATE_COLUMNS.
+			return $startcol + 5; // 5 = GroupPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Group object", $e);
@@ -229,6 +323,9 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 	public function ensureConsistency()
 	{
 
+		if ($this->aCategorie !== null && $this->category_id !== $this->aCategorie->getId()) {
+			$this->aCategorie = null;
+		}
 	} // ensureConsistency
 
 	/**
@@ -268,6 +365,7 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 
 		if ($deep) {  // also de-associate any related objects?
 
+			$this->aCategorie = null;
 			$this->collArchievements = null;
 
 		} // if (deep)
@@ -380,6 +478,18 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
+			// We call the save method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aCategorie !== null) {
+				if ($this->aCategorie->isModified() || $this->aCategorie->isNew()) {
+					$affectedRows += $this->aCategorie->save($con);
+				}
+				$this->setCategorie($this->aCategorie);
+			}
+
 			if ($this->isNew() || $this->isModified()) {
 				// persist changes
 				if ($this->isNew()) {
@@ -442,6 +552,12 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 		if ($this->isColumnModified(GroupPeer::DESCRIPTION)) {
 			$modifiedColumns[':p' . $index++]  = '`DESCRIPTION`';
 		}
+		if ($this->isColumnModified(GroupPeer::CATEGORY_ID)) {
+			$modifiedColumns[':p' . $index++]  = '`CATEGORY_ID`';
+		}
+		if ($this->isColumnModified(GroupPeer::GROUP_TYPE)) {
+			$modifiedColumns[':p' . $index++]  = '`GROUP_TYPE`';
+		}
 
 		$sql = sprintf(
 			'INSERT INTO `groups` (%s) VALUES (%s)',
@@ -461,6 +577,12 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 						break;
 					case '`DESCRIPTION`':
 						$stmt->bindValue($identifier, $this->description, PDO::PARAM_STR);
+						break;
+					case '`CATEGORY_ID`':
+						$stmt->bindValue($identifier, $this->category_id, PDO::PARAM_INT);
+						break;
+					case '`GROUP_TYPE`':
+						$stmt->bindValue($identifier, $this->group_type, PDO::PARAM_INT);
 						break;
 				}
 			}
@@ -554,6 +676,18 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 			$failureMap = array();
 
 
+			// We call the validate method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aCategorie !== null) {
+				if (!$this->aCategorie->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aCategorie->getValidationFailures());
+				}
+			}
+
+
 			if (($retval = GroupPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
@@ -609,6 +743,12 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 			case 2:
 				return $this->getDescription();
 				break;
+			case 3:
+				return $this->getCategoryId();
+				break;
+			case 4:
+				return $this->getGroupType();
+				break;
 			default:
 				return null;
 				break;
@@ -632,17 +772,22 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 	 */
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
 	{
-		if (isset($alreadyDumpedObjects['Group'][$this->getPrimaryKey()])) {
+		if (isset($alreadyDumpedObjects['Group'][serialize($this->getPrimaryKey())])) {
 			return '*RECURSION*';
 		}
-		$alreadyDumpedObjects['Group'][$this->getPrimaryKey()] = true;
+		$alreadyDumpedObjects['Group'][serialize($this->getPrimaryKey())] = true;
 		$keys = GroupPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getName(),
 			$keys[2] => $this->getDescription(),
+			$keys[3] => $this->getCategoryId(),
+			$keys[4] => $this->getGroupType(),
 		);
 		if ($includeForeignObjects) {
+			if (null !== $this->aCategorie) {
+				$result['Categorie'] = $this->aCategorie->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			}
 			if (null !== $this->collArchievements) {
 				$result['Archievements'] = $this->collArchievements->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
@@ -686,6 +831,16 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 			case 2:
 				$this->setDescription($value);
 				break;
+			case 3:
+				$this->setCategoryId($value);
+				break;
+			case 4:
+				$valueSet = GroupPeer::getValueSet(GroupPeer::GROUP_TYPE);
+				if (isset($valueSet[$value])) {
+					$value = $valueSet[$value];
+				}
+				$this->setGroupType($value);
+				break;
 		} // switch()
 	}
 
@@ -713,6 +868,8 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setDescription($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setCategoryId($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setGroupType($arr[$keys[4]]);
 	}
 
 	/**
@@ -727,6 +884,8 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 		if ($this->isColumnModified(GroupPeer::ID)) $criteria->add(GroupPeer::ID, $this->id);
 		if ($this->isColumnModified(GroupPeer::NAME)) $criteria->add(GroupPeer::NAME, $this->name);
 		if ($this->isColumnModified(GroupPeer::DESCRIPTION)) $criteria->add(GroupPeer::DESCRIPTION, $this->description);
+		if ($this->isColumnModified(GroupPeer::CATEGORY_ID)) $criteria->add(GroupPeer::CATEGORY_ID, $this->category_id);
+		if ($this->isColumnModified(GroupPeer::GROUP_TYPE)) $criteria->add(GroupPeer::GROUP_TYPE, $this->group_type);
 
 		return $criteria;
 	}
@@ -743,28 +902,35 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 	{
 		$criteria = new Criteria(GroupPeer::DATABASE_NAME);
 		$criteria->add(GroupPeer::ID, $this->id);
+		$criteria->add(GroupPeer::CATEGORY_ID, $this->category_id);
 
 		return $criteria;
 	}
 
 	/**
-	 * Returns the primary key for this object (row).
-	 * @return     int
+	 * Returns the composite primary key for this object.
+	 * The array elements will be in same order as specified in XML.
+	 * @return     array
 	 */
 	public function getPrimaryKey()
 	{
-		return $this->getId();
+		$pks = array();
+		$pks[0] = $this->getId();
+		$pks[1] = $this->getCategoryId();
+
+		return $pks;
 	}
 
 	/**
-	 * Generic method to set the primary key (id column).
+	 * Set the [composite] primary key.
 	 *
-	 * @param      int $key Primary key.
+	 * @param      array $keys The elements of the composite key (order must match the order in XML file).
 	 * @return     void
 	 */
-	public function setPrimaryKey($key)
+	public function setPrimaryKey($keys)
 	{
-		$this->setId($key);
+		$this->setId($keys[0]);
+		$this->setCategoryId($keys[1]);
 	}
 
 	/**
@@ -773,7 +939,7 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 	 */
 	public function isPrimaryKeyNull()
 	{
-		return null === $this->getId();
+		return (null === $this->getId()) && (null === $this->getCategoryId());
 	}
 
 	/**
@@ -791,6 +957,8 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 	{
 		$copyObj->setName($this->getName());
 		$copyObj->setDescription($this->getDescription());
+		$copyObj->setCategoryId($this->getCategoryId());
+		$copyObj->setGroupType($this->getGroupType());
 
 		if ($deepCopy && !$this->startCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
@@ -851,6 +1019,55 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 			self::$peer = new GroupPeer();
 		}
 		return self::$peer;
+	}
+
+	/**
+	 * Declares an association between this object and a Categorie object.
+	 *
+	 * @param      Categorie $v
+	 * @return     Group The current object (for fluent API support)
+	 * @throws     PropelException
+	 */
+	public function setCategorie(Categorie $v = null)
+	{
+		if ($v === null) {
+			$this->setCategoryId(NULL);
+		} else {
+			$this->setCategoryId($v->getId());
+		}
+
+		$this->aCategorie = $v;
+
+		// Add binding for other direction of this n:n relationship.
+		// If this object has already been added to the Categorie object, it will not be re-added.
+		if ($v !== null) {
+			$v->addGroup($this);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Get the associated Categorie object
+	 *
+	 * @param      PropelPDO Optional Connection object.
+	 * @return     Categorie The associated Categorie object.
+	 * @throws     PropelException
+	 */
+	public function getCategorie(PropelPDO $con = null)
+	{
+		if ($this->aCategorie === null && ($this->category_id !== null)) {
+			$this->aCategorie = CategorieQuery::create()->findPk($this->category_id, $con);
+			/* The following can be used additionally to
+				guarantee the related object contains a reference
+				to this object.  This level of coupling may, however, be
+				undesirable since it could result in an only partially populated collection
+				in the referenced object.
+				$this->aCategorie->addGroups($this);
+			 */
+		}
+		return $this->aCategorie;
 	}
 
 
@@ -1050,6 +1267,8 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 		$this->id = null;
 		$this->name = null;
 		$this->description = null;
+		$this->category_id = null;
+		$this->group_type = null;
 		$this->alreadyInSave = false;
 		$this->alreadyInValidation = false;
 		$this->clearAllReferences();
@@ -1081,6 +1300,7 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 			$this->collArchievements->clearIterator();
 		}
 		$this->collArchievements = null;
+		$this->aCategorie = null;
 	}
 
 	/**

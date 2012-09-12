@@ -50,6 +50,7 @@ class CategorieTableMap extends TableMap
 	public function buildRelations()
 	{
 		$this->addRelation('Archievement', 'Archievement', RelationMap::ONE_TO_MANY, array('id' => 'category_id', ), null, null, 'Archievements');
+		$this->addRelation('Group', 'Group', RelationMap::ONE_TO_MANY, array('id' => 'category_id', ), null, null, 'Groups');
 	} // buildRelations()
 
 } // CategorieTableMap

@@ -49,6 +49,12 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	protected $description;
 
 	/**
+	 * The value for the points field.
+	 * @var        int
+	 */
+	protected $points;
+
+	/**
 	 * The value for the category_id field.
 	 * @var        int
 	 */
@@ -143,6 +149,16 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Get the [points] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getPoints()
+	{
+		return $this->points;
+	}
+
+	/**
 	 * Get the [category_id] column value.
 	 * 
 	 * @return     int
@@ -231,6 +247,26 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 
 		return $this;
 	} // setDescription()
+
+	/**
+	 * Set the value of [points] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     Archievement The current object (for fluent API support)
+	 */
+	public function setPoints($v)
+	{
+		if ($v !== null) {
+			$v = (int) $v;
+		}
+
+		if ($this->points !== $v) {
+			$this->points = $v;
+			$this->modifiedColumns[] = ArchievementPeer::POINTS;
+		}
+
+		return $this;
+	} // setPoints()
 
 	/**
 	 * Set the value of [category_id] column.
@@ -335,9 +371,10 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 			$this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
 			$this->name = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
 			$this->description = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-			$this->category_id = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
-			$this->group_id = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
-			$this->weight = ($row[$startcol + 5] !== null) ? (int) $row[$startcol + 5] : null;
+			$this->points = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
+			$this->category_id = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
+			$this->group_id = ($row[$startcol + 5] !== null) ? (int) $row[$startcol + 5] : null;
+			$this->weight = ($row[$startcol + 6] !== null) ? (int) $row[$startcol + 6] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -346,7 +383,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 6; // 6 = ArchievementPeer::NUM_HYDRATE_COLUMNS.
+			return $startcol + 7; // 7 = ArchievementPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Archievement object", $e);
@@ -625,6 +662,9 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 		if ($this->isColumnModified(ArchievementPeer::DESCRIPTION)) {
 			$modifiedColumns[':p' . $index++]  = '`DESCRIPTION`';
 		}
+		if ($this->isColumnModified(ArchievementPeer::POINTS)) {
+			$modifiedColumns[':p' . $index++]  = '`POINTS`';
+		}
 		if ($this->isColumnModified(ArchievementPeer::CATEGORY_ID)) {
 			$modifiedColumns[':p' . $index++]  = '`CATEGORY_ID`';
 		}
@@ -653,6 +693,9 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 						break;
 					case '`DESCRIPTION`':
 						$stmt->bindValue($identifier, $this->description, PDO::PARAM_STR);
+						break;
+					case '`POINTS`':
+						$stmt->bindValue($identifier, $this->points, PDO::PARAM_INT);
 						break;
 					case '`CATEGORY_ID`':
 						$stmt->bindValue($identifier, $this->category_id, PDO::PARAM_INT);
@@ -829,12 +872,15 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 				return $this->getDescription();
 				break;
 			case 3:
-				return $this->getCategoryId();
+				return $this->getPoints();
 				break;
 			case 4:
-				return $this->getGroupId();
+				return $this->getCategoryId();
 				break;
 			case 5:
+				return $this->getGroupId();
+				break;
+			case 6:
 				return $this->getWeight();
 				break;
 			default:
@@ -869,9 +915,10 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getName(),
 			$keys[2] => $this->getDescription(),
-			$keys[3] => $this->getCategoryId(),
-			$keys[4] => $this->getGroupId(),
-			$keys[5] => $this->getWeight(),
+			$keys[3] => $this->getPoints(),
+			$keys[4] => $this->getCategoryId(),
+			$keys[5] => $this->getGroupId(),
+			$keys[6] => $this->getWeight(),
 		);
 		if ($includeForeignObjects) {
 			if (null !== $this->aCategorie) {
@@ -924,12 +971,15 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 				$this->setDescription($value);
 				break;
 			case 3:
-				$this->setCategoryId($value);
+				$this->setPoints($value);
 				break;
 			case 4:
-				$this->setGroupId($value);
+				$this->setCategoryId($value);
 				break;
 			case 5:
+				$this->setGroupId($value);
+				break;
+			case 6:
 				$this->setWeight($value);
 				break;
 		} // switch()
@@ -959,9 +1009,10 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setDescription($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setCategoryId($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setGroupId($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setWeight($arr[$keys[5]]);
+		if (array_key_exists($keys[3], $arr)) $this->setPoints($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setCategoryId($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setGroupId($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setWeight($arr[$keys[6]]);
 	}
 
 	/**
@@ -976,6 +1027,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 		if ($this->isColumnModified(ArchievementPeer::ID)) $criteria->add(ArchievementPeer::ID, $this->id);
 		if ($this->isColumnModified(ArchievementPeer::NAME)) $criteria->add(ArchievementPeer::NAME, $this->name);
 		if ($this->isColumnModified(ArchievementPeer::DESCRIPTION)) $criteria->add(ArchievementPeer::DESCRIPTION, $this->description);
+		if ($this->isColumnModified(ArchievementPeer::POINTS)) $criteria->add(ArchievementPeer::POINTS, $this->points);
 		if ($this->isColumnModified(ArchievementPeer::CATEGORY_ID)) $criteria->add(ArchievementPeer::CATEGORY_ID, $this->category_id);
 		if ($this->isColumnModified(ArchievementPeer::GROUP_ID)) $criteria->add(ArchievementPeer::GROUP_ID, $this->group_id);
 		if ($this->isColumnModified(ArchievementPeer::WEIGHT)) $criteria->add(ArchievementPeer::WEIGHT, $this->weight);
@@ -1053,6 +1105,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	{
 		$copyObj->setName($this->getName());
 		$copyObj->setDescription($this->getDescription());
+		$copyObj->setPoints($this->getPoints());
 		$copyObj->setCategoryId($this->getCategoryId());
 		$copyObj->setGroupId($this->getGroupId());
 		$copyObj->setWeight($this->getWeight());
@@ -1204,7 +1257,9 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	public function getGroup(PropelPDO $con = null)
 	{
 		if ($this->aGroup === null && ($this->group_id !== null)) {
-			$this->aGroup = GroupQuery::create()->findPk($this->group_id, $con);
+			$this->aGroup = GroupQuery::create()
+				->filterByArchievement($this) // here
+				->findOne($con);
 			/* The following can be used additionally to
 				guarantee the related object contains a reference
 				to this object.  This level of coupling may, however, be
@@ -1565,6 +1620,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 		$this->id = null;
 		$this->name = null;
 		$this->description = null;
+		$this->points = null;
 		$this->category_id = null;
 		$this->group_id = null;
 		$this->weight = null;

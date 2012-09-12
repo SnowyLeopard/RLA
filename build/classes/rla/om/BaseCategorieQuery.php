@@ -22,6 +22,10 @@
  * @method     CategorieQuery rightJoinArchievement($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Archievement relation
  * @method     CategorieQuery innerJoinArchievement($relationAlias = null) Adds a INNER JOIN clause to the query using the Archievement relation
  *
+ * @method     CategorieQuery leftJoinGroup($relationAlias = null) Adds a LEFT JOIN clause to the query using the Group relation
+ * @method     CategorieQuery rightJoinGroup($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Group relation
+ * @method     CategorieQuery innerJoinGroup($relationAlias = null) Adds a INNER JOIN clause to the query using the Group relation
+ *
  * @method     Categorie findOne(PropelPDO $con = null) Return the first Categorie matching the query
  * @method     Categorie findOneOrCreate(PropelPDO $con = null) Return the first Categorie matching the query, or a new Categorie object populated from the query conditions when no match is found
  *
@@ -358,6 +362,79 @@ abstract class BaseCategorieQuery extends ModelCriteria
 		return $this
 			->joinArchievement($relationAlias, $joinType)
 			->useQuery($relationAlias ? $relationAlias : 'Archievement', 'ArchievementQuery');
+	}
+
+	/**
+	 * Filter the query by a related Group object
+	 *
+	 * @param     Group $group  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    CategorieQuery The current query, for fluid interface
+	 */
+	public function filterByGroup($group, $comparison = null)
+	{
+		if ($group instanceof Group) {
+			return $this
+				->addUsingAlias(CategoriePeer::ID, $group->getCategoryId(), $comparison);
+		} elseif ($group instanceof PropelCollection) {
+			return $this
+				->useGroupQuery()
+				->filterByPrimaryKeys($group->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterByGroup() only accepts arguments of type Group or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Group relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    CategorieQuery The current query, for fluid interface
+	 */
+	public function joinGroup($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Group');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Group');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Group relation Group object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    GroupQuery A secondary query class using the current class as primary query
+	 */
+	public function useGroupQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinGroup($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Group', 'GroupQuery');
 	}
 
 	/**

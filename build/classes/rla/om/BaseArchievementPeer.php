@@ -26,13 +26,13 @@ abstract class BaseArchievementPeer {
 	const TM_CLASS = 'ArchievementTableMap';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 6;
+	const NUM_COLUMNS = 7;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-	const NUM_HYDRATE_COLUMNS = 6;
+	const NUM_HYDRATE_COLUMNS = 7;
 
 	/** the column name for the ID field */
 	const ID = 'archievements.ID';
@@ -42,6 +42,9 @@ abstract class BaseArchievementPeer {
 
 	/** the column name for the DESCRIPTION field */
 	const DESCRIPTION = 'archievements.DESCRIPTION';
+
+	/** the column name for the POINTS field */
+	const POINTS = 'archievements.POINTS';
 
 	/** the column name for the CATEGORY_ID field */
 	const CATEGORY_ID = 'archievements.CATEGORY_ID';
@@ -71,12 +74,12 @@ abstract class BaseArchievementPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'Description', 'CategoryId', 'GroupId', 'Weight', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'name', 'description', 'categoryId', 'groupId', 'weight', ),
-		BasePeer::TYPE_COLNAME => array (self::ID, self::NAME, self::DESCRIPTION, self::CATEGORY_ID, self::GROUP_ID, self::WEIGHT, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NAME', 'DESCRIPTION', 'CATEGORY_ID', 'GROUP_ID', 'WEIGHT', ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'description', 'category_id', 'group_id', 'weight', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'Description', 'Points', 'CategoryId', 'GroupId', 'Weight', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'name', 'description', 'points', 'categoryId', 'groupId', 'weight', ),
+		BasePeer::TYPE_COLNAME => array (self::ID, self::NAME, self::DESCRIPTION, self::POINTS, self::CATEGORY_ID, self::GROUP_ID, self::WEIGHT, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NAME', 'DESCRIPTION', 'POINTS', 'CATEGORY_ID', 'GROUP_ID', 'WEIGHT', ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'description', 'points', 'category_id', 'group_id', 'weight', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
 	);
 
 	/**
@@ -86,12 +89,12 @@ abstract class BaseArchievementPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'Description' => 2, 'CategoryId' => 3, 'GroupId' => 4, 'Weight' => 5, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'name' => 1, 'description' => 2, 'categoryId' => 3, 'groupId' => 4, 'weight' => 5, ),
-		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NAME => 1, self::DESCRIPTION => 2, self::CATEGORY_ID => 3, self::GROUP_ID => 4, self::WEIGHT => 5, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NAME' => 1, 'DESCRIPTION' => 2, 'CATEGORY_ID' => 3, 'GROUP_ID' => 4, 'WEIGHT' => 5, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'description' => 2, 'category_id' => 3, 'group_id' => 4, 'weight' => 5, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'Description' => 2, 'Points' => 3, 'CategoryId' => 4, 'GroupId' => 5, 'Weight' => 6, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'name' => 1, 'description' => 2, 'points' => 3, 'categoryId' => 4, 'groupId' => 5, 'weight' => 6, ),
+		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NAME => 1, self::DESCRIPTION => 2, self::POINTS => 3, self::CATEGORY_ID => 4, self::GROUP_ID => 5, self::WEIGHT => 6, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NAME' => 1, 'DESCRIPTION' => 2, 'POINTS' => 3, 'CATEGORY_ID' => 4, 'GROUP_ID' => 5, 'WEIGHT' => 6, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'description' => 2, 'points' => 3, 'category_id' => 4, 'group_id' => 5, 'weight' => 6, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
 	);
 
 	/**
@@ -166,6 +169,7 @@ abstract class BaseArchievementPeer {
 			$criteria->addSelectColumn(ArchievementPeer::ID);
 			$criteria->addSelectColumn(ArchievementPeer::NAME);
 			$criteria->addSelectColumn(ArchievementPeer::DESCRIPTION);
+			$criteria->addSelectColumn(ArchievementPeer::POINTS);
 			$criteria->addSelectColumn(ArchievementPeer::CATEGORY_ID);
 			$criteria->addSelectColumn(ArchievementPeer::GROUP_ID);
 			$criteria->addSelectColumn(ArchievementPeer::WEIGHT);
@@ -173,6 +177,7 @@ abstract class BaseArchievementPeer {
 			$criteria->addSelectColumn($alias . '.ID');
 			$criteria->addSelectColumn($alias . '.NAME');
 			$criteria->addSelectColumn($alias . '.DESCRIPTION');
+			$criteria->addSelectColumn($alias . '.POINTS');
 			$criteria->addSelectColumn($alias . '.CATEGORY_ID');
 			$criteria->addSelectColumn($alias . '.GROUP_ID');
 			$criteria->addSelectColumn($alias . '.WEIGHT');
@@ -384,10 +389,10 @@ abstract class BaseArchievementPeer {
 	public static function getPrimaryKeyHashFromRow($row, $startcol = 0)
 	{
 		// If the PK cannot be derived from the row, return NULL.
-		if ($row[$startcol] === null && $row[$startcol + 3] === null && $row[$startcol + 4] === null) {
+		if ($row[$startcol] === null && $row[$startcol + 4] === null && $row[$startcol + 5] === null) {
 			return null;
 		}
-		return serialize(array((string) $row[$startcol], (string) $row[$startcol + 3], (string) $row[$startcol + 4]));
+		return serialize(array((string) $row[$startcol], (string) $row[$startcol + 4], (string) $row[$startcol + 5]));
 	}
 
 	/**
@@ -401,7 +406,7 @@ abstract class BaseArchievementPeer {
 	 */
 	public static function getPrimaryKeyFromRow($row, $startcol = 0)
 	{
-		return array((int) $row[$startcol], (int) $row[$startcol + 3], (int) $row[$startcol + 4]);
+		return array((int) $row[$startcol], (int) $row[$startcol + 4], (int) $row[$startcol + 5]);
 	}
 	
 	/**

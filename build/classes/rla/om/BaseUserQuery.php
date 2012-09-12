@@ -9,10 +9,14 @@
  * @method     UserQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     UserQuery orderByUsername($order = Criteria::ASC) Order by the username column
  * @method     UserQuery orderByPassword($order = Criteria::ASC) Order by the password column
+ * @method     UserQuery orderByHash($order = Criteria::ASC) Order by the hash column
+ * @method     UserQuery orderByLevel($order = Criteria::ASC) Order by the level column
  *
  * @method     UserQuery groupById() Group by the id column
  * @method     UserQuery groupByUsername() Group by the username column
  * @method     UserQuery groupByPassword() Group by the password column
+ * @method     UserQuery groupByHash() Group by the hash column
+ * @method     UserQuery groupByLevel() Group by the level column
  *
  * @method     UserQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     UserQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -28,10 +32,14 @@
  * @method     User findOneById(int $id) Return the first User filtered by the id column
  * @method     User findOneByUsername(string $username) Return the first User filtered by the username column
  * @method     User findOneByPassword(string $password) Return the first User filtered by the password column
+ * @method     User findOneByHash(string $hash) Return the first User filtered by the hash column
+ * @method     User findOneByLevel(int $level) Return the first User filtered by the level column
  *
  * @method     array findById(int $id) Return User objects filtered by the id column
  * @method     array findByUsername(string $username) Return User objects filtered by the username column
  * @method     array findByPassword(string $password) Return User objects filtered by the password column
+ * @method     array findByHash(string $hash) Return User objects filtered by the hash column
+ * @method     array findByLevel(int $level) Return User objects filtered by the level column
  *
  * @package    propel.generator.rla.om
  */
@@ -120,7 +128,7 @@ abstract class BaseUserQuery extends ModelCriteria
 	 */
 	protected function findPkSimple($key, $con)
 	{
-		$sql = 'SELECT `ID`, `USERNAME`, `PASSWORD` FROM `users` WHERE `ID` = :p0';
+		$sql = 'SELECT `ID`, `USERNAME`, `PASSWORD`, `HASH`, `LEVEL` FROM `users` WHERE `ID` = :p0';
 		try {
 			$stmt = $con->prepare($sql);
 			$stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -285,6 +293,66 @@ abstract class BaseUserQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(UserPeer::PASSWORD, $password, $comparison);
+	}
+
+	/**
+	 * Filter the query on the hash column
+	 *
+	 * Example usage:
+	 * <code>
+	 * $query->filterByHash('fooValue');   // WHERE hash = 'fooValue'
+	 * $query->filterByHash('%fooValue%'); // WHERE hash LIKE '%fooValue%'
+	 * </code>
+	 *
+	 * @param     string $hash The value to use as filter.
+	 *              Accepts wildcards (* and % trigger a LIKE)
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    UserQuery The current query, for fluid interface
+	 */
+	public function filterByHash($hash = null, $comparison = null)
+	{
+		if (null === $comparison) {
+			if (is_array($hash)) {
+				$comparison = Criteria::IN;
+			} elseif (preg_match('/[\%\*]/', $hash)) {
+				$hash = str_replace('*', '%', $hash);
+				$comparison = Criteria::LIKE;
+			}
+		}
+		return $this->addUsingAlias(UserPeer::HASH, $hash, $comparison);
+	}
+
+	/**
+	 * Filter the query on the level column
+	 *
+	 * @param     mixed $level The value to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    UserQuery The current query, for fluid interface
+	 */
+	public function filterByLevel($level = null, $comparison = null)
+	{
+		$valueSet = UserPeer::getValueSet(UserPeer::LEVEL);
+		if (is_scalar($level)) {
+			if (!in_array($level, $valueSet)) {
+				throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $level));
+			}
+			$level = array_search($level, $valueSet);
+		} elseif (is_array($level)) {
+			$convertedValues = array();
+			foreach ($level as $value) {
+				if (!in_array($value, $valueSet)) {
+					throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $value));
+				}
+				$convertedValues []= array_search($value, $valueSet);
+			}
+			$level = $convertedValues;
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+		}
+		return $this->addUsingAlias(UserPeer::LEVEL, $level, $comparison);
 	}
 
 	/**

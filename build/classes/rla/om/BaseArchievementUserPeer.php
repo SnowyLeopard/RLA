@@ -26,19 +26,25 @@ abstract class BaseArchievementUserPeer {
 	const TM_CLASS = 'ArchievementUserTableMap';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 2;
+	const NUM_COLUMNS = 4;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-	const NUM_HYDRATE_COLUMNS = 2;
+	const NUM_HYDRATE_COLUMNS = 4;
 
 	/** the column name for the USER_ID field */
 	const USER_ID = 'archievement_user.USER_ID';
 
 	/** the column name for the ARCHIEVEMENT_ID field */
 	const ARCHIEVEMENT_ID = 'archievement_user.ARCHIEVEMENT_ID';
+
+	/** the column name for the CONFIRMED field */
+	const CONFIRMED = 'archievement_user.CONFIRMED';
+
+	/** the column name for the DATE field */
+	const DATE = 'archievement_user.DATE';
 
 	/** The default string format for model objects of the related table **/
 	const DEFAULT_STRING_FORMAT = 'YAML';
@@ -59,12 +65,12 @@ abstract class BaseArchievementUserPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('UserId', 'ArchievementId', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('userId', 'archievementId', ),
-		BasePeer::TYPE_COLNAME => array (self::USER_ID, self::ARCHIEVEMENT_ID, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('USER_ID', 'ARCHIEVEMENT_ID', ),
-		BasePeer::TYPE_FIELDNAME => array ('user_id', 'archievement_id', ),
-		BasePeer::TYPE_NUM => array (0, 1, )
+		BasePeer::TYPE_PHPNAME => array ('UserId', 'ArchievementId', 'Confirmed', 'Date', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('userId', 'archievementId', 'confirmed', 'date', ),
+		BasePeer::TYPE_COLNAME => array (self::USER_ID, self::ARCHIEVEMENT_ID, self::CONFIRMED, self::DATE, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('USER_ID', 'ARCHIEVEMENT_ID', 'CONFIRMED', 'DATE', ),
+		BasePeer::TYPE_FIELDNAME => array ('user_id', 'archievement_id', 'confirmed', 'date', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
 	);
 
 	/**
@@ -74,12 +80,12 @@ abstract class BaseArchievementUserPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('UserId' => 0, 'ArchievementId' => 1, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('userId' => 0, 'archievementId' => 1, ),
-		BasePeer::TYPE_COLNAME => array (self::USER_ID => 0, self::ARCHIEVEMENT_ID => 1, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('USER_ID' => 0, 'ARCHIEVEMENT_ID' => 1, ),
-		BasePeer::TYPE_FIELDNAME => array ('user_id' => 0, 'archievement_id' => 1, ),
-		BasePeer::TYPE_NUM => array (0, 1, )
+		BasePeer::TYPE_PHPNAME => array ('UserId' => 0, 'ArchievementId' => 1, 'Confirmed' => 2, 'Date' => 3, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('userId' => 0, 'archievementId' => 1, 'confirmed' => 2, 'date' => 3, ),
+		BasePeer::TYPE_COLNAME => array (self::USER_ID => 0, self::ARCHIEVEMENT_ID => 1, self::CONFIRMED => 2, self::DATE => 3, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('USER_ID' => 0, 'ARCHIEVEMENT_ID' => 1, 'CONFIRMED' => 2, 'DATE' => 3, ),
+		BasePeer::TYPE_FIELDNAME => array ('user_id' => 0, 'archievement_id' => 1, 'confirmed' => 2, 'date' => 3, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
 	);
 
 	/**
@@ -153,9 +159,13 @@ abstract class BaseArchievementUserPeer {
 		if (null === $alias) {
 			$criteria->addSelectColumn(ArchievementUserPeer::USER_ID);
 			$criteria->addSelectColumn(ArchievementUserPeer::ARCHIEVEMENT_ID);
+			$criteria->addSelectColumn(ArchievementUserPeer::CONFIRMED);
+			$criteria->addSelectColumn(ArchievementUserPeer::DATE);
 		} else {
 			$criteria->addSelectColumn($alias . '.USER_ID');
 			$criteria->addSelectColumn($alias . '.ARCHIEVEMENT_ID');
+			$criteria->addSelectColumn($alias . '.CONFIRMED');
+			$criteria->addSelectColumn($alias . '.DATE');
 		}
 	}
 
