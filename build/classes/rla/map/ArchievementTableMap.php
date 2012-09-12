@@ -43,8 +43,6 @@ class ArchievementTableMap extends TableMap
 		$this->addColumn('DESCRIPTION', 'Description', 'VARCHAR', true, 255, null);
 		$this->addColumn('POINTS', 'Points', 'TINYINT', true, null, null);
 		$this->addForeignPrimaryKey('CATEGORY_ID', 'CategoryId', 'INTEGER' , 'categories', 'ID', true, null, null);
-		$this->addForeignPrimaryKey('GROUP_ID', 'GroupId', 'INTEGER' , 'groups', 'ID', true, null, null);
-		$this->addColumn('WEIGHT', 'Weight', 'TINYINT', true, null, null);
 		// validators
 	} // initialize()
 
@@ -54,9 +52,10 @@ class ArchievementTableMap extends TableMap
 	public function buildRelations()
 	{
 		$this->addRelation('Categorie', 'Categorie', RelationMap::MANY_TO_ONE, array('category_id' => 'id', ), null, null);
-		$this->addRelation('Group', 'Group', RelationMap::MANY_TO_ONE, array('group_id' => 'id', ), null, null);
 		$this->addRelation('ArchievementUser', 'ArchievementUser', RelationMap::ONE_TO_MANY, array('id' => 'archievement_id', ), null, null, 'ArchievementUsers');
+		$this->addRelation('ArchievementGroup', 'ArchievementGroup', RelationMap::ONE_TO_MANY, array('id' => 'archievement_id', ), null, null, 'ArchievementGroups');
 		$this->addRelation('User', 'User', RelationMap::MANY_TO_MANY, array(), null, null, 'Users');
+		$this->addRelation('Group', 'Group', RelationMap::MANY_TO_MANY, array(), null, null, 'Groups');
 	} // buildRelations()
 
 } // ArchievementTableMap

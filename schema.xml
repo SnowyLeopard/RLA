@@ -14,13 +14,8 @@
     <column name="description" type="varchar" size="255" required="true" />
     <column name="points" type="tinyint" required="true" />
     <column name="category_id" type="integer" required="true" primaryKey="true" />
-    <column name="group_id" type="integer" primaryKey="true" />
-    <column name="weight" type="tinyint" required="true" />
     <foreign-key foreignTable="categories">
       <reference local="category_id" foreign="id" />
-    </foreign-key>
-    <foreign-key foreignTable="groups">
-      <reference local="group_id" foreign="id" />
     </foreign-key>
   </table>
   
@@ -51,6 +46,18 @@
     </foreign-key>
     <foreign-key foreignTable="archievements">
       <reference local="archievement_id" foreign="id" />
+    </foreign-key>
+  </table>
+
+  <table name="archievement_group" isCrossRef="true">
+    <column name="archievement_id" type="integer" primaryKey="true" />
+    <column name="group_id" type="integer" primaryKey="true" />
+    <column name="weight" type="integer" required="true" />
+    <foreign-key foreignTable="archievements">
+      <reference local="archievement_id" foreign="id" />
+    </foreign-key>
+    <foreign-key foreignTable="groups">
+      <reference local="group_id" foreign="id" />
     </foreign-key>
   </table>
 </database>

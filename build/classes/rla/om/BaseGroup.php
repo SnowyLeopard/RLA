@@ -66,6 +66,11 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 	protected $aCategorie;
 
 	/**
+	 * @var        array ArchievementGroup[] Collection to store aggregation of ArchievementGroup objects.
+	 */
+	protected $collArchievementGroups;
+
+	/**
 	 * @var        array Archievement[] Collection to store aggregation of Archievement objects.
 	 */
 	protected $collArchievements;
@@ -89,6 +94,12 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 	 * @var		array
 	 */
 	protected $archievementsScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $archievementGroupsScheduledForDeletion = null;
 
 	/**
 	 * Get the [id] column value.
@@ -366,8 +377,9 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 		if ($deep) {  // also de-associate any related objects?
 
 			$this->aCategorie = null;
-			$this->collArchievements = null;
+			$this->collArchievementGroups = null;
 
+			$this->collArchievements = null;
 		} // if (deep)
 	}
 
@@ -503,15 +515,30 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 
 			if ($this->archievementsScheduledForDeletion !== null) {
 				if (!$this->archievementsScheduledForDeletion->isEmpty()) {
-					ArchievementQuery::create()
+					ArchievementGroupQuery::create()
 						->filterByPrimaryKeys($this->archievementsScheduledForDeletion->getPrimaryKeys(false))
 						->delete($con);
 					$this->archievementsScheduledForDeletion = null;
 				}
+
+				foreach ($this->getArchievements() as $archievement) {
+					if ($archievement->isModified()) {
+						$archievement->save($con);
+					}
+				}
 			}
 
-			if ($this->collArchievements !== null) {
-				foreach ($this->collArchievements as $referrerFK) {
+			if ($this->archievementGroupsScheduledForDeletion !== null) {
+				if (!$this->archievementGroupsScheduledForDeletion->isEmpty()) {
+					ArchievementGroupQuery::create()
+						->filterByPrimaryKeys($this->archievementGroupsScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->archievementGroupsScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collArchievementGroups !== null) {
+				foreach ($this->collArchievementGroups as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -693,8 +720,8 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 			}
 
 
-				if ($this->collArchievements !== null) {
-					foreach ($this->collArchievements as $referrerFK) {
+				if ($this->collArchievementGroups !== null) {
+					foreach ($this->collArchievementGroups as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -788,8 +815,8 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 			if (null !== $this->aCategorie) {
 				$result['Categorie'] = $this->aCategorie->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
 			}
-			if (null !== $this->collArchievements) {
-				$result['Archievements'] = $this->collArchievements->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			if (null !== $this->collArchievementGroups) {
+				$result['ArchievementGroups'] = $this->collArchievementGroups->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
 		}
 		return $result;
@@ -967,9 +994,9 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 			// store object hash to prevent cycle
 			$this->startCopy = true;
 
-			foreach ($this->getArchievements() as $relObj) {
+			foreach ($this->getArchievementGroups() as $relObj) {
 				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addArchievement($relObj->copy($deepCopy));
+					$copyObj->addArchievementGroup($relObj->copy($deepCopy));
 				}
 			}
 
@@ -1081,9 +1108,182 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 	 */
 	public function initRelation($relationName)
 	{
-		if ('Archievement' == $relationName) {
-			return $this->initArchievements();
+		if ('ArchievementGroup' == $relationName) {
+			return $this->initArchievementGroups();
 		}
+	}
+
+	/**
+	 * Clears out the collArchievementGroups collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addArchievementGroups()
+	 */
+	public function clearArchievementGroups()
+	{
+		$this->collArchievementGroups = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collArchievementGroups collection.
+	 *
+	 * By default this just sets the collArchievementGroups collection to an empty array (like clearcollArchievementGroups());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initArchievementGroups($overrideExisting = true)
+	{
+		if (null !== $this->collArchievementGroups && !$overrideExisting) {
+			return;
+		}
+		$this->collArchievementGroups = new PropelObjectCollection();
+		$this->collArchievementGroups->setModel('ArchievementGroup');
+	}
+
+	/**
+	 * Gets an array of ArchievementGroup objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Group is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array ArchievementGroup[] List of ArchievementGroup objects
+	 * @throws     PropelException
+	 */
+	public function getArchievementGroups($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collArchievementGroups || null !== $criteria) {
+			if ($this->isNew() && null === $this->collArchievementGroups) {
+				// return empty collection
+				$this->initArchievementGroups();
+			} else {
+				$collArchievementGroups = ArchievementGroupQuery::create(null, $criteria)
+					->filterByGroup($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collArchievementGroups;
+				}
+				$this->collArchievementGroups = $collArchievementGroups;
+			}
+		}
+		return $this->collArchievementGroups;
+	}
+
+	/**
+	 * Sets a collection of ArchievementGroup objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $archievementGroups A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setArchievementGroups(PropelCollection $archievementGroups, PropelPDO $con = null)
+	{
+		$this->archievementGroupsScheduledForDeletion = $this->getArchievementGroups(new Criteria(), $con)->diff($archievementGroups);
+
+		foreach ($archievementGroups as $archievementGroup) {
+			// Fix issue with collection modified by reference
+			if ($archievementGroup->isNew()) {
+				$archievementGroup->setGroup($this);
+			}
+			$this->addArchievementGroup($archievementGroup);
+		}
+
+		$this->collArchievementGroups = $archievementGroups;
+	}
+
+	/**
+	 * Returns the number of related ArchievementGroup objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related ArchievementGroup objects.
+	 * @throws     PropelException
+	 */
+	public function countArchievementGroups(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collArchievementGroups || null !== $criteria) {
+			if ($this->isNew() && null === $this->collArchievementGroups) {
+				return 0;
+			} else {
+				$query = ArchievementGroupQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByGroup($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collArchievementGroups);
+		}
+	}
+
+	/**
+	 * Method called to associate a ArchievementGroup object to this object
+	 * through the ArchievementGroup foreign key attribute.
+	 *
+	 * @param      ArchievementGroup $l ArchievementGroup
+	 * @return     Group The current object (for fluent API support)
+	 */
+	public function addArchievementGroup(ArchievementGroup $l)
+	{
+		if ($this->collArchievementGroups === null) {
+			$this->initArchievementGroups();
+		}
+		if (!$this->collArchievementGroups->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddArchievementGroup($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	ArchievementGroup $archievementGroup The archievementGroup object to add.
+	 */
+	protected function doAddArchievementGroup($archievementGroup)
+	{
+		$this->collArchievementGroups[]= $archievementGroup;
+		$archievementGroup->setGroup($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Group is new, it will return
+	 * an empty collection; or if this Group has previously
+	 * been saved, it will retrieve related ArchievementGroups from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Group.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array ArchievementGroup[] List of ArchievementGroup objects
+	 */
+	public function getArchievementGroupsJoinArchievement($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = ArchievementGroupQuery::create(null, $criteria);
+		$query->joinWith('Archievement', $join_behavior);
+
+		return $this->getArchievementGroups($query, $con);
 	}
 
 	/**
@@ -1103,26 +1303,21 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 	/**
 	 * Initializes the collArchievements collection.
 	 *
-	 * By default this just sets the collArchievements collection to an empty array (like clearcollArchievements());
+	 * By default this just sets the collArchievements collection to an empty collection (like clearArchievements());
 	 * however, you may wish to override this method in your stub class to provide setting appropriate
 	 * to your application -- for example, setting the initial array to the values stored in database.
 	 *
-	 * @param      boolean $overrideExisting If set to true, the method call initializes
-	 *                                        the collection even if it is not empty
-	 *
 	 * @return     void
 	 */
-	public function initArchievements($overrideExisting = true)
+	public function initArchievements()
 	{
-		if (null !== $this->collArchievements && !$overrideExisting) {
-			return;
-		}
 		$this->collArchievements = new PropelObjectCollection();
 		$this->collArchievements->setModel('Archievement');
 	}
 
 	/**
-	 * Gets an array of Archievement objects which contain a foreign key that references this object.
+	 * Gets a collection of Archievement objects related by a many-to-many relationship
+	 * to the current object by way of the archievement_group cross-reference table.
 	 *
 	 * If the $criteria is not null, it is used to always fetch the results from the database.
 	 * Otherwise the results are fetched from the database the first time, then cached.
@@ -1130,10 +1325,10 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 	 * If this Group is new, it will return
 	 * an empty collection or the current collection; the criteria is ignored on a new object.
 	 *
-	 * @param      Criteria $criteria optional Criteria object to narrow the query
-	 * @param      PropelPDO $con optional connection object
+	 * @param      Criteria $criteria Optional query object to filter the query
+	 * @param      PropelPDO $con Optional connection object
+	 *
 	 * @return     PropelCollection|array Archievement[] List of Archievement objects
-	 * @throws     PropelException
 	 */
 	public function getArchievements($criteria = null, PropelPDO $con = null)
 	{
@@ -1155,8 +1350,8 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Sets a collection of Archievement objects related by a one-to-many relationship
-	 * to the current object.
+	 * Sets a collection of Archievement objects related by a many-to-many relationship
+	 * to the current object by way of the archievement_group cross-reference table.
 	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
 	 * and new objects from the given Propel collection.
 	 *
@@ -1165,29 +1360,37 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 	 */
 	public function setArchievements(PropelCollection $archievements, PropelPDO $con = null)
 	{
-		$this->archievementsScheduledForDeletion = $this->getArchievements(new Criteria(), $con)->diff($archievements);
+		$archievementGroups = ArchievementGroupQuery::create()
+			->filterByArchievement($archievements)
+			->filterByGroup($this)
+			->find($con);
+
+		$this->archievementsScheduledForDeletion = $this->getArchievementGroups()->diff($archievementGroups);
+		$this->collArchievementGroups = $archievementGroups;
 
 		foreach ($archievements as $archievement) {
 			// Fix issue with collection modified by reference
 			if ($archievement->isNew()) {
-				$archievement->setGroup($this);
+				$this->doAddArchievement($archievement);
+			} else {
+				$this->addArchievement($archievement);
 			}
-			$this->addArchievement($archievement);
 		}
 
 		$this->collArchievements = $archievements;
 	}
 
 	/**
-	 * Returns the number of related Archievement objects.
+	 * Gets the number of Archievement objects related by a many-to-many relationship
+	 * to the current object by way of the archievement_group cross-reference table.
 	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct
-	 * @param      PropelPDO $con
-	 * @return     int Count of related Archievement objects.
-	 * @throws     PropelException
+	 * @param      Criteria $criteria Optional query object to filter the query
+	 * @param      boolean $distinct Set to true to force count distinct
+	 * @param      PropelPDO $con Optional connection object
+	 *
+	 * @return     int the number of related Archievement objects
 	 */
-	public function countArchievements(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	public function countArchievements($criteria = null, $distinct = false, PropelPDO $con = null)
 	{
 		if(null === $this->collArchievements || null !== $criteria) {
 			if ($this->isNew() && null === $this->collArchievements) {
@@ -1207,22 +1410,22 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Method called to associate a Archievement object to this object
-	 * through the Archievement foreign key attribute.
+	 * Associate a Archievement object to this object
+	 * through the archievement_group cross reference table.
 	 *
-	 * @param      Archievement $l Archievement
-	 * @return     Group The current object (for fluent API support)
+	 * @param      Archievement $archievement The ArchievementGroup object to relate
+	 * @return     void
 	 */
-	public function addArchievement(Archievement $l)
+	public function addArchievement(Archievement $archievement)
 	{
 		if ($this->collArchievements === null) {
 			$this->initArchievements();
 		}
-		if (!$this->collArchievements->contains($l)) { // only add it if the **same** object is not already associated
-			$this->doAddArchievement($l);
-		}
+		if (!$this->collArchievements->contains($archievement)) { // only add it if the **same** object is not already associated
+			$this->doAddArchievement($archievement);
 
-		return $this;
+			$this->collArchievements[]= $archievement;
+		}
 	}
 
 	/**
@@ -1230,33 +1433,9 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 	 */
 	protected function doAddArchievement($archievement)
 	{
-		$this->collArchievements[]= $archievement;
-		$archievement->setGroup($this);
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Group is new, it will return
-	 * an empty collection; or if this Group has previously
-	 * been saved, it will retrieve related Archievements from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Group.
-	 *
-	 * @param      Criteria $criteria optional Criteria object to narrow the query
-	 * @param      PropelPDO $con optional connection object
-	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-	 * @return     PropelCollection|array Archievement[] List of Archievement objects
-	 */
-	public function getArchievementsJoinCategorie($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$query = ArchievementQuery::create(null, $criteria);
-		$query->joinWith('Categorie', $join_behavior);
-
-		return $this->getArchievements($query, $con);
+		$archievementGroup = new ArchievementGroup();
+		$archievementGroup->setArchievement($archievement);
+		$this->addArchievementGroup($archievementGroup);
 	}
 
 	/**
@@ -1289,6 +1468,11 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 	public function clearAllReferences($deep = false)
 	{
 		if ($deep) {
+			if ($this->collArchievementGroups) {
+				foreach ($this->collArchievementGroups as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
 			if ($this->collArchievements) {
 				foreach ($this->collArchievements as $o) {
 					$o->clearAllReferences($deep);
@@ -1296,6 +1480,10 @@ abstract class BaseGroup extends BaseObject  implements Persistent
 			}
 		} // if ($deep)
 
+		if ($this->collArchievementGroups instanceof PropelCollection) {
+			$this->collArchievementGroups->clearIterator();
+		}
+		$this->collArchievementGroups = null;
 		if ($this->collArchievements instanceof PropelCollection) {
 			$this->collArchievements->clearIterator();
 		}

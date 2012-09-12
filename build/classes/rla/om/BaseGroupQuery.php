@@ -26,9 +26,9 @@
  * @method     GroupQuery rightJoinCategorie($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Categorie relation
  * @method     GroupQuery innerJoinCategorie($relationAlias = null) Adds a INNER JOIN clause to the query using the Categorie relation
  *
- * @method     GroupQuery leftJoinArchievement($relationAlias = null) Adds a LEFT JOIN clause to the query using the Archievement relation
- * @method     GroupQuery rightJoinArchievement($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Archievement relation
- * @method     GroupQuery innerJoinArchievement($relationAlias = null) Adds a INNER JOIN clause to the query using the Archievement relation
+ * @method     GroupQuery leftJoinArchievementGroup($relationAlias = null) Adds a LEFT JOIN clause to the query using the ArchievementGroup relation
+ * @method     GroupQuery rightJoinArchievementGroup($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ArchievementGroup relation
+ * @method     GroupQuery innerJoinArchievementGroup($relationAlias = null) Adds a INNER JOIN clause to the query using the ArchievementGroup relation
  *
  * @method     Group findOne(PropelPDO $con = null) Return the first Group matching the query
  * @method     Group findOneOrCreate(PropelPDO $con = null) Return the first Group matching the query, or a new Group object populated from the query conditions when no match is found
@@ -448,40 +448,40 @@ abstract class BaseGroupQuery extends ModelCriteria
 	}
 
 	/**
-	 * Filter the query by a related Archievement object
+	 * Filter the query by a related ArchievementGroup object
 	 *
-	 * @param     Archievement $archievement  the related object to use as filter
+	 * @param     ArchievementGroup $archievementGroup  the related object to use as filter
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
 	 * @return    GroupQuery The current query, for fluid interface
 	 */
-	public function filterByArchievement($archievement, $comparison = null)
+	public function filterByArchievementGroup($archievementGroup, $comparison = null)
 	{
-		if ($archievement instanceof Archievement) {
+		if ($archievementGroup instanceof ArchievementGroup) {
 			return $this
-				->addUsingAlias(GroupPeer::ID, $archievement->getGroupId(), $comparison);
-		} elseif ($archievement instanceof PropelCollection) {
+				->addUsingAlias(GroupPeer::ID, $archievementGroup->getGroupId(), $comparison);
+		} elseif ($archievementGroup instanceof PropelCollection) {
 			return $this
-				->useArchievementQuery()
-				->filterByPrimaryKeys($archievement->getPrimaryKeys())
+				->useArchievementGroupQuery()
+				->filterByPrimaryKeys($archievementGroup->getPrimaryKeys())
 				->endUse();
 		} else {
-			throw new PropelException('filterByArchievement() only accepts arguments of type Archievement or PropelCollection');
+			throw new PropelException('filterByArchievementGroup() only accepts arguments of type ArchievementGroup or PropelCollection');
 		}
 	}
 
 	/**
-	 * Adds a JOIN clause to the query using the Archievement relation
+	 * Adds a JOIN clause to the query using the ArchievementGroup relation
 	 *
 	 * @param     string $relationAlias optional alias for the relation
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
 	 * @return    GroupQuery The current query, for fluid interface
 	 */
-	public function joinArchievement($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	public function joinArchievementGroup($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
 		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('Archievement');
+		$relationMap = $tableMap->getRelation('ArchievementGroup');
 
 		// create a ModelJoin object for this join
 		$join = new ModelJoin();
@@ -496,14 +496,14 @@ abstract class BaseGroupQuery extends ModelCriteria
 			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
 			$this->addJoinObject($join, $relationAlias);
 		} else {
-			$this->addJoinObject($join, 'Archievement');
+			$this->addJoinObject($join, 'ArchievementGroup');
 		}
 
 		return $this;
 	}
 
 	/**
-	 * Use the Archievement relation Archievement object
+	 * Use the ArchievementGroup relation ArchievementGroup object
 	 *
 	 * @see       useQuery()
 	 *
@@ -511,13 +511,30 @@ abstract class BaseGroupQuery extends ModelCriteria
 	 *                                   to be used as main alias in the secondary query
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
-	 * @return    ArchievementQuery A secondary query class using the current class as primary query
+	 * @return    ArchievementGroupQuery A secondary query class using the current class as primary query
 	 */
-	public function useArchievementQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	public function useArchievementGroupQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
 		return $this
-			->joinArchievement($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'Archievement', 'ArchievementQuery');
+			->joinArchievementGroup($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'ArchievementGroup', 'ArchievementGroupQuery');
+	}
+
+	/**
+	 * Filter the query by a related Archievement object
+	 * using the archievement_group table as cross reference
+	 *
+	 * @param     Archievement $archievement the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    GroupQuery The current query, for fluid interface
+	 */
+	public function filterByArchievement($archievement, $comparison = Criteria::EQUAL)
+	{
+		return $this
+			->useArchievementGroupQuery()
+			->filterByArchievement($archievement, $comparison)
+			->endUse();
 	}
 
 	/**

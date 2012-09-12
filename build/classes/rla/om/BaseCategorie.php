@@ -1067,31 +1067,6 @@ abstract class BaseCategorie extends BaseObject  implements Persistent
 		$archievement->setCategorie($this);
 	}
 
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Categorie is new, it will return
-	 * an empty collection; or if this Categorie has previously
-	 * been saved, it will retrieve related Archievements from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Categorie.
-	 *
-	 * @param      Criteria $criteria optional Criteria object to narrow the query
-	 * @param      PropelPDO $con optional connection object
-	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-	 * @return     PropelCollection|array Archievement[] List of Archievement objects
-	 */
-	public function getArchievementsJoinGroup($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$query = ArchievementQuery::create(null, $criteria);
-		$query->joinWith('Group', $join_behavior);
-
-		return $this->getArchievements($query, $con);
-	}
-
 	/**
 	 * Clears out the collGroups collection
 	 *

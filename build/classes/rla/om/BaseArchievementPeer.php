@@ -26,13 +26,13 @@ abstract class BaseArchievementPeer {
 	const TM_CLASS = 'ArchievementTableMap';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 7;
+	const NUM_COLUMNS = 5;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-	const NUM_HYDRATE_COLUMNS = 7;
+	const NUM_HYDRATE_COLUMNS = 5;
 
 	/** the column name for the ID field */
 	const ID = 'archievements.ID';
@@ -48,12 +48,6 @@ abstract class BaseArchievementPeer {
 
 	/** the column name for the CATEGORY_ID field */
 	const CATEGORY_ID = 'archievements.CATEGORY_ID';
-
-	/** the column name for the GROUP_ID field */
-	const GROUP_ID = 'archievements.GROUP_ID';
-
-	/** the column name for the WEIGHT field */
-	const WEIGHT = 'archievements.WEIGHT';
 
 	/** The default string format for model objects of the related table **/
 	const DEFAULT_STRING_FORMAT = 'YAML';
@@ -74,12 +68,12 @@ abstract class BaseArchievementPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'Description', 'Points', 'CategoryId', 'GroupId', 'Weight', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'name', 'description', 'points', 'categoryId', 'groupId', 'weight', ),
-		BasePeer::TYPE_COLNAME => array (self::ID, self::NAME, self::DESCRIPTION, self::POINTS, self::CATEGORY_ID, self::GROUP_ID, self::WEIGHT, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NAME', 'DESCRIPTION', 'POINTS', 'CATEGORY_ID', 'GROUP_ID', 'WEIGHT', ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'description', 'points', 'category_id', 'group_id', 'weight', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'Description', 'Points', 'CategoryId', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'name', 'description', 'points', 'categoryId', ),
+		BasePeer::TYPE_COLNAME => array (self::ID, self::NAME, self::DESCRIPTION, self::POINTS, self::CATEGORY_ID, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NAME', 'DESCRIPTION', 'POINTS', 'CATEGORY_ID', ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'description', 'points', 'category_id', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	/**
@@ -89,12 +83,12 @@ abstract class BaseArchievementPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'Description' => 2, 'Points' => 3, 'CategoryId' => 4, 'GroupId' => 5, 'Weight' => 6, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'name' => 1, 'description' => 2, 'points' => 3, 'categoryId' => 4, 'groupId' => 5, 'weight' => 6, ),
-		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NAME => 1, self::DESCRIPTION => 2, self::POINTS => 3, self::CATEGORY_ID => 4, self::GROUP_ID => 5, self::WEIGHT => 6, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NAME' => 1, 'DESCRIPTION' => 2, 'POINTS' => 3, 'CATEGORY_ID' => 4, 'GROUP_ID' => 5, 'WEIGHT' => 6, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'description' => 2, 'points' => 3, 'category_id' => 4, 'group_id' => 5, 'weight' => 6, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'Description' => 2, 'Points' => 3, 'CategoryId' => 4, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'name' => 1, 'description' => 2, 'points' => 3, 'categoryId' => 4, ),
+		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NAME => 1, self::DESCRIPTION => 2, self::POINTS => 3, self::CATEGORY_ID => 4, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NAME' => 1, 'DESCRIPTION' => 2, 'POINTS' => 3, 'CATEGORY_ID' => 4, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'description' => 2, 'points' => 3, 'category_id' => 4, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	/**
@@ -171,16 +165,12 @@ abstract class BaseArchievementPeer {
 			$criteria->addSelectColumn(ArchievementPeer::DESCRIPTION);
 			$criteria->addSelectColumn(ArchievementPeer::POINTS);
 			$criteria->addSelectColumn(ArchievementPeer::CATEGORY_ID);
-			$criteria->addSelectColumn(ArchievementPeer::GROUP_ID);
-			$criteria->addSelectColumn(ArchievementPeer::WEIGHT);
 		} else {
 			$criteria->addSelectColumn($alias . '.ID');
 			$criteria->addSelectColumn($alias . '.NAME');
 			$criteria->addSelectColumn($alias . '.DESCRIPTION');
 			$criteria->addSelectColumn($alias . '.POINTS');
 			$criteria->addSelectColumn($alias . '.CATEGORY_ID');
-			$criteria->addSelectColumn($alias . '.GROUP_ID');
-			$criteria->addSelectColumn($alias . '.WEIGHT');
 		}
 	}
 
@@ -305,7 +295,7 @@ abstract class BaseArchievementPeer {
 	{
 		if (Propel::isInstancePoolingEnabled()) {
 			if ($key === null) {
-				$key = serialize(array((string) $obj->getId(), (string) $obj->getCategoryId(), (string) $obj->getGroupId()));
+				$key = serialize(array((string) $obj->getId(), (string) $obj->getCategoryId()));
 			} // if key === null
 			self::$instances[$key] = $obj;
 		}
@@ -325,10 +315,10 @@ abstract class BaseArchievementPeer {
 	{
 		if (Propel::isInstancePoolingEnabled() && $value !== null) {
 			if (is_object($value) && $value instanceof Archievement) {
-				$key = serialize(array((string) $value->getId(), (string) $value->getCategoryId(), (string) $value->getGroupId()));
-			} elseif (is_array($value) && count($value) === 3) {
+				$key = serialize(array((string) $value->getId(), (string) $value->getCategoryId()));
+			} elseif (is_array($value) && count($value) === 2) {
 				// assume we've been passed a primary key
-				$key = serialize(array((string) $value[0], (string) $value[1], (string) $value[2]));
+				$key = serialize(array((string) $value[0], (string) $value[1]));
 			} else {
 				$e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or Archievement object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
 				throw $e;
@@ -389,10 +379,10 @@ abstract class BaseArchievementPeer {
 	public static function getPrimaryKeyHashFromRow($row, $startcol = 0)
 	{
 		// If the PK cannot be derived from the row, return NULL.
-		if ($row[$startcol] === null && $row[$startcol + 4] === null && $row[$startcol + 5] === null) {
+		if ($row[$startcol] === null && $row[$startcol + 4] === null) {
 			return null;
 		}
-		return serialize(array((string) $row[$startcol], (string) $row[$startcol + 4], (string) $row[$startcol + 5]));
+		return serialize(array((string) $row[$startcol], (string) $row[$startcol + 4]));
 	}
 
 	/**
@@ -406,7 +396,7 @@ abstract class BaseArchievementPeer {
 	 */
 	public static function getPrimaryKeyFromRow($row, $startcol = 0)
 	{
-		return array((int) $row[$startcol], (int) $row[$startcol + 4], (int) $row[$startcol + 5]);
+		return array((int) $row[$startcol], (int) $row[$startcol + 4]);
 	}
 	
 	/**
@@ -518,56 +508,6 @@ abstract class BaseArchievementPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related Group table
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     int Number of matching rows.
-	 */
-	public static function doCountJoinGroup(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		// we're going to modify criteria, so copy it first
-		$criteria = clone $criteria;
-
-		// We need to set the primary table name, since in the case that there are no WHERE columns
-		// it will be impossible for the BasePeer::createSelectSql() method to determine which
-		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(ArchievementPeer::TABLE_NAME);
-
-		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->setDistinct();
-		}
-
-		if (!$criteria->hasSelectClause()) {
-			ArchievementPeer::addSelectColumns($criteria);
-		}
-
-		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
-
-		// Set the correct dbName
-		$criteria->setDbName(self::DATABASE_NAME);
-
-		if ($con === null) {
-			$con = Propel::getConnection(ArchievementPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-		}
-
-		$criteria->addJoin(ArchievementPeer::GROUP_ID, GroupPeer::ID, $join_behavior);
-
-		$stmt = BasePeer::doCount($criteria, $con);
-
-		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$count = (int) $row[0];
-		} else {
-			$count = 0; // no rows returned; we infer that means 0 matches.
-		}
-		$stmt->closeCursor();
-		return $count;
-	}
-
-
-	/**
 	 * Selects a collection of Archievement objects pre-filled with their Categorie objects.
 	 * @param      Criteria  $criteria
 	 * @param      PropelPDO $con
@@ -634,72 +574,6 @@ abstract class BaseArchievementPeer {
 
 
 	/**
-	 * Selects a collection of Archievement objects pre-filled with their Group objects.
-	 * @param      Criteria  $criteria
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     array Array of Archievement objects.
-	 * @throws     PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
-	 */
-	public static function doSelectJoinGroup(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$criteria = clone $criteria;
-
-		// Set the correct dbName if it has not been overridden
-		if ($criteria->getDbName() == Propel::getDefaultDB()) {
-			$criteria->setDbName(self::DATABASE_NAME);
-		}
-
-		ArchievementPeer::addSelectColumns($criteria);
-		$startcol = ArchievementPeer::NUM_HYDRATE_COLUMNS;
-		GroupPeer::addSelectColumns($criteria);
-
-		$criteria->addJoin(ArchievementPeer::GROUP_ID, GroupPeer::ID, $join_behavior);
-
-		$stmt = BasePeer::doSelect($criteria, $con);
-		$results = array();
-
-		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key1 = ArchievementPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj1 = ArchievementPeer::getInstanceFromPool($key1))) {
-				// We no longer rehydrate the object, since this can cause data loss.
-				// See http://www.propelorm.org/ticket/509
-				// $obj1->hydrate($row, 0, true); // rehydrate
-			} else {
-
-				$cls = ArchievementPeer::getOMClass(false);
-
-				$obj1 = new $cls();
-				$obj1->hydrate($row);
-				ArchievementPeer::addInstanceToPool($obj1, $key1);
-			} // if $obj1 already loaded
-
-			$key2 = GroupPeer::getPrimaryKeyHashFromRow($row, $startcol);
-			if ($key2 !== null) {
-				$obj2 = GroupPeer::getInstanceFromPool($key2);
-				if (!$obj2) {
-
-					$cls = GroupPeer::getOMClass(false);
-
-					$obj2 = new $cls();
-					$obj2->hydrate($row, $startcol);
-					GroupPeer::addInstanceToPool($obj2, $key2);
-				} // if obj2 already loaded
-
-				// Add the $obj1 (Archievement) to $obj2 (Group)
-				$obj2->addArchievement($obj1);
-
-			} // if joined row was not null
-
-			$results[] = $obj1;
-		}
-		$stmt->closeCursor();
-		return $results;
-	}
-
-
-	/**
 	 * Returns the number of rows matching criteria, joining all related tables
 	 *
 	 * @param      Criteria $criteria
@@ -737,8 +611,6 @@ abstract class BaseArchievementPeer {
 
 		$criteria->addJoin(ArchievementPeer::CATEGORY_ID, CategoriePeer::ID, $join_behavior);
 
-		$criteria->addJoin(ArchievementPeer::GROUP_ID, GroupPeer::ID, $join_behavior);
-
 		$stmt = BasePeer::doCount($criteria, $con);
 
 		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
@@ -775,12 +647,7 @@ abstract class BaseArchievementPeer {
 		CategoriePeer::addSelectColumns($criteria);
 		$startcol3 = $startcol2 + CategoriePeer::NUM_HYDRATE_COLUMNS;
 
-		GroupPeer::addSelectColumns($criteria);
-		$startcol4 = $startcol3 + GroupPeer::NUM_HYDRATE_COLUMNS;
-
 		$criteria->addJoin(ArchievementPeer::CATEGORY_ID, CategoriePeer::ID, $join_behavior);
-
-		$criteria->addJoin(ArchievementPeer::GROUP_ID, GroupPeer::ID, $join_behavior);
 
 		$stmt = BasePeer::doSelect($criteria, $con);
 		$results = array();
@@ -816,270 +683,6 @@ abstract class BaseArchievementPeer {
 				// Add the $obj1 (Archievement) to the collection in $obj2 (Categorie)
 				$obj2->addArchievement($obj1);
 			} // if joined row not null
-
-			// Add objects for joined Group rows
-
-			$key3 = GroupPeer::getPrimaryKeyHashFromRow($row, $startcol3);
-			if ($key3 !== null) {
-				$obj3 = GroupPeer::getInstanceFromPool($key3);
-				if (!$obj3) {
-
-					$cls = GroupPeer::getOMClass(false);
-
-					$obj3 = new $cls();
-					$obj3->hydrate($row, $startcol3);
-					GroupPeer::addInstanceToPool($obj3, $key3);
-				} // if obj3 loaded
-
-				// Add the $obj1 (Archievement) to the collection in $obj3 (Group)
-				$obj3->addArchievement($obj1);
-			} // if joined row not null
-
-			$results[] = $obj1;
-		}
-		$stmt->closeCursor();
-		return $results;
-	}
-
-
-	/**
-	 * Returns the number of rows matching criteria, joining the related Categorie table
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     int Number of matching rows.
-	 */
-	public static function doCountJoinAllExceptCategorie(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		// we're going to modify criteria, so copy it first
-		$criteria = clone $criteria;
-
-		// We need to set the primary table name, since in the case that there are no WHERE columns
-		// it will be impossible for the BasePeer::createSelectSql() method to determine which
-		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(ArchievementPeer::TABLE_NAME);
-
-		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->setDistinct();
-		}
-
-		if (!$criteria->hasSelectClause()) {
-			ArchievementPeer::addSelectColumns($criteria);
-		}
-
-		$criteria->clearOrderByColumns(); // ORDER BY should not affect count
-
-		// Set the correct dbName
-		$criteria->setDbName(self::DATABASE_NAME);
-
-		if ($con === null) {
-			$con = Propel::getConnection(ArchievementPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-		}
-	
-		$criteria->addJoin(ArchievementPeer::GROUP_ID, GroupPeer::ID, $join_behavior);
-
-		$stmt = BasePeer::doCount($criteria, $con);
-
-		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$count = (int) $row[0];
-		} else {
-			$count = 0; // no rows returned; we infer that means 0 matches.
-		}
-		$stmt->closeCursor();
-		return $count;
-	}
-
-
-	/**
-	 * Returns the number of rows matching criteria, joining the related Group table
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     int Number of matching rows.
-	 */
-	public static function doCountJoinAllExceptGroup(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		// we're going to modify criteria, so copy it first
-		$criteria = clone $criteria;
-
-		// We need to set the primary table name, since in the case that there are no WHERE columns
-		// it will be impossible for the BasePeer::createSelectSql() method to determine which
-		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(ArchievementPeer::TABLE_NAME);
-
-		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->setDistinct();
-		}
-
-		if (!$criteria->hasSelectClause()) {
-			ArchievementPeer::addSelectColumns($criteria);
-		}
-
-		$criteria->clearOrderByColumns(); // ORDER BY should not affect count
-
-		// Set the correct dbName
-		$criteria->setDbName(self::DATABASE_NAME);
-
-		if ($con === null) {
-			$con = Propel::getConnection(ArchievementPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-		}
-	
-		$criteria->addJoin(ArchievementPeer::CATEGORY_ID, CategoriePeer::ID, $join_behavior);
-
-		$stmt = BasePeer::doCount($criteria, $con);
-
-		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$count = (int) $row[0];
-		} else {
-			$count = 0; // no rows returned; we infer that means 0 matches.
-		}
-		$stmt->closeCursor();
-		return $count;
-	}
-
-
-	/**
-	 * Selects a collection of Archievement objects pre-filled with all related objects except Categorie.
-	 *
-	 * @param      Criteria  $criteria
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     array Array of Archievement objects.
-	 * @throws     PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
-	 */
-	public static function doSelectJoinAllExceptCategorie(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$criteria = clone $criteria;
-
-		// Set the correct dbName if it has not been overridden
-		// $criteria->getDbName() will return the same object if not set to another value
-		// so == check is okay and faster
-		if ($criteria->getDbName() == Propel::getDefaultDB()) {
-			$criteria->setDbName(self::DATABASE_NAME);
-		}
-
-		ArchievementPeer::addSelectColumns($criteria);
-		$startcol2 = ArchievementPeer::NUM_HYDRATE_COLUMNS;
-
-		GroupPeer::addSelectColumns($criteria);
-		$startcol3 = $startcol2 + GroupPeer::NUM_HYDRATE_COLUMNS;
-
-		$criteria->addJoin(ArchievementPeer::GROUP_ID, GroupPeer::ID, $join_behavior);
-
-
-		$stmt = BasePeer::doSelect($criteria, $con);
-		$results = array();
-
-		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key1 = ArchievementPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj1 = ArchievementPeer::getInstanceFromPool($key1))) {
-				// We no longer rehydrate the object, since this can cause data loss.
-				// See http://www.propelorm.org/ticket/509
-				// $obj1->hydrate($row, 0, true); // rehydrate
-			} else {
-				$cls = ArchievementPeer::getOMClass(false);
-
-				$obj1 = new $cls();
-				$obj1->hydrate($row);
-				ArchievementPeer::addInstanceToPool($obj1, $key1);
-			} // if obj1 already loaded
-
-				// Add objects for joined Group rows
-
-				$key2 = GroupPeer::getPrimaryKeyHashFromRow($row, $startcol2);
-				if ($key2 !== null) {
-					$obj2 = GroupPeer::getInstanceFromPool($key2);
-					if (!$obj2) {
-	
-						$cls = GroupPeer::getOMClass(false);
-
-					$obj2 = new $cls();
-					$obj2->hydrate($row, $startcol2);
-					GroupPeer::addInstanceToPool($obj2, $key2);
-				} // if $obj2 already loaded
-
-				// Add the $obj1 (Archievement) to the collection in $obj2 (Group)
-				$obj2->addArchievement($obj1);
-
-			} // if joined row is not null
-
-			$results[] = $obj1;
-		}
-		$stmt->closeCursor();
-		return $results;
-	}
-
-
-	/**
-	 * Selects a collection of Archievement objects pre-filled with all related objects except Group.
-	 *
-	 * @param      Criteria  $criteria
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     array Array of Archievement objects.
-	 * @throws     PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
-	 */
-	public static function doSelectJoinAllExceptGroup(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$criteria = clone $criteria;
-
-		// Set the correct dbName if it has not been overridden
-		// $criteria->getDbName() will return the same object if not set to another value
-		// so == check is okay and faster
-		if ($criteria->getDbName() == Propel::getDefaultDB()) {
-			$criteria->setDbName(self::DATABASE_NAME);
-		}
-
-		ArchievementPeer::addSelectColumns($criteria);
-		$startcol2 = ArchievementPeer::NUM_HYDRATE_COLUMNS;
-
-		CategoriePeer::addSelectColumns($criteria);
-		$startcol3 = $startcol2 + CategoriePeer::NUM_HYDRATE_COLUMNS;
-
-		$criteria->addJoin(ArchievementPeer::CATEGORY_ID, CategoriePeer::ID, $join_behavior);
-
-
-		$stmt = BasePeer::doSelect($criteria, $con);
-		$results = array();
-
-		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key1 = ArchievementPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj1 = ArchievementPeer::getInstanceFromPool($key1))) {
-				// We no longer rehydrate the object, since this can cause data loss.
-				// See http://www.propelorm.org/ticket/509
-				// $obj1->hydrate($row, 0, true); // rehydrate
-			} else {
-				$cls = ArchievementPeer::getOMClass(false);
-
-				$obj1 = new $cls();
-				$obj1->hydrate($row);
-				ArchievementPeer::addInstanceToPool($obj1, $key1);
-			} // if obj1 already loaded
-
-				// Add objects for joined Categorie rows
-
-				$key2 = CategoriePeer::getPrimaryKeyHashFromRow($row, $startcol2);
-				if ($key2 !== null) {
-					$obj2 = CategoriePeer::getInstanceFromPool($key2);
-					if (!$obj2) {
-	
-						$cls = CategoriePeer::getOMClass(false);
-
-					$obj2 = new $cls();
-					$obj2->hydrate($row, $startcol2);
-					CategoriePeer::addInstanceToPool($obj2, $key2);
-				} // if $obj2 already loaded
-
-				// Add the $obj1 (Archievement) to the collection in $obj2 (Categorie)
-				$obj2->addArchievement($obj1);
-
-			} // if joined row is not null
 
 			$results[] = $obj1;
 		}
@@ -1206,14 +809,6 @@ abstract class BaseArchievementPeer {
 				$selectCriteria->setPrimaryTableName(ArchievementPeer::TABLE_NAME);
 			}
 
-			$comparison = $criteria->getComparison(ArchievementPeer::GROUP_ID);
-			$value = $criteria->remove(ArchievementPeer::GROUP_ID);
-			if ($value) {
-				$selectCriteria->add(ArchievementPeer::GROUP_ID, $value, $comparison);
-			} else {
-				$selectCriteria->setPrimaryTableName(ArchievementPeer::TABLE_NAME);
-			}
-
 		} else { // $values is Archievement object
 			$criteria = $values->buildCriteria(); // gets full criteria
 			$selectCriteria = $values->buildPkeyCriteria(); // gets criteria w/ primary key(s)
@@ -1295,7 +890,6 @@ abstract class BaseArchievementPeer {
 			foreach ($values as $value) {
 				$criterion = $criteria->getNewCriterion(ArchievementPeer::ID, $value[0]);
 				$criterion->addAnd($criteria->getNewCriterion(ArchievementPeer::CATEGORY_ID, $value[1]));
-				$criterion->addAnd($criteria->getNewCriterion(ArchievementPeer::GROUP_ID, $value[2]));
 				$criteria->addOr($criterion);
 				// we can invalidate the cache for this single PK
 				ArchievementPeer::removeInstanceFromPool($value);
@@ -1363,12 +957,11 @@ abstract class BaseArchievementPeer {
 	 * Retrieve object using using composite pkey values.
 	 * @param      int $id
 	 * @param      int $category_id
-	 * @param      int $group_id
 	 * @param      PropelPDO $con
 	 * @return     Archievement
 	 */
-	public static function retrieveByPK($id, $category_id, $group_id, PropelPDO $con = null) {
-		$_instancePoolKey = serialize(array((string) $id, (string) $category_id, (string) $group_id));
+	public static function retrieveByPK($id, $category_id, PropelPDO $con = null) {
+		$_instancePoolKey = serialize(array((string) $id, (string) $category_id));
  		if (null !== ($obj = ArchievementPeer::getInstanceFromPool($_instancePoolKey))) {
  			return $obj;
 		}
@@ -1379,7 +972,6 @@ abstract class BaseArchievementPeer {
 		$criteria = new Criteria(ArchievementPeer::DATABASE_NAME);
 		$criteria->add(ArchievementPeer::ID, $id);
 		$criteria->add(ArchievementPeer::CATEGORY_ID, $category_id);
-		$criteria->add(ArchievementPeer::GROUP_ID, $group_id);
 		$v = ArchievementPeer::doSelect($criteria, $con);
 
 		return !empty($v) ? $v[0] : null;

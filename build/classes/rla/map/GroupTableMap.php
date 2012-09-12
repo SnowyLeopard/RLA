@@ -56,7 +56,8 @@ class GroupTableMap extends TableMap
 	public function buildRelations()
 	{
 		$this->addRelation('Categorie', 'Categorie', RelationMap::MANY_TO_ONE, array('category_id' => 'id', ), null, null);
-		$this->addRelation('Archievement', 'Archievement', RelationMap::ONE_TO_MANY, array('id' => 'group_id', ), null, null, 'Archievements');
+		$this->addRelation('ArchievementGroup', 'ArchievementGroup', RelationMap::ONE_TO_MANY, array('id' => 'group_id', ), null, null, 'ArchievementGroups');
+		$this->addRelation('Archievement', 'Archievement', RelationMap::MANY_TO_MANY, array(), null, null, 'Archievements');
 	} // buildRelations()
 
 } // GroupTableMap
