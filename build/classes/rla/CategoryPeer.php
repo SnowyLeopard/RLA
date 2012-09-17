@@ -1,7 +1,9 @@
 <?php
 
+
+
 /**
- * Skeleton subclass for representing a row from the 'archievements' table.
+ * Skeleton subclass for performing query and update operations on the 'categories' table.
  *
  * 
  *
@@ -11,6 +13,6 @@
  *
  * @package    propel.generator.rla
  */
-class Archievement extends BaseArchievement {
+class CategoryPeer extends BaseCategoryPeer {
 
-} // Archievement
+} // CategoryPeer

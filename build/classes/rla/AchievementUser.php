@@ -3,7 +3,7 @@
 
 
 /**
- * Skeleton subclass for performing query and update operations on the 'archievement_user' table.
+ * Skeleton subclass for representing a row from the 'achievement_user' table.
  *
  * 
  *
@@ -13,6 +13,6 @@
  *
  * @package    propel.generator.rla
  */
-class ArchievementUserPeer extends BaseArchievementUserPeer {
+class AchievementUser extends BaseAchievementUser {
 
-} // ArchievementUserPeer
+} // AchievementUser

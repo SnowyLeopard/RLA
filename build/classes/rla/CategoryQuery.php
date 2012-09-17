@@ -1,7 +1,9 @@
 <?php
 
+
+
 /**
- * Skeleton subclass for representing a row from the 'categories' table.
+ * Skeleton subclass for performing query and update operations on the 'categories' table.
  *
  * 
  *
@@ -11,6 +13,6 @@
  *
  * @package    propel.generator.rla
  */
-class Categorie extends BaseCategorie {
+class CategoryQuery extends BaseCategoryQuery {
 
-} // Categorie
+} // CategoryQuery

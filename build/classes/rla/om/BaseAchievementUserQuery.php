@@ -2,76 +2,76 @@
 
 
 /**
- * Base class that represents a query for the 'archievement_user' table.
+ * Base class that represents a query for the 'achievement_user' table.
  *
  * 
  *
- * @method     ArchievementUserQuery orderByUserId($order = Criteria::ASC) Order by the user_id column
- * @method     ArchievementUserQuery orderByArchievementId($order = Criteria::ASC) Order by the archievement_id column
- * @method     ArchievementUserQuery orderByConfirmed($order = Criteria::ASC) Order by the confirmed column
- * @method     ArchievementUserQuery orderByDate($order = Criteria::ASC) Order by the date column
+ * @method     AchievementUserQuery orderByUserId($order = Criteria::ASC) Order by the user_id column
+ * @method     AchievementUserQuery orderByAchievementId($order = Criteria::ASC) Order by the achievement_id column
+ * @method     AchievementUserQuery orderByConfirmed($order = Criteria::ASC) Order by the confirmed column
+ * @method     AchievementUserQuery orderByDate($order = Criteria::ASC) Order by the date column
  *
- * @method     ArchievementUserQuery groupByUserId() Group by the user_id column
- * @method     ArchievementUserQuery groupByArchievementId() Group by the archievement_id column
- * @method     ArchievementUserQuery groupByConfirmed() Group by the confirmed column
- * @method     ArchievementUserQuery groupByDate() Group by the date column
+ * @method     AchievementUserQuery groupByUserId() Group by the user_id column
+ * @method     AchievementUserQuery groupByAchievementId() Group by the achievement_id column
+ * @method     AchievementUserQuery groupByConfirmed() Group by the confirmed column
+ * @method     AchievementUserQuery groupByDate() Group by the date column
  *
- * @method     ArchievementUserQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
- * @method     ArchievementUserQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
- * @method     ArchievementUserQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ * @method     AchievementUserQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
+ * @method     AchievementUserQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
+ * @method     AchievementUserQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ArchievementUserQuery leftJoinUser($relationAlias = null) Adds a LEFT JOIN clause to the query using the User relation
- * @method     ArchievementUserQuery rightJoinUser($relationAlias = null) Adds a RIGHT JOIN clause to the query using the User relation
- * @method     ArchievementUserQuery innerJoinUser($relationAlias = null) Adds a INNER JOIN clause to the query using the User relation
+ * @method     AchievementUserQuery leftJoinUser($relationAlias = null) Adds a LEFT JOIN clause to the query using the User relation
+ * @method     AchievementUserQuery rightJoinUser($relationAlias = null) Adds a RIGHT JOIN clause to the query using the User relation
+ * @method     AchievementUserQuery innerJoinUser($relationAlias = null) Adds a INNER JOIN clause to the query using the User relation
  *
- * @method     ArchievementUserQuery leftJoinArchievement($relationAlias = null) Adds a LEFT JOIN clause to the query using the Archievement relation
- * @method     ArchievementUserQuery rightJoinArchievement($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Archievement relation
- * @method     ArchievementUserQuery innerJoinArchievement($relationAlias = null) Adds a INNER JOIN clause to the query using the Archievement relation
+ * @method     AchievementUserQuery leftJoinAchievement($relationAlias = null) Adds a LEFT JOIN clause to the query using the Achievement relation
+ * @method     AchievementUserQuery rightJoinAchievement($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Achievement relation
+ * @method     AchievementUserQuery innerJoinAchievement($relationAlias = null) Adds a INNER JOIN clause to the query using the Achievement relation
  *
- * @method     ArchievementUser findOne(PropelPDO $con = null) Return the first ArchievementUser matching the query
- * @method     ArchievementUser findOneOrCreate(PropelPDO $con = null) Return the first ArchievementUser matching the query, or a new ArchievementUser object populated from the query conditions when no match is found
+ * @method     AchievementUser findOne(PropelPDO $con = null) Return the first AchievementUser matching the query
+ * @method     AchievementUser findOneOrCreate(PropelPDO $con = null) Return the first AchievementUser matching the query, or a new AchievementUser object populated from the query conditions when no match is found
  *
- * @method     ArchievementUser findOneByUserId(int $user_id) Return the first ArchievementUser filtered by the user_id column
- * @method     ArchievementUser findOneByArchievementId(int $archievement_id) Return the first ArchievementUser filtered by the archievement_id column
- * @method     ArchievementUser findOneByConfirmed(boolean $confirmed) Return the first ArchievementUser filtered by the confirmed column
- * @method     ArchievementUser findOneByDate(string $date) Return the first ArchievementUser filtered by the date column
+ * @method     AchievementUser findOneByUserId(int $user_id) Return the first AchievementUser filtered by the user_id column
+ * @method     AchievementUser findOneByAchievementId(int $achievement_id) Return the first AchievementUser filtered by the achievement_id column
+ * @method     AchievementUser findOneByConfirmed(boolean $confirmed) Return the first AchievementUser filtered by the confirmed column
+ * @method     AchievementUser findOneByDate(string $date) Return the first AchievementUser filtered by the date column
  *
- * @method     array findByUserId(int $user_id) Return ArchievementUser objects filtered by the user_id column
- * @method     array findByArchievementId(int $archievement_id) Return ArchievementUser objects filtered by the archievement_id column
- * @method     array findByConfirmed(boolean $confirmed) Return ArchievementUser objects filtered by the confirmed column
- * @method     array findByDate(string $date) Return ArchievementUser objects filtered by the date column
+ * @method     array findByUserId(int $user_id) Return AchievementUser objects filtered by the user_id column
+ * @method     array findByAchievementId(int $achievement_id) Return AchievementUser objects filtered by the achievement_id column
+ * @method     array findByConfirmed(boolean $confirmed) Return AchievementUser objects filtered by the confirmed column
+ * @method     array findByDate(string $date) Return AchievementUser objects filtered by the date column
  *
  * @package    propel.generator.rla.om
  */
-abstract class BaseArchievementUserQuery extends ModelCriteria
+abstract class BaseAchievementUserQuery extends ModelCriteria
 {
 	
 	/**
-	 * Initializes internal state of BaseArchievementUserQuery object.
+	 * Initializes internal state of BaseAchievementUserQuery object.
 	 *
 	 * @param     string $dbName The dabase name
 	 * @param     string $modelName The phpName of a model, e.g. 'Book'
 	 * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
 	 */
-	public function __construct($dbName = 'RLA', $modelName = 'ArchievementUser', $modelAlias = null)
+	public function __construct($dbName = 'RLA', $modelName = 'AchievementUser', $modelAlias = null)
 	{
 		parent::__construct($dbName, $modelName, $modelAlias);
 	}
 
 	/**
-	 * Returns a new ArchievementUserQuery object.
+	 * Returns a new AchievementUserQuery object.
 	 *
 	 * @param     string $modelAlias The alias of a model in the query
 	 * @param     Criteria $criteria Optional Criteria to build the query from
 	 *
-	 * @return    ArchievementUserQuery
+	 * @return    AchievementUserQuery
 	 */
 	public static function create($modelAlias = null, $criteria = null)
 	{
-		if ($criteria instanceof ArchievementUserQuery) {
+		if ($criteria instanceof AchievementUserQuery) {
 			return $criteria;
 		}
-		$query = new ArchievementUserQuery();
+		$query = new AchievementUserQuery();
 		if (null !== $modelAlias) {
 			$query->setModelAlias($modelAlias);
 		}
@@ -90,22 +90,22 @@ abstract class BaseArchievementUserQuery extends ModelCriteria
 	 * $obj = $c->findPk(array(12, 34), $con);
 	 * </code>
 	 *
-	 * @param     array[$user_id, $archievement_id] $key Primary key to use for the query
+	 * @param     array[$user_id, $achievement_id] $key Primary key to use for the query
 	 * @param     PropelPDO $con an optional connection object
 	 *
-	 * @return    ArchievementUser|array|mixed the result, formatted by the current formatter
+	 * @return    AchievementUser|array|mixed the result, formatted by the current formatter
 	 */
 	public function findPk($key, $con = null)
 	{
 		if ($key === null) {
 			return null;
 		}
-		if ((null !== ($obj = ArchievementUserPeer::getInstanceFromPool(serialize(array((string) $key[0], (string) $key[1]))))) && !$this->formatter) {
+		if ((null !== ($obj = AchievementUserPeer::getInstanceFromPool(serialize(array((string) $key[0], (string) $key[1]))))) && !$this->formatter) {
 			// the object is alredy in the instance pool
 			return $obj;
 		}
 		if ($con === null) {
-			$con = Propel::getConnection(ArchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(AchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 		$this->basePreSelect($con);
 		if ($this->formatter || $this->modelAlias || $this->with || $this->select
@@ -124,11 +124,11 @@ abstract class BaseArchievementUserQuery extends ModelCriteria
 	 * @param     mixed $key Primary key to use for the query
 	 * @param     PropelPDO $con A connection object
 	 *
-	 * @return    ArchievementUser A model object, or null if the key is not found
+	 * @return    AchievementUser A model object, or null if the key is not found
 	 */
 	protected function findPkSimple($key, $con)
 	{
-		$sql = 'SELECT `USER_ID`, `ARCHIEVEMENT_ID`, `CONFIRMED`, `DATE` FROM `archievement_user` WHERE `USER_ID` = :p0 AND `ARCHIEVEMENT_ID` = :p1';
+		$sql = 'SELECT `USER_ID`, `ACHIEVEMENT_ID`, `CONFIRMED`, `DATE` FROM `achievement_user` WHERE `USER_ID` = :p0 AND `ACHIEVEMENT_ID` = :p1';
 		try {
 			$stmt = $con->prepare($sql);
 			$stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
@@ -140,9 +140,9 @@ abstract class BaseArchievementUserQuery extends ModelCriteria
 		}
 		$obj = null;
 		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$obj = new ArchievementUser();
+			$obj = new AchievementUser();
 			$obj->hydrate($row);
-			ArchievementUserPeer::addInstanceToPool($obj, serialize(array((string) $row[0], (string) $row[1])));
+			AchievementUserPeer::addInstanceToPool($obj, serialize(array((string) $row[0], (string) $row[1])));
 		}
 		$stmt->closeCursor();
 
@@ -155,7 +155,7 @@ abstract class BaseArchievementUserQuery extends ModelCriteria
 	 * @param     mixed $key Primary key to use for the query
 	 * @param     PropelPDO $con A connection object
 	 *
-	 * @return    ArchievementUser|array|mixed the result, formatted by the current formatter
+	 * @return    AchievementUser|array|mixed the result, formatted by the current formatter
 	 */
 	protected function findPkComplex($key, $con)
 	{
@@ -195,12 +195,12 @@ abstract class BaseArchievementUserQuery extends ModelCriteria
 	 *
 	 * @param     mixed $key Primary key to use for the query
 	 *
-	 * @return    ArchievementUserQuery The current query, for fluid interface
+	 * @return    AchievementUserQuery The current query, for fluid interface
 	 */
 	public function filterByPrimaryKey($key)
 	{
-		$this->addUsingAlias(ArchievementUserPeer::USER_ID, $key[0], Criteria::EQUAL);
-		$this->addUsingAlias(ArchievementUserPeer::ARCHIEVEMENT_ID, $key[1], Criteria::EQUAL);
+		$this->addUsingAlias(AchievementUserPeer::USER_ID, $key[0], Criteria::EQUAL);
+		$this->addUsingAlias(AchievementUserPeer::ACHIEVEMENT_ID, $key[1], Criteria::EQUAL);
 
 		return $this;
 	}
@@ -210,7 +210,7 @@ abstract class BaseArchievementUserQuery extends ModelCriteria
 	 *
 	 * @param     array $keys The list of primary key to use for the query
 	 *
-	 * @return    ArchievementUserQuery The current query, for fluid interface
+	 * @return    AchievementUserQuery The current query, for fluid interface
 	 */
 	public function filterByPrimaryKeys($keys)
 	{
@@ -218,8 +218,8 @@ abstract class BaseArchievementUserQuery extends ModelCriteria
 			return $this->add(null, '1<>1', Criteria::CUSTOM);
 		}
 		foreach ($keys as $key) {
-			$cton0 = $this->getNewCriterion(ArchievementUserPeer::USER_ID, $key[0], Criteria::EQUAL);
-			$cton1 = $this->getNewCriterion(ArchievementUserPeer::ARCHIEVEMENT_ID, $key[1], Criteria::EQUAL);
+			$cton0 = $this->getNewCriterion(AchievementUserPeer::USER_ID, $key[0], Criteria::EQUAL);
+			$cton1 = $this->getNewCriterion(AchievementUserPeer::ACHIEVEMENT_ID, $key[1], Criteria::EQUAL);
 			$cton0->addAnd($cton1);
 			$this->addOr($cton0);
 		}
@@ -245,42 +245,42 @@ abstract class BaseArchievementUserQuery extends ModelCriteria
 	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
-	 * @return    ArchievementUserQuery The current query, for fluid interface
+	 * @return    AchievementUserQuery The current query, for fluid interface
 	 */
 	public function filterByUserId($userId = null, $comparison = null)
 	{
 		if (is_array($userId) && null === $comparison) {
 			$comparison = Criteria::IN;
 		}
-		return $this->addUsingAlias(ArchievementUserPeer::USER_ID, $userId, $comparison);
+		return $this->addUsingAlias(AchievementUserPeer::USER_ID, $userId, $comparison);
 	}
 
 	/**
-	 * Filter the query on the archievement_id column
+	 * Filter the query on the achievement_id column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByArchievementId(1234); // WHERE archievement_id = 1234
-	 * $query->filterByArchievementId(array(12, 34)); // WHERE archievement_id IN (12, 34)
-	 * $query->filterByArchievementId(array('min' => 12)); // WHERE archievement_id > 12
+	 * $query->filterByAchievementId(1234); // WHERE achievement_id = 1234
+	 * $query->filterByAchievementId(array(12, 34)); // WHERE achievement_id IN (12, 34)
+	 * $query->filterByAchievementId(array('min' => 12)); // WHERE achievement_id > 12
 	 * </code>
 	 *
-	 * @see       filterByArchievement()
+	 * @see       filterByAchievement()
 	 *
-	 * @param     mixed $archievementId The value to use as filter.
+	 * @param     mixed $achievementId The value to use as filter.
 	 *              Use scalar values for equality.
 	 *              Use array values for in_array() equivalent.
 	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
-	 * @return    ArchievementUserQuery The current query, for fluid interface
+	 * @return    AchievementUserQuery The current query, for fluid interface
 	 */
-	public function filterByArchievementId($archievementId = null, $comparison = null)
+	public function filterByAchievementId($achievementId = null, $comparison = null)
 	{
-		if (is_array($archievementId) && null === $comparison) {
+		if (is_array($achievementId) && null === $comparison) {
 			$comparison = Criteria::IN;
 		}
-		return $this->addUsingAlias(ArchievementUserPeer::ARCHIEVEMENT_ID, $archievementId, $comparison);
+		return $this->addUsingAlias(AchievementUserPeer::ACHIEVEMENT_ID, $achievementId, $comparison);
 	}
 
 	/**
@@ -299,14 +299,14 @@ abstract class BaseArchievementUserQuery extends ModelCriteria
 	 *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
-	 * @return    ArchievementUserQuery The current query, for fluid interface
+	 * @return    AchievementUserQuery The current query, for fluid interface
 	 */
 	public function filterByConfirmed($confirmed = null, $comparison = null)
 	{
 		if (is_string($confirmed)) {
 			$confirmed = in_array(strtolower($confirmed), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
 		}
-		return $this->addUsingAlias(ArchievementUserPeer::CONFIRMED, $confirmed, $comparison);
+		return $this->addUsingAlias(AchievementUserPeer::CONFIRMED, $confirmed, $comparison);
 	}
 
 	/**
@@ -327,18 +327,18 @@ abstract class BaseArchievementUserQuery extends ModelCriteria
 	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
-	 * @return    ArchievementUserQuery The current query, for fluid interface
+	 * @return    AchievementUserQuery The current query, for fluid interface
 	 */
 	public function filterByDate($date = null, $comparison = null)
 	{
 		if (is_array($date)) {
 			$useMinMax = false;
 			if (isset($date['min'])) {
-				$this->addUsingAlias(ArchievementUserPeer::DATE, $date['min'], Criteria::GREATER_EQUAL);
+				$this->addUsingAlias(AchievementUserPeer::DATE, $date['min'], Criteria::GREATER_EQUAL);
 				$useMinMax = true;
 			}
 			if (isset($date['max'])) {
-				$this->addUsingAlias(ArchievementUserPeer::DATE, $date['max'], Criteria::LESS_EQUAL);
+				$this->addUsingAlias(AchievementUserPeer::DATE, $date['max'], Criteria::LESS_EQUAL);
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -348,7 +348,7 @@ abstract class BaseArchievementUserQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(ArchievementUserPeer::DATE, $date, $comparison);
+		return $this->addUsingAlias(AchievementUserPeer::DATE, $date, $comparison);
 	}
 
 	/**
@@ -357,19 +357,19 @@ abstract class BaseArchievementUserQuery extends ModelCriteria
 	 * @param     User|PropelCollection $user The related object(s) to use as filter
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
-	 * @return    ArchievementUserQuery The current query, for fluid interface
+	 * @return    AchievementUserQuery The current query, for fluid interface
 	 */
 	public function filterByUser($user, $comparison = null)
 	{
 		if ($user instanceof User) {
 			return $this
-				->addUsingAlias(ArchievementUserPeer::USER_ID, $user->getId(), $comparison);
+				->addUsingAlias(AchievementUserPeer::USER_ID, $user->getId(), $comparison);
 		} elseif ($user instanceof PropelCollection) {
 			if (null === $comparison) {
 				$comparison = Criteria::IN;
 			}
 			return $this
-				->addUsingAlias(ArchievementUserPeer::USER_ID, $user->toKeyValue('PrimaryKey', 'Id'), $comparison);
+				->addUsingAlias(AchievementUserPeer::USER_ID, $user->toKeyValue('PrimaryKey', 'Id'), $comparison);
 		} else {
 			throw new PropelException('filterByUser() only accepts arguments of type User or PropelCollection');
 		}
@@ -381,7 +381,7 @@ abstract class BaseArchievementUserQuery extends ModelCriteria
 	 * @param     string $relationAlias optional alias for the relation
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
-	 * @return    ArchievementUserQuery The current query, for fluid interface
+	 * @return    AchievementUserQuery The current query, for fluid interface
 	 */
 	public function joinUser($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
@@ -426,41 +426,41 @@ abstract class BaseArchievementUserQuery extends ModelCriteria
 	}
 
 	/**
-	 * Filter the query by a related Archievement object
+	 * Filter the query by a related Achievement object
 	 *
-	 * @param     Archievement|PropelCollection $archievement The related object(s) to use as filter
+	 * @param     Achievement|PropelCollection $achievement The related object(s) to use as filter
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
-	 * @return    ArchievementUserQuery The current query, for fluid interface
+	 * @return    AchievementUserQuery The current query, for fluid interface
 	 */
-	public function filterByArchievement($archievement, $comparison = null)
+	public function filterByAchievement($achievement, $comparison = null)
 	{
-		if ($archievement instanceof Archievement) {
+		if ($achievement instanceof Achievement) {
 			return $this
-				->addUsingAlias(ArchievementUserPeer::ARCHIEVEMENT_ID, $archievement->getId(), $comparison);
-		} elseif ($archievement instanceof PropelCollection) {
+				->addUsingAlias(AchievementUserPeer::ACHIEVEMENT_ID, $achievement->getId(), $comparison);
+		} elseif ($achievement instanceof PropelCollection) {
 			if (null === $comparison) {
 				$comparison = Criteria::IN;
 			}
 			return $this
-				->addUsingAlias(ArchievementUserPeer::ARCHIEVEMENT_ID, $archievement->toKeyValue('PrimaryKey', 'Id'), $comparison);
+				->addUsingAlias(AchievementUserPeer::ACHIEVEMENT_ID, $achievement->toKeyValue('PrimaryKey', 'Id'), $comparison);
 		} else {
-			throw new PropelException('filterByArchievement() only accepts arguments of type Archievement or PropelCollection');
+			throw new PropelException('filterByAchievement() only accepts arguments of type Achievement or PropelCollection');
 		}
 	}
 
 	/**
-	 * Adds a JOIN clause to the query using the Archievement relation
+	 * Adds a JOIN clause to the query using the Achievement relation
 	 *
 	 * @param     string $relationAlias optional alias for the relation
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
-	 * @return    ArchievementUserQuery The current query, for fluid interface
+	 * @return    AchievementUserQuery The current query, for fluid interface
 	 */
-	public function joinArchievement($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	public function joinAchievement($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
 		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('Archievement');
+		$relationMap = $tableMap->getRelation('Achievement');
 
 		// create a ModelJoin object for this join
 		$join = new ModelJoin();
@@ -475,14 +475,14 @@ abstract class BaseArchievementUserQuery extends ModelCriteria
 			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
 			$this->addJoinObject($join, $relationAlias);
 		} else {
-			$this->addJoinObject($join, 'Archievement');
+			$this->addJoinObject($join, 'Achievement');
 		}
 
 		return $this;
 	}
 
 	/**
-	 * Use the Archievement relation Archievement object
+	 * Use the Achievement relation Achievement object
 	 *
 	 * @see       useQuery()
 	 *
@@ -490,31 +490,31 @@ abstract class BaseArchievementUserQuery extends ModelCriteria
 	 *                                   to be used as main alias in the secondary query
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
-	 * @return    ArchievementQuery A secondary query class using the current class as primary query
+	 * @return    AchievementQuery A secondary query class using the current class as primary query
 	 */
-	public function useArchievementQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	public function useAchievementQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
 		return $this
-			->joinArchievement($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'Archievement', 'ArchievementQuery');
+			->joinAchievement($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Achievement', 'AchievementQuery');
 	}
 
 	/**
 	 * Exclude object from result
 	 *
-	 * @param     ArchievementUser $archievementUser Object to remove from the list of results
+	 * @param     AchievementUser $achievementUser Object to remove from the list of results
 	 *
-	 * @return    ArchievementUserQuery The current query, for fluid interface
+	 * @return    AchievementUserQuery The current query, for fluid interface
 	 */
-	public function prune($archievementUser = null)
+	public function prune($achievementUser = null)
 	{
-		if ($archievementUser) {
-			$this->addCond('pruneCond0', $this->getAliasedColName(ArchievementUserPeer::USER_ID), $archievementUser->getUserId(), Criteria::NOT_EQUAL);
-			$this->addCond('pruneCond1', $this->getAliasedColName(ArchievementUserPeer::ARCHIEVEMENT_ID), $archievementUser->getArchievementId(), Criteria::NOT_EQUAL);
+		if ($achievementUser) {
+			$this->addCond('pruneCond0', $this->getAliasedColName(AchievementUserPeer::USER_ID), $achievementUser->getUserId(), Criteria::NOT_EQUAL);
+			$this->addCond('pruneCond1', $this->getAliasedColName(AchievementUserPeer::ACHIEVEMENT_ID), $achievementUser->getAchievementId(), Criteria::NOT_EQUAL);
 			$this->combine(array('pruneCond0', 'pruneCond1'), Criteria::LOGICAL_OR);
 		}
 
 		return $this;
 	}
 
-} // BaseArchievementUserQuery
+} // BaseAchievementUserQuery

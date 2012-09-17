@@ -1,7 +1,9 @@
 <?php
 
+
+
 /**
- * Skeleton subclass for representing a row from the 'archievement_user' table.
+ * Skeleton subclass for performing query and update operations on the 'achievement_group' table.
  *
  * 
  *
@@ -11,6 +13,6 @@
  *
  * @package    propel.generator.rla
  */
-class ArchievementUser extends BaseArchievementUser {
+class AchievementGroupQuery extends BaseAchievementGroupQuery {
 
-} // ArchievementUser
+} // AchievementGroupQuery

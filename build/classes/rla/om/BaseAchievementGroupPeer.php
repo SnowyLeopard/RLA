@@ -2,58 +2,55 @@
 
 
 /**
- * Base static class for performing query and update operations on the 'archievement_user' table.
+ * Base static class for performing query and update operations on the 'achievement_group' table.
  *
  * 
  *
  * @package    propel.generator.rla.om
  */
-abstract class BaseArchievementUserPeer {
+abstract class BaseAchievementGroupPeer {
 
 	/** the default database name for this class */
 	const DATABASE_NAME = 'RLA';
 
 	/** the table name for this class */
-	const TABLE_NAME = 'archievement_user';
+	const TABLE_NAME = 'achievement_group';
 
 	/** the related Propel class for this table */
-	const OM_CLASS = 'ArchievementUser';
+	const OM_CLASS = 'AchievementGroup';
 
 	/** A class that can be returned by this peer. */
-	const CLASS_DEFAULT = 'rla.ArchievementUser';
+	const CLASS_DEFAULT = 'rla.AchievementGroup';
 
 	/** the related TableMap class for this table */
-	const TM_CLASS = 'ArchievementUserTableMap';
+	const TM_CLASS = 'AchievementGroupTableMap';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 4;
+	const NUM_COLUMNS = 3;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-	const NUM_HYDRATE_COLUMNS = 4;
+	const NUM_HYDRATE_COLUMNS = 3;
 
-	/** the column name for the USER_ID field */
-	const USER_ID = 'archievement_user.USER_ID';
+	/** the column name for the ACHIEVEMENT_ID field */
+	const ACHIEVEMENT_ID = 'achievement_group.ACHIEVEMENT_ID';
 
-	/** the column name for the ARCHIEVEMENT_ID field */
-	const ARCHIEVEMENT_ID = 'archievement_user.ARCHIEVEMENT_ID';
+	/** the column name for the GROUP_ID field */
+	const GROUP_ID = 'achievement_group.GROUP_ID';
 
-	/** the column name for the CONFIRMED field */
-	const CONFIRMED = 'archievement_user.CONFIRMED';
-
-	/** the column name for the DATE field */
-	const DATE = 'archievement_user.DATE';
+	/** the column name for the WEIGHT field */
+	const WEIGHT = 'achievement_group.WEIGHT';
 
 	/** The default string format for model objects of the related table **/
 	const DEFAULT_STRING_FORMAT = 'YAML';
 
 	/**
-	 * An identiy map to hold any loaded instances of ArchievementUser objects.
+	 * An identiy map to hold any loaded instances of AchievementGroup objects.
 	 * This must be public so that other peer classes can access this when hydrating from JOIN
 	 * queries.
-	 * @var        array ArchievementUser[]
+	 * @var        array AchievementGroup[]
 	 */
 	public static $instances = array();
 
@@ -65,12 +62,12 @@ abstract class BaseArchievementUserPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('UserId', 'ArchievementId', 'Confirmed', 'Date', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('userId', 'archievementId', 'confirmed', 'date', ),
-		BasePeer::TYPE_COLNAME => array (self::USER_ID, self::ARCHIEVEMENT_ID, self::CONFIRMED, self::DATE, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('USER_ID', 'ARCHIEVEMENT_ID', 'CONFIRMED', 'DATE', ),
-		BasePeer::TYPE_FIELDNAME => array ('user_id', 'archievement_id', 'confirmed', 'date', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('AchievementId', 'GroupId', 'Weight', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('achievementId', 'groupId', 'weight', ),
+		BasePeer::TYPE_COLNAME => array (self::ACHIEVEMENT_ID, self::GROUP_ID, self::WEIGHT, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ACHIEVEMENT_ID', 'GROUP_ID', 'WEIGHT', ),
+		BasePeer::TYPE_FIELDNAME => array ('achievement_id', 'group_id', 'weight', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, )
 	);
 
 	/**
@@ -80,12 +77,12 @@ abstract class BaseArchievementUserPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('UserId' => 0, 'ArchievementId' => 1, 'Confirmed' => 2, 'Date' => 3, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('userId' => 0, 'archievementId' => 1, 'confirmed' => 2, 'date' => 3, ),
-		BasePeer::TYPE_COLNAME => array (self::USER_ID => 0, self::ARCHIEVEMENT_ID => 1, self::CONFIRMED => 2, self::DATE => 3, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('USER_ID' => 0, 'ARCHIEVEMENT_ID' => 1, 'CONFIRMED' => 2, 'DATE' => 3, ),
-		BasePeer::TYPE_FIELDNAME => array ('user_id' => 0, 'archievement_id' => 1, 'confirmed' => 2, 'date' => 3, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('AchievementId' => 0, 'GroupId' => 1, 'Weight' => 2, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('achievementId' => 0, 'groupId' => 1, 'weight' => 2, ),
+		BasePeer::TYPE_COLNAME => array (self::ACHIEVEMENT_ID => 0, self::GROUP_ID => 1, self::WEIGHT => 2, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ACHIEVEMENT_ID' => 0, 'GROUP_ID' => 1, 'WEIGHT' => 2, ),
+		BasePeer::TYPE_FIELDNAME => array ('achievement_id' => 0, 'group_id' => 1, 'weight' => 2, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, )
 	);
 
 	/**
@@ -134,12 +131,12 @@ abstract class BaseArchievementUserPeer {
 	 *		$c->addJoin(TablePeer::alias("alias1", TablePeer::PRIMARY_KEY_COLUMN), TablePeer::PRIMARY_KEY_COLUMN);
 	 * </code>
 	 * @param      string $alias The alias for the current table.
-	 * @param      string $column The column name for current table. (i.e. ArchievementUserPeer::COLUMN_NAME).
+	 * @param      string $column The column name for current table. (i.e. AchievementGroupPeer::COLUMN_NAME).
 	 * @return     string
 	 */
 	public static function alias($alias, $column)
 	{
-		return str_replace(ArchievementUserPeer::TABLE_NAME.'.', $alias.'.', $column);
+		return str_replace(AchievementGroupPeer::TABLE_NAME.'.', $alias.'.', $column);
 	}
 
 	/**
@@ -157,15 +154,13 @@ abstract class BaseArchievementUserPeer {
 	public static function addSelectColumns(Criteria $criteria, $alias = null)
 	{
 		if (null === $alias) {
-			$criteria->addSelectColumn(ArchievementUserPeer::USER_ID);
-			$criteria->addSelectColumn(ArchievementUserPeer::ARCHIEVEMENT_ID);
-			$criteria->addSelectColumn(ArchievementUserPeer::CONFIRMED);
-			$criteria->addSelectColumn(ArchievementUserPeer::DATE);
+			$criteria->addSelectColumn(AchievementGroupPeer::ACHIEVEMENT_ID);
+			$criteria->addSelectColumn(AchievementGroupPeer::GROUP_ID);
+			$criteria->addSelectColumn(AchievementGroupPeer::WEIGHT);
 		} else {
-			$criteria->addSelectColumn($alias . '.USER_ID');
-			$criteria->addSelectColumn($alias . '.ARCHIEVEMENT_ID');
-			$criteria->addSelectColumn($alias . '.CONFIRMED');
-			$criteria->addSelectColumn($alias . '.DATE');
+			$criteria->addSelectColumn($alias . '.ACHIEVEMENT_ID');
+			$criteria->addSelectColumn($alias . '.GROUP_ID');
+			$criteria->addSelectColumn($alias . '.WEIGHT');
 		}
 	}
 
@@ -185,21 +180,21 @@ abstract class BaseArchievementUserPeer {
 		// We need to set the primary table name, since in the case that there are no WHERE columns
 		// it will be impossible for the BasePeer::createSelectSql() method to determine which
 		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(ArchievementUserPeer::TABLE_NAME);
+		$criteria->setPrimaryTableName(AchievementGroupPeer::TABLE_NAME);
 
 		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
 			$criteria->setDistinct();
 		}
 
 		if (!$criteria->hasSelectClause()) {
-			ArchievementUserPeer::addSelectColumns($criteria);
+			AchievementGroupPeer::addSelectColumns($criteria);
 		}
 
 		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
 		$criteria->setDbName(self::DATABASE_NAME); // Set the correct dbName
 
 		if ($con === null) {
-			$con = Propel::getConnection(ArchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(AchievementGroupPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 		// BasePeer returns a PDOStatement
 		$stmt = BasePeer::doCount($criteria, $con);
@@ -217,7 +212,7 @@ abstract class BaseArchievementUserPeer {
 	 *
 	 * @param      Criteria $criteria object used to create the SELECT statement.
 	 * @param      PropelPDO $con
-	 * @return     ArchievementUser
+	 * @return     AchievementGroup
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
@@ -225,7 +220,7 @@ abstract class BaseArchievementUserPeer {
 	{
 		$critcopy = clone $criteria;
 		$critcopy->setLimit(1);
-		$objects = ArchievementUserPeer::doSelect($critcopy, $con);
+		$objects = AchievementGroupPeer::doSelect($critcopy, $con);
 		if ($objects) {
 			return $objects[0];
 		}
@@ -242,7 +237,7 @@ abstract class BaseArchievementUserPeer {
 	 */
 	public static function doSelect(Criteria $criteria, PropelPDO $con = null)
 	{
-		return ArchievementUserPeer::populateObjects(ArchievementUserPeer::doSelectStmt($criteria, $con));
+		return AchievementGroupPeer::populateObjects(AchievementGroupPeer::doSelectStmt($criteria, $con));
 	}
 	/**
 	 * Prepares the Criteria object and uses the parent doSelect() method to execute a PDOStatement.
@@ -260,12 +255,12 @@ abstract class BaseArchievementUserPeer {
 	public static function doSelectStmt(Criteria $criteria, PropelPDO $con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(ArchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(AchievementGroupPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
 		if (!$criteria->hasSelectClause()) {
 			$criteria = clone $criteria;
-			ArchievementUserPeer::addSelectColumns($criteria);
+			AchievementGroupPeer::addSelectColumns($criteria);
 		}
 
 		// Set the correct dbName
@@ -283,14 +278,14 @@ abstract class BaseArchievementUserPeer {
 	 * to the cache in order to ensure that the same objects are always returned by doSelect*()
 	 * and retrieveByPK*() calls.
 	 *
-	 * @param      ArchievementUser $value A ArchievementUser object.
+	 * @param      AchievementGroup $value A AchievementGroup object.
 	 * @param      string $key (optional) key to use for instance map (for performance boost if key was already calculated externally).
 	 */
 	public static function addInstanceToPool($obj, $key = null)
 	{
 		if (Propel::isInstancePoolingEnabled()) {
 			if ($key === null) {
-				$key = serialize(array((string) $obj->getUserId(), (string) $obj->getArchievementId()));
+				$key = serialize(array((string) $obj->getAchievementId(), (string) $obj->getGroupId()));
 			} // if key === null
 			self::$instances[$key] = $obj;
 		}
@@ -304,18 +299,18 @@ abstract class BaseArchievementUserPeer {
 	 * methods in your stub classes -- you may need to explicitly remove objects
 	 * from the cache in order to prevent returning objects that no longer exist.
 	 *
-	 * @param      mixed $value A ArchievementUser object or a primary key value.
+	 * @param      mixed $value A AchievementGroup object or a primary key value.
 	 */
 	public static function removeInstanceFromPool($value)
 	{
 		if (Propel::isInstancePoolingEnabled() && $value !== null) {
-			if (is_object($value) && $value instanceof ArchievementUser) {
-				$key = serialize(array((string) $value->getUserId(), (string) $value->getArchievementId()));
+			if (is_object($value) && $value instanceof AchievementGroup) {
+				$key = serialize(array((string) $value->getAchievementId(), (string) $value->getGroupId()));
 			} elseif (is_array($value) && count($value) === 2) {
 				// assume we've been passed a primary key
 				$key = serialize(array((string) $value[0], (string) $value[1]));
 			} else {
-				$e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or ArchievementUser object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
+				$e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or AchievementGroup object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
 				throw $e;
 			}
 
@@ -330,7 +325,7 @@ abstract class BaseArchievementUserPeer {
 	 * a multi-column primary key, a serialize()d version of the primary key will be returned.
 	 *
 	 * @param      string $key The key (@see getPrimaryKeyHash()) for this instance.
-	 * @return     ArchievementUser Found object or NULL if 1) no instance exists for specified key or 2) instance pooling has been disabled.
+	 * @return     AchievementGroup Found object or NULL if 1) no instance exists for specified key or 2) instance pooling has been disabled.
 	 * @see        getPrimaryKeyHash()
 	 */
 	public static function getInstanceFromPool($key)
@@ -354,7 +349,7 @@ abstract class BaseArchievementUserPeer {
 	}
 	
 	/**
-	 * Method to invalidate the instance pool of all tables related to archievement_user
+	 * Method to invalidate the instance pool of all tables related to achievement_group
 	 * by a foreign key with ON DELETE CASCADE
 	 */
 	public static function clearRelatedInstancePool()
@@ -406,11 +401,11 @@ abstract class BaseArchievementUserPeer {
 		$results = array();
 	
 		// set the class once to avoid overhead in the loop
-		$cls = ArchievementUserPeer::getOMClass(false);
+		$cls = AchievementGroupPeer::getOMClass(false);
 		// populate the object(s)
 		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key = ArchievementUserPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj = ArchievementUserPeer::getInstanceFromPool($key))) {
+			$key = AchievementGroupPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj = AchievementGroupPeer::getInstanceFromPool($key))) {
 				// We no longer rehydrate the object, since this can cause data loss.
 				// See http://www.propelorm.org/ticket/509
 				// $obj->hydrate($row, 0, true); // rehydrate
@@ -419,7 +414,7 @@ abstract class BaseArchievementUserPeer {
 				$obj = new $cls();
 				$obj->hydrate($row);
 				$results[] = $obj;
-				ArchievementUserPeer::addInstanceToPool($obj, $key);
+				AchievementGroupPeer::addInstanceToPool($obj, $key);
 			} // if key exists
 		}
 		$stmt->closeCursor();
@@ -432,28 +427,28 @@ abstract class BaseArchievementUserPeer {
 	 * @param      int $startcol The 0-based offset for reading from the resultset row.
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
-	 * @return     array (ArchievementUser object, last column rank)
+	 * @return     array (AchievementGroup object, last column rank)
 	 */
 	public static function populateObject($row, $startcol = 0)
 	{
-		$key = ArchievementUserPeer::getPrimaryKeyHashFromRow($row, $startcol);
-		if (null !== ($obj = ArchievementUserPeer::getInstanceFromPool($key))) {
+		$key = AchievementGroupPeer::getPrimaryKeyHashFromRow($row, $startcol);
+		if (null !== ($obj = AchievementGroupPeer::getInstanceFromPool($key))) {
 			// We no longer rehydrate the object, since this can cause data loss.
 			// See http://www.propelorm.org/ticket/509
 			// $obj->hydrate($row, $startcol, true); // rehydrate
-			$col = $startcol + ArchievementUserPeer::NUM_HYDRATE_COLUMNS;
+			$col = $startcol + AchievementGroupPeer::NUM_HYDRATE_COLUMNS;
 		} else {
-			$cls = ArchievementUserPeer::OM_CLASS;
+			$cls = AchievementGroupPeer::OM_CLASS;
 			$obj = new $cls();
 			$col = $obj->hydrate($row, $startcol);
-			ArchievementUserPeer::addInstanceToPool($obj, $key);
+			AchievementGroupPeer::addInstanceToPool($obj, $key);
 		}
 		return array($obj, $col);
 	}
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related User table
+	 * Returns the number of rows matching criteria, joining the related Achievement table
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -461,7 +456,7 @@ abstract class BaseArchievementUserPeer {
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
 	 * @return     int Number of matching rows.
 	 */
-	public static function doCountJoinUser(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doCountJoinAchievement(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -469,14 +464,14 @@ abstract class BaseArchievementUserPeer {
 		// We need to set the primary table name, since in the case that there are no WHERE columns
 		// it will be impossible for the BasePeer::createSelectSql() method to determine which
 		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(ArchievementUserPeer::TABLE_NAME);
+		$criteria->setPrimaryTableName(AchievementGroupPeer::TABLE_NAME);
 
 		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
 			$criteria->setDistinct();
 		}
 
 		if (!$criteria->hasSelectClause()) {
-			ArchievementUserPeer::addSelectColumns($criteria);
+			AchievementGroupPeer::addSelectColumns($criteria);
 		}
 
 		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
@@ -485,10 +480,10 @@ abstract class BaseArchievementUserPeer {
 		$criteria->setDbName(self::DATABASE_NAME);
 
 		if ($con === null) {
-			$con = Propel::getConnection(ArchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(AchievementGroupPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
-		$criteria->addJoin(ArchievementUserPeer::USER_ID, UserPeer::ID, $join_behavior);
+		$criteria->addJoin(AchievementGroupPeer::ACHIEVEMENT_ID, AchievementPeer::ID, $join_behavior);
 
 		$stmt = BasePeer::doCount($criteria, $con);
 
@@ -503,7 +498,7 @@ abstract class BaseArchievementUserPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related Archievement table
+	 * Returns the number of rows matching criteria, joining the related Group table
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -511,7 +506,7 @@ abstract class BaseArchievementUserPeer {
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
 	 * @return     int Number of matching rows.
 	 */
-	public static function doCountJoinArchievement(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doCountJoinGroup(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -519,14 +514,14 @@ abstract class BaseArchievementUserPeer {
 		// We need to set the primary table name, since in the case that there are no WHERE columns
 		// it will be impossible for the BasePeer::createSelectSql() method to determine which
 		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(ArchievementUserPeer::TABLE_NAME);
+		$criteria->setPrimaryTableName(AchievementGroupPeer::TABLE_NAME);
 
 		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
 			$criteria->setDistinct();
 		}
 
 		if (!$criteria->hasSelectClause()) {
-			ArchievementUserPeer::addSelectColumns($criteria);
+			AchievementGroupPeer::addSelectColumns($criteria);
 		}
 
 		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
@@ -535,10 +530,10 @@ abstract class BaseArchievementUserPeer {
 		$criteria->setDbName(self::DATABASE_NAME);
 
 		if ($con === null) {
-			$con = Propel::getConnection(ArchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(AchievementGroupPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
-		$criteria->addJoin(ArchievementUserPeer::ARCHIEVEMENT_ID, ArchievementPeer::ID, $join_behavior);
+		$criteria->addJoin(AchievementGroupPeer::GROUP_ID, GroupPeer::ID, $join_behavior);
 
 		$stmt = BasePeer::doCount($criteria, $con);
 
@@ -553,15 +548,15 @@ abstract class BaseArchievementUserPeer {
 
 
 	/**
-	 * Selects a collection of ArchievementUser objects pre-filled with their User objects.
+	 * Selects a collection of AchievementGroup objects pre-filled with their Achievement objects.
 	 * @param      Criteria  $criteria
 	 * @param      PropelPDO $con
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     array Array of ArchievementUser objects.
+	 * @return     array Array of AchievementGroup objects.
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUser(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doSelectJoinAchievement(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		$criteria = clone $criteria;
 
@@ -570,44 +565,44 @@ abstract class BaseArchievementUserPeer {
 			$criteria->setDbName(self::DATABASE_NAME);
 		}
 
-		ArchievementUserPeer::addSelectColumns($criteria);
-		$startcol = ArchievementUserPeer::NUM_HYDRATE_COLUMNS;
-		UserPeer::addSelectColumns($criteria);
+		AchievementGroupPeer::addSelectColumns($criteria);
+		$startcol = AchievementGroupPeer::NUM_HYDRATE_COLUMNS;
+		AchievementPeer::addSelectColumns($criteria);
 
-		$criteria->addJoin(ArchievementUserPeer::USER_ID, UserPeer::ID, $join_behavior);
+		$criteria->addJoin(AchievementGroupPeer::ACHIEVEMENT_ID, AchievementPeer::ID, $join_behavior);
 
 		$stmt = BasePeer::doSelect($criteria, $con);
 		$results = array();
 
 		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key1 = ArchievementUserPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj1 = ArchievementUserPeer::getInstanceFromPool($key1))) {
+			$key1 = AchievementGroupPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = AchievementGroupPeer::getInstanceFromPool($key1))) {
 				// We no longer rehydrate the object, since this can cause data loss.
 				// See http://www.propelorm.org/ticket/509
 				// $obj1->hydrate($row, 0, true); // rehydrate
 			} else {
 
-				$cls = ArchievementUserPeer::getOMClass(false);
+				$cls = AchievementGroupPeer::getOMClass(false);
 
 				$obj1 = new $cls();
 				$obj1->hydrate($row);
-				ArchievementUserPeer::addInstanceToPool($obj1, $key1);
+				AchievementGroupPeer::addInstanceToPool($obj1, $key1);
 			} // if $obj1 already loaded
 
-			$key2 = UserPeer::getPrimaryKeyHashFromRow($row, $startcol);
+			$key2 = AchievementPeer::getPrimaryKeyHashFromRow($row, $startcol);
 			if ($key2 !== null) {
-				$obj2 = UserPeer::getInstanceFromPool($key2);
+				$obj2 = AchievementPeer::getInstanceFromPool($key2);
 				if (!$obj2) {
 
-					$cls = UserPeer::getOMClass(false);
+					$cls = AchievementPeer::getOMClass(false);
 
 					$obj2 = new $cls();
 					$obj2->hydrate($row, $startcol);
-					UserPeer::addInstanceToPool($obj2, $key2);
+					AchievementPeer::addInstanceToPool($obj2, $key2);
 				} // if obj2 already loaded
 
-				// Add the $obj1 (ArchievementUser) to $obj2 (User)
-				$obj2->addArchievementUser($obj1);
+				// Add the $obj1 (AchievementGroup) to $obj2 (Achievement)
+				$obj2->addAchievementGroup($obj1);
 
 			} // if joined row was not null
 
@@ -619,15 +614,15 @@ abstract class BaseArchievementUserPeer {
 
 
 	/**
-	 * Selects a collection of ArchievementUser objects pre-filled with their Archievement objects.
+	 * Selects a collection of AchievementGroup objects pre-filled with their Group objects.
 	 * @param      Criteria  $criteria
 	 * @param      PropelPDO $con
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     array Array of ArchievementUser objects.
+	 * @return     array Array of AchievementGroup objects.
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinArchievement(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doSelectJoinGroup(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		$criteria = clone $criteria;
 
@@ -636,44 +631,44 @@ abstract class BaseArchievementUserPeer {
 			$criteria->setDbName(self::DATABASE_NAME);
 		}
 
-		ArchievementUserPeer::addSelectColumns($criteria);
-		$startcol = ArchievementUserPeer::NUM_HYDRATE_COLUMNS;
-		ArchievementPeer::addSelectColumns($criteria);
+		AchievementGroupPeer::addSelectColumns($criteria);
+		$startcol = AchievementGroupPeer::NUM_HYDRATE_COLUMNS;
+		GroupPeer::addSelectColumns($criteria);
 
-		$criteria->addJoin(ArchievementUserPeer::ARCHIEVEMENT_ID, ArchievementPeer::ID, $join_behavior);
+		$criteria->addJoin(AchievementGroupPeer::GROUP_ID, GroupPeer::ID, $join_behavior);
 
 		$stmt = BasePeer::doSelect($criteria, $con);
 		$results = array();
 
 		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key1 = ArchievementUserPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj1 = ArchievementUserPeer::getInstanceFromPool($key1))) {
+			$key1 = AchievementGroupPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = AchievementGroupPeer::getInstanceFromPool($key1))) {
 				// We no longer rehydrate the object, since this can cause data loss.
 				// See http://www.propelorm.org/ticket/509
 				// $obj1->hydrate($row, 0, true); // rehydrate
 			} else {
 
-				$cls = ArchievementUserPeer::getOMClass(false);
+				$cls = AchievementGroupPeer::getOMClass(false);
 
 				$obj1 = new $cls();
 				$obj1->hydrate($row);
-				ArchievementUserPeer::addInstanceToPool($obj1, $key1);
+				AchievementGroupPeer::addInstanceToPool($obj1, $key1);
 			} // if $obj1 already loaded
 
-			$key2 = ArchievementPeer::getPrimaryKeyHashFromRow($row, $startcol);
+			$key2 = GroupPeer::getPrimaryKeyHashFromRow($row, $startcol);
 			if ($key2 !== null) {
-				$obj2 = ArchievementPeer::getInstanceFromPool($key2);
+				$obj2 = GroupPeer::getInstanceFromPool($key2);
 				if (!$obj2) {
 
-					$cls = ArchievementPeer::getOMClass(false);
+					$cls = GroupPeer::getOMClass(false);
 
 					$obj2 = new $cls();
 					$obj2->hydrate($row, $startcol);
-					ArchievementPeer::addInstanceToPool($obj2, $key2);
+					GroupPeer::addInstanceToPool($obj2, $key2);
 				} // if obj2 already loaded
 
-				// Add the $obj1 (ArchievementUser) to $obj2 (Archievement)
-				$obj2->addArchievementUser($obj1);
+				// Add the $obj1 (AchievementGroup) to $obj2 (Group)
+				$obj2->addAchievementGroup($obj1);
 
 			} // if joined row was not null
 
@@ -701,14 +696,14 @@ abstract class BaseArchievementUserPeer {
 		// We need to set the primary table name, since in the case that there are no WHERE columns
 		// it will be impossible for the BasePeer::createSelectSql() method to determine which
 		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(ArchievementUserPeer::TABLE_NAME);
+		$criteria->setPrimaryTableName(AchievementGroupPeer::TABLE_NAME);
 
 		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
 			$criteria->setDistinct();
 		}
 
 		if (!$criteria->hasSelectClause()) {
-			ArchievementUserPeer::addSelectColumns($criteria);
+			AchievementGroupPeer::addSelectColumns($criteria);
 		}
 
 		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
@@ -717,12 +712,12 @@ abstract class BaseArchievementUserPeer {
 		$criteria->setDbName(self::DATABASE_NAME);
 
 		if ($con === null) {
-			$con = Propel::getConnection(ArchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(AchievementGroupPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
-		$criteria->addJoin(ArchievementUserPeer::USER_ID, UserPeer::ID, $join_behavior);
+		$criteria->addJoin(AchievementGroupPeer::ACHIEVEMENT_ID, AchievementPeer::ID, $join_behavior);
 
-		$criteria->addJoin(ArchievementUserPeer::ARCHIEVEMENT_ID, ArchievementPeer::ID, $join_behavior);
+		$criteria->addJoin(AchievementGroupPeer::GROUP_ID, GroupPeer::ID, $join_behavior);
 
 		$stmt = BasePeer::doCount($criteria, $con);
 
@@ -736,12 +731,12 @@ abstract class BaseArchievementUserPeer {
 	}
 
 	/**
-	 * Selects a collection of ArchievementUser objects pre-filled with all related objects.
+	 * Selects a collection of AchievementGroup objects pre-filled with all related objects.
 	 *
 	 * @param      Criteria  $criteria
 	 * @param      PropelPDO $con
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     array Array of ArchievementUser objects.
+	 * @return     array Array of AchievementGroup objects.
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
@@ -754,70 +749,70 @@ abstract class BaseArchievementUserPeer {
 			$criteria->setDbName(self::DATABASE_NAME);
 		}
 
-		ArchievementUserPeer::addSelectColumns($criteria);
-		$startcol2 = ArchievementUserPeer::NUM_HYDRATE_COLUMNS;
+		AchievementGroupPeer::addSelectColumns($criteria);
+		$startcol2 = AchievementGroupPeer::NUM_HYDRATE_COLUMNS;
 
-		UserPeer::addSelectColumns($criteria);
-		$startcol3 = $startcol2 + UserPeer::NUM_HYDRATE_COLUMNS;
+		AchievementPeer::addSelectColumns($criteria);
+		$startcol3 = $startcol2 + AchievementPeer::NUM_HYDRATE_COLUMNS;
 
-		ArchievementPeer::addSelectColumns($criteria);
-		$startcol4 = $startcol3 + ArchievementPeer::NUM_HYDRATE_COLUMNS;
+		GroupPeer::addSelectColumns($criteria);
+		$startcol4 = $startcol3 + GroupPeer::NUM_HYDRATE_COLUMNS;
 
-		$criteria->addJoin(ArchievementUserPeer::USER_ID, UserPeer::ID, $join_behavior);
+		$criteria->addJoin(AchievementGroupPeer::ACHIEVEMENT_ID, AchievementPeer::ID, $join_behavior);
 
-		$criteria->addJoin(ArchievementUserPeer::ARCHIEVEMENT_ID, ArchievementPeer::ID, $join_behavior);
+		$criteria->addJoin(AchievementGroupPeer::GROUP_ID, GroupPeer::ID, $join_behavior);
 
 		$stmt = BasePeer::doSelect($criteria, $con);
 		$results = array();
 
 		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key1 = ArchievementUserPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj1 = ArchievementUserPeer::getInstanceFromPool($key1))) {
+			$key1 = AchievementGroupPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = AchievementGroupPeer::getInstanceFromPool($key1))) {
 				// We no longer rehydrate the object, since this can cause data loss.
 				// See http://www.propelorm.org/ticket/509
 				// $obj1->hydrate($row, 0, true); // rehydrate
 			} else {
-				$cls = ArchievementUserPeer::getOMClass(false);
+				$cls = AchievementGroupPeer::getOMClass(false);
 
 				$obj1 = new $cls();
 				$obj1->hydrate($row);
-				ArchievementUserPeer::addInstanceToPool($obj1, $key1);
+				AchievementGroupPeer::addInstanceToPool($obj1, $key1);
 			} // if obj1 already loaded
 
-			// Add objects for joined User rows
+			// Add objects for joined Achievement rows
 
-			$key2 = UserPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+			$key2 = AchievementPeer::getPrimaryKeyHashFromRow($row, $startcol2);
 			if ($key2 !== null) {
-				$obj2 = UserPeer::getInstanceFromPool($key2);
+				$obj2 = AchievementPeer::getInstanceFromPool($key2);
 				if (!$obj2) {
 
-					$cls = UserPeer::getOMClass(false);
+					$cls = AchievementPeer::getOMClass(false);
 
 					$obj2 = new $cls();
 					$obj2->hydrate($row, $startcol2);
-					UserPeer::addInstanceToPool($obj2, $key2);
+					AchievementPeer::addInstanceToPool($obj2, $key2);
 				} // if obj2 loaded
 
-				// Add the $obj1 (ArchievementUser) to the collection in $obj2 (User)
-				$obj2->addArchievementUser($obj1);
+				// Add the $obj1 (AchievementGroup) to the collection in $obj2 (Achievement)
+				$obj2->addAchievementGroup($obj1);
 			} // if joined row not null
 
-			// Add objects for joined Archievement rows
+			// Add objects for joined Group rows
 
-			$key3 = ArchievementPeer::getPrimaryKeyHashFromRow($row, $startcol3);
+			$key3 = GroupPeer::getPrimaryKeyHashFromRow($row, $startcol3);
 			if ($key3 !== null) {
-				$obj3 = ArchievementPeer::getInstanceFromPool($key3);
+				$obj3 = GroupPeer::getInstanceFromPool($key3);
 				if (!$obj3) {
 
-					$cls = ArchievementPeer::getOMClass(false);
+					$cls = GroupPeer::getOMClass(false);
 
 					$obj3 = new $cls();
 					$obj3->hydrate($row, $startcol3);
-					ArchievementPeer::addInstanceToPool($obj3, $key3);
+					GroupPeer::addInstanceToPool($obj3, $key3);
 				} // if obj3 loaded
 
-				// Add the $obj1 (ArchievementUser) to the collection in $obj3 (Archievement)
-				$obj3->addArchievementUser($obj1);
+				// Add the $obj1 (AchievementGroup) to the collection in $obj3 (Group)
+				$obj3->addAchievementGroup($obj1);
 			} // if joined row not null
 
 			$results[] = $obj1;
@@ -828,7 +823,7 @@ abstract class BaseArchievementUserPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related User table
+	 * Returns the number of rows matching criteria, joining the related Achievement table
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -836,7 +831,7 @@ abstract class BaseArchievementUserPeer {
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
 	 * @return     int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUser(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doCountJoinAllExceptAchievement(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -844,14 +839,14 @@ abstract class BaseArchievementUserPeer {
 		// We need to set the primary table name, since in the case that there are no WHERE columns
 		// it will be impossible for the BasePeer::createSelectSql() method to determine which
 		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(ArchievementUserPeer::TABLE_NAME);
+		$criteria->setPrimaryTableName(AchievementGroupPeer::TABLE_NAME);
 
 		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
 			$criteria->setDistinct();
 		}
 
 		if (!$criteria->hasSelectClause()) {
-			ArchievementUserPeer::addSelectColumns($criteria);
+			AchievementGroupPeer::addSelectColumns($criteria);
 		}
 
 		$criteria->clearOrderByColumns(); // ORDER BY should not affect count
@@ -860,10 +855,10 @@ abstract class BaseArchievementUserPeer {
 		$criteria->setDbName(self::DATABASE_NAME);
 
 		if ($con === null) {
-			$con = Propel::getConnection(ArchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(AchievementGroupPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 	
-		$criteria->addJoin(ArchievementUserPeer::ARCHIEVEMENT_ID, ArchievementPeer::ID, $join_behavior);
+		$criteria->addJoin(AchievementGroupPeer::GROUP_ID, GroupPeer::ID, $join_behavior);
 
 		$stmt = BasePeer::doCount($criteria, $con);
 
@@ -878,7 +873,7 @@ abstract class BaseArchievementUserPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related Archievement table
+	 * Returns the number of rows matching criteria, joining the related Group table
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -886,7 +881,7 @@ abstract class BaseArchievementUserPeer {
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
 	 * @return     int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptArchievement(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doCountJoinAllExceptGroup(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -894,14 +889,14 @@ abstract class BaseArchievementUserPeer {
 		// We need to set the primary table name, since in the case that there are no WHERE columns
 		// it will be impossible for the BasePeer::createSelectSql() method to determine which
 		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(ArchievementUserPeer::TABLE_NAME);
+		$criteria->setPrimaryTableName(AchievementGroupPeer::TABLE_NAME);
 
 		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
 			$criteria->setDistinct();
 		}
 
 		if (!$criteria->hasSelectClause()) {
-			ArchievementUserPeer::addSelectColumns($criteria);
+			AchievementGroupPeer::addSelectColumns($criteria);
 		}
 
 		$criteria->clearOrderByColumns(); // ORDER BY should not affect count
@@ -910,10 +905,10 @@ abstract class BaseArchievementUserPeer {
 		$criteria->setDbName(self::DATABASE_NAME);
 
 		if ($con === null) {
-			$con = Propel::getConnection(ArchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(AchievementGroupPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 	
-		$criteria->addJoin(ArchievementUserPeer::USER_ID, UserPeer::ID, $join_behavior);
+		$criteria->addJoin(AchievementGroupPeer::ACHIEVEMENT_ID, AchievementPeer::ID, $join_behavior);
 
 		$stmt = BasePeer::doCount($criteria, $con);
 
@@ -928,16 +923,16 @@ abstract class BaseArchievementUserPeer {
 
 
 	/**
-	 * Selects a collection of ArchievementUser objects pre-filled with all related objects except User.
+	 * Selects a collection of AchievementGroup objects pre-filled with all related objects except Achievement.
 	 *
 	 * @param      Criteria  $criteria
 	 * @param      PropelPDO $con
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     array Array of ArchievementUser objects.
+	 * @return     array Array of AchievementGroup objects.
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUser(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doSelectJoinAllExceptAchievement(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		$criteria = clone $criteria;
 
@@ -948,48 +943,48 @@ abstract class BaseArchievementUserPeer {
 			$criteria->setDbName(self::DATABASE_NAME);
 		}
 
-		ArchievementUserPeer::addSelectColumns($criteria);
-		$startcol2 = ArchievementUserPeer::NUM_HYDRATE_COLUMNS;
+		AchievementGroupPeer::addSelectColumns($criteria);
+		$startcol2 = AchievementGroupPeer::NUM_HYDRATE_COLUMNS;
 
-		ArchievementPeer::addSelectColumns($criteria);
-		$startcol3 = $startcol2 + ArchievementPeer::NUM_HYDRATE_COLUMNS;
+		GroupPeer::addSelectColumns($criteria);
+		$startcol3 = $startcol2 + GroupPeer::NUM_HYDRATE_COLUMNS;
 
-		$criteria->addJoin(ArchievementUserPeer::ARCHIEVEMENT_ID, ArchievementPeer::ID, $join_behavior);
+		$criteria->addJoin(AchievementGroupPeer::GROUP_ID, GroupPeer::ID, $join_behavior);
 
 
 		$stmt = BasePeer::doSelect($criteria, $con);
 		$results = array();
 
 		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key1 = ArchievementUserPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj1 = ArchievementUserPeer::getInstanceFromPool($key1))) {
+			$key1 = AchievementGroupPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = AchievementGroupPeer::getInstanceFromPool($key1))) {
 				// We no longer rehydrate the object, since this can cause data loss.
 				// See http://www.propelorm.org/ticket/509
 				// $obj1->hydrate($row, 0, true); // rehydrate
 			} else {
-				$cls = ArchievementUserPeer::getOMClass(false);
+				$cls = AchievementGroupPeer::getOMClass(false);
 
 				$obj1 = new $cls();
 				$obj1->hydrate($row);
-				ArchievementUserPeer::addInstanceToPool($obj1, $key1);
+				AchievementGroupPeer::addInstanceToPool($obj1, $key1);
 			} // if obj1 already loaded
 
-				// Add objects for joined Archievement rows
+				// Add objects for joined Group rows
 
-				$key2 = ArchievementPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+				$key2 = GroupPeer::getPrimaryKeyHashFromRow($row, $startcol2);
 				if ($key2 !== null) {
-					$obj2 = ArchievementPeer::getInstanceFromPool($key2);
+					$obj2 = GroupPeer::getInstanceFromPool($key2);
 					if (!$obj2) {
 	
-						$cls = ArchievementPeer::getOMClass(false);
+						$cls = GroupPeer::getOMClass(false);
 
 					$obj2 = new $cls();
 					$obj2->hydrate($row, $startcol2);
-					ArchievementPeer::addInstanceToPool($obj2, $key2);
+					GroupPeer::addInstanceToPool($obj2, $key2);
 				} // if $obj2 already loaded
 
-				// Add the $obj1 (ArchievementUser) to the collection in $obj2 (Archievement)
-				$obj2->addArchievementUser($obj1);
+				// Add the $obj1 (AchievementGroup) to the collection in $obj2 (Group)
+				$obj2->addAchievementGroup($obj1);
 
 			} // if joined row is not null
 
@@ -1001,16 +996,16 @@ abstract class BaseArchievementUserPeer {
 
 
 	/**
-	 * Selects a collection of ArchievementUser objects pre-filled with all related objects except Archievement.
+	 * Selects a collection of AchievementGroup objects pre-filled with all related objects except Group.
 	 *
 	 * @param      Criteria  $criteria
 	 * @param      PropelPDO $con
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     array Array of ArchievementUser objects.
+	 * @return     array Array of AchievementGroup objects.
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptArchievement(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doSelectJoinAllExceptGroup(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		$criteria = clone $criteria;
 
@@ -1021,48 +1016,48 @@ abstract class BaseArchievementUserPeer {
 			$criteria->setDbName(self::DATABASE_NAME);
 		}
 
-		ArchievementUserPeer::addSelectColumns($criteria);
-		$startcol2 = ArchievementUserPeer::NUM_HYDRATE_COLUMNS;
+		AchievementGroupPeer::addSelectColumns($criteria);
+		$startcol2 = AchievementGroupPeer::NUM_HYDRATE_COLUMNS;
 
-		UserPeer::addSelectColumns($criteria);
-		$startcol3 = $startcol2 + UserPeer::NUM_HYDRATE_COLUMNS;
+		AchievementPeer::addSelectColumns($criteria);
+		$startcol3 = $startcol2 + AchievementPeer::NUM_HYDRATE_COLUMNS;
 
-		$criteria->addJoin(ArchievementUserPeer::USER_ID, UserPeer::ID, $join_behavior);
+		$criteria->addJoin(AchievementGroupPeer::ACHIEVEMENT_ID, AchievementPeer::ID, $join_behavior);
 
 
 		$stmt = BasePeer::doSelect($criteria, $con);
 		$results = array();
 
 		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key1 = ArchievementUserPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj1 = ArchievementUserPeer::getInstanceFromPool($key1))) {
+			$key1 = AchievementGroupPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = AchievementGroupPeer::getInstanceFromPool($key1))) {
 				// We no longer rehydrate the object, since this can cause data loss.
 				// See http://www.propelorm.org/ticket/509
 				// $obj1->hydrate($row, 0, true); // rehydrate
 			} else {
-				$cls = ArchievementUserPeer::getOMClass(false);
+				$cls = AchievementGroupPeer::getOMClass(false);
 
 				$obj1 = new $cls();
 				$obj1->hydrate($row);
-				ArchievementUserPeer::addInstanceToPool($obj1, $key1);
+				AchievementGroupPeer::addInstanceToPool($obj1, $key1);
 			} // if obj1 already loaded
 
-				// Add objects for joined User rows
+				// Add objects for joined Achievement rows
 
-				$key2 = UserPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+				$key2 = AchievementPeer::getPrimaryKeyHashFromRow($row, $startcol2);
 				if ($key2 !== null) {
-					$obj2 = UserPeer::getInstanceFromPool($key2);
+					$obj2 = AchievementPeer::getInstanceFromPool($key2);
 					if (!$obj2) {
 	
-						$cls = UserPeer::getOMClass(false);
+						$cls = AchievementPeer::getOMClass(false);
 
 					$obj2 = new $cls();
 					$obj2->hydrate($row, $startcol2);
-					UserPeer::addInstanceToPool($obj2, $key2);
+					AchievementPeer::addInstanceToPool($obj2, $key2);
 				} // if $obj2 already loaded
 
-				// Add the $obj1 (ArchievementUser) to the collection in $obj2 (User)
-				$obj2->addArchievementUser($obj1);
+				// Add the $obj1 (AchievementGroup) to the collection in $obj2 (Achievement)
+				$obj2->addAchievementGroup($obj1);
 
 			} // if joined row is not null
 
@@ -1089,10 +1084,10 @@ abstract class BaseArchievementUserPeer {
 	 */
 	public static function buildTableMap()
 	{
-	  $dbMap = Propel::getDatabaseMap(BaseArchievementUserPeer::DATABASE_NAME);
-	  if (!$dbMap->hasTable(BaseArchievementUserPeer::TABLE_NAME))
+	  $dbMap = Propel::getDatabaseMap(BaseAchievementGroupPeer::DATABASE_NAME);
+	  if (!$dbMap->hasTable(BaseAchievementGroupPeer::TABLE_NAME))
 	  {
-	    $dbMap->addTableObject(new ArchievementUserTableMap());
+	    $dbMap->addTableObject(new AchievementGroupTableMap());
 	  }
 	}
 
@@ -1109,13 +1104,13 @@ abstract class BaseArchievementUserPeer {
 	 */
 	public static function getOMClass($withPrefix = true)
 	{
-		return $withPrefix ? ArchievementUserPeer::CLASS_DEFAULT : ArchievementUserPeer::OM_CLASS;
+		return $withPrefix ? AchievementGroupPeer::CLASS_DEFAULT : AchievementGroupPeer::OM_CLASS;
 	}
 
 	/**
-	 * Performs an INSERT on the database, given a ArchievementUser or Criteria object.
+	 * Performs an INSERT on the database, given a AchievementGroup or Criteria object.
 	 *
-	 * @param      mixed $values Criteria or ArchievementUser object containing data that is used to create the INSERT statement.
+	 * @param      mixed $values Criteria or AchievementGroup object containing data that is used to create the INSERT statement.
 	 * @param      PropelPDO $con the PropelPDO connection to use
 	 * @return     mixed The new primary key.
 	 * @throws     PropelException Any exceptions caught during processing will be
@@ -1124,13 +1119,13 @@ abstract class BaseArchievementUserPeer {
 	public static function doInsert($values, PropelPDO $con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(ArchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(AchievementGroupPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
 		} else {
-			$criteria = $values->buildCriteria(); // build Criteria from ArchievementUser object
+			$criteria = $values->buildCriteria(); // build Criteria from AchievementGroup object
 		}
 
 
@@ -1152,9 +1147,9 @@ abstract class BaseArchievementUserPeer {
 	}
 
 	/**
-	 * Performs an UPDATE on the database, given a ArchievementUser or Criteria object.
+	 * Performs an UPDATE on the database, given a AchievementGroup or Criteria object.
 	 *
-	 * @param      mixed $values Criteria or ArchievementUser object containing data that is used to create the UPDATE statement.
+	 * @param      mixed $values Criteria or AchievementGroup object containing data that is used to create the UPDATE statement.
 	 * @param      PropelPDO $con The connection to use (specify PropelPDO connection object to exert more control over transactions).
 	 * @return     int The number of affected rows (if supported by underlying database driver).
 	 * @throws     PropelException Any exceptions caught during processing will be
@@ -1163,7 +1158,7 @@ abstract class BaseArchievementUserPeer {
 	public static function doUpdate($values, PropelPDO $con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(ArchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(AchievementGroupPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		$selectCriteria = new Criteria(self::DATABASE_NAME);
@@ -1171,23 +1166,23 @@ abstract class BaseArchievementUserPeer {
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
 
-			$comparison = $criteria->getComparison(ArchievementUserPeer::USER_ID);
-			$value = $criteria->remove(ArchievementUserPeer::USER_ID);
+			$comparison = $criteria->getComparison(AchievementGroupPeer::ACHIEVEMENT_ID);
+			$value = $criteria->remove(AchievementGroupPeer::ACHIEVEMENT_ID);
 			if ($value) {
-				$selectCriteria->add(ArchievementUserPeer::USER_ID, $value, $comparison);
+				$selectCriteria->add(AchievementGroupPeer::ACHIEVEMENT_ID, $value, $comparison);
 			} else {
-				$selectCriteria->setPrimaryTableName(ArchievementUserPeer::TABLE_NAME);
+				$selectCriteria->setPrimaryTableName(AchievementGroupPeer::TABLE_NAME);
 			}
 
-			$comparison = $criteria->getComparison(ArchievementUserPeer::ARCHIEVEMENT_ID);
-			$value = $criteria->remove(ArchievementUserPeer::ARCHIEVEMENT_ID);
+			$comparison = $criteria->getComparison(AchievementGroupPeer::GROUP_ID);
+			$value = $criteria->remove(AchievementGroupPeer::GROUP_ID);
 			if ($value) {
-				$selectCriteria->add(ArchievementUserPeer::ARCHIEVEMENT_ID, $value, $comparison);
+				$selectCriteria->add(AchievementGroupPeer::GROUP_ID, $value, $comparison);
 			} else {
-				$selectCriteria->setPrimaryTableName(ArchievementUserPeer::TABLE_NAME);
+				$selectCriteria->setPrimaryTableName(AchievementGroupPeer::TABLE_NAME);
 			}
 
-		} else { // $values is ArchievementUser object
+		} else { // $values is AchievementGroup object
 			$criteria = $values->buildCriteria(); // gets full criteria
 			$selectCriteria = $values->buildPkeyCriteria(); // gets criteria w/ primary key(s)
 		}
@@ -1199,7 +1194,7 @@ abstract class BaseArchievementUserPeer {
 	}
 
 	/**
-	 * Deletes all rows from the archievement_user table.
+	 * Deletes all rows from the achievement_group table.
 	 *
 	 * @param      PropelPDO $con the connection to use
 	 * @return     int The number of affected rows (if supported by underlying database driver).
@@ -1207,19 +1202,19 @@ abstract class BaseArchievementUserPeer {
 	public static function doDeleteAll(PropelPDO $con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(ArchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(AchievementGroupPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 		$affectedRows = 0; // initialize var to track total num of affected rows
 		try {
 			// use transaction because $criteria could contain info
 			// for more than one table or we could emulating ON DELETE CASCADE, etc.
 			$con->beginTransaction();
-			$affectedRows += BasePeer::doDeleteAll(ArchievementUserPeer::TABLE_NAME, $con, ArchievementUserPeer::DATABASE_NAME);
+			$affectedRows += BasePeer::doDeleteAll(AchievementGroupPeer::TABLE_NAME, $con, AchievementGroupPeer::DATABASE_NAME);
 			// Because this db requires some delete cascade/set null emulation, we have to
 			// clear the cached instance *after* the emulation has happened (since
 			// instances get re-added by the select statement contained therein).
-			ArchievementUserPeer::clearInstancePool();
-			ArchievementUserPeer::clearRelatedInstancePool();
+			AchievementGroupPeer::clearInstancePool();
+			AchievementGroupPeer::clearRelatedInstancePool();
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -1229,9 +1224,9 @@ abstract class BaseArchievementUserPeer {
 	}
 
 	/**
-	 * Performs a DELETE on the database, given a ArchievementUser or Criteria object OR a primary key value.
+	 * Performs a DELETE on the database, given a AchievementGroup or Criteria object OR a primary key value.
 	 *
-	 * @param      mixed $values Criteria or ArchievementUser object or primary key or array of primary keys
+	 * @param      mixed $values Criteria or AchievementGroup object or primary key or array of primary keys
 	 *              which is used to create the DELETE statement
 	 * @param      PropelPDO $con the connection to use
 	 * @return     int 	The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -1242,19 +1237,19 @@ abstract class BaseArchievementUserPeer {
 	 public static function doDelete($values, PropelPDO $con = null)
 	 {
 		if ($con === null) {
-			$con = Propel::getConnection(ArchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(AchievementGroupPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		if ($values instanceof Criteria) {
 			// invalidate the cache for all objects of this type, since we have no
 			// way of knowing (without running a query) what objects should be invalidated
 			// from the cache based on this Criteria.
-			ArchievementUserPeer::clearInstancePool();
+			AchievementGroupPeer::clearInstancePool();
 			// rename for clarity
 			$criteria = clone $values;
-		} elseif ($values instanceof ArchievementUser) { // it's a model object
+		} elseif ($values instanceof AchievementGroup) { // it's a model object
 			// invalidate the cache for this single object
-			ArchievementUserPeer::removeInstanceFromPool($values);
+			AchievementGroupPeer::removeInstanceFromPool($values);
 			// create criteria based on pk values
 			$criteria = $values->buildPkeyCriteria();
 		} else { // it's a primary key, or an array of pks
@@ -1266,11 +1261,11 @@ abstract class BaseArchievementUserPeer {
 				$values = array($values);
 			}
 			foreach ($values as $value) {
-				$criterion = $criteria->getNewCriterion(ArchievementUserPeer::USER_ID, $value[0]);
-				$criterion->addAnd($criteria->getNewCriterion(ArchievementUserPeer::ARCHIEVEMENT_ID, $value[1]));
+				$criterion = $criteria->getNewCriterion(AchievementGroupPeer::ACHIEVEMENT_ID, $value[0]);
+				$criterion->addAnd($criteria->getNewCriterion(AchievementGroupPeer::GROUP_ID, $value[1]));
 				$criteria->addOr($criterion);
 				// we can invalidate the cache for this single PK
-				ArchievementUserPeer::removeInstanceFromPool($value);
+				AchievementGroupPeer::removeInstanceFromPool($value);
 			}
 		}
 
@@ -1285,7 +1280,7 @@ abstract class BaseArchievementUserPeer {
 			$con->beginTransaction();
 			
 			$affectedRows += BasePeer::doDelete($criteria, $con);
-			ArchievementUserPeer::clearRelatedInstancePool();
+			AchievementGroupPeer::clearRelatedInstancePool();
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -1295,13 +1290,13 @@ abstract class BaseArchievementUserPeer {
 	}
 
 	/**
-	 * Validates all modified columns of given ArchievementUser object.
+	 * Validates all modified columns of given AchievementGroup object.
 	 * If parameter $columns is either a single column name or an array of column names
 	 * than only those columns are validated.
 	 *
 	 * NOTICE: This does not apply to primary or foreign keys for now.
 	 *
-	 * @param      ArchievementUser $obj The object to validate.
+	 * @param      AchievementGroup $obj The object to validate.
 	 * @param      mixed $cols Column name or array of column names.
 	 *
 	 * @return     mixed TRUE if all columns are valid or the error message of the first invalid column.
@@ -1311,8 +1306,8 @@ abstract class BaseArchievementUserPeer {
 		$columns = array();
 
 		if ($cols) {
-			$dbMap = Propel::getDatabaseMap(ArchievementUserPeer::DATABASE_NAME);
-			$tableMap = $dbMap->getTable(ArchievementUserPeer::TABLE_NAME);
+			$dbMap = Propel::getDatabaseMap(AchievementGroupPeer::DATABASE_NAME);
+			$tableMap = $dbMap->getTable(AchievementGroupPeer::TABLE_NAME);
 
 			if (! is_array($cols)) {
 				$cols = array($cols);
@@ -1328,35 +1323,35 @@ abstract class BaseArchievementUserPeer {
 
 		}
 
-		return BasePeer::doValidate(ArchievementUserPeer::DATABASE_NAME, ArchievementUserPeer::TABLE_NAME, $columns);
+		return BasePeer::doValidate(AchievementGroupPeer::DATABASE_NAME, AchievementGroupPeer::TABLE_NAME, $columns);
 	}
 
 	/**
 	 * Retrieve object using using composite pkey values.
-	 * @param      int $user_id
-	 * @param      int $archievement_id
+	 * @param      int $achievement_id
+	 * @param      int $group_id
 	 * @param      PropelPDO $con
-	 * @return     ArchievementUser
+	 * @return     AchievementGroup
 	 */
-	public static function retrieveByPK($user_id, $archievement_id, PropelPDO $con = null) {
-		$_instancePoolKey = serialize(array((string) $user_id, (string) $archievement_id));
- 		if (null !== ($obj = ArchievementUserPeer::getInstanceFromPool($_instancePoolKey))) {
+	public static function retrieveByPK($achievement_id, $group_id, PropelPDO $con = null) {
+		$_instancePoolKey = serialize(array((string) $achievement_id, (string) $group_id));
+ 		if (null !== ($obj = AchievementGroupPeer::getInstanceFromPool($_instancePoolKey))) {
  			return $obj;
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(ArchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(AchievementGroupPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
-		$criteria = new Criteria(ArchievementUserPeer::DATABASE_NAME);
-		$criteria->add(ArchievementUserPeer::USER_ID, $user_id);
-		$criteria->add(ArchievementUserPeer::ARCHIEVEMENT_ID, $archievement_id);
-		$v = ArchievementUserPeer::doSelect($criteria, $con);
+		$criteria = new Criteria(AchievementGroupPeer::DATABASE_NAME);
+		$criteria->add(AchievementGroupPeer::ACHIEVEMENT_ID, $achievement_id);
+		$criteria->add(AchievementGroupPeer::GROUP_ID, $group_id);
+		$v = AchievementGroupPeer::doSelect($criteria, $con);
 
 		return !empty($v) ? $v[0] : null;
 	}
-} // BaseArchievementUserPeer
+} // BaseAchievementGroupPeer
 
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-BaseArchievementUserPeer::buildTableMap();
+BaseAchievementGroupPeer::buildTableMap();
 

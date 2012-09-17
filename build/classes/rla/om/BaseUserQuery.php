@@ -22,9 +22,9 @@
  * @method     UserQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     UserQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     UserQuery leftJoinArchievementUser($relationAlias = null) Adds a LEFT JOIN clause to the query using the ArchievementUser relation
- * @method     UserQuery rightJoinArchievementUser($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ArchievementUser relation
- * @method     UserQuery innerJoinArchievementUser($relationAlias = null) Adds a INNER JOIN clause to the query using the ArchievementUser relation
+ * @method     UserQuery leftJoinAchievementUser($relationAlias = null) Adds a LEFT JOIN clause to the query using the AchievementUser relation
+ * @method     UserQuery rightJoinAchievementUser($relationAlias = null) Adds a RIGHT JOIN clause to the query using the AchievementUser relation
+ * @method     UserQuery innerJoinAchievementUser($relationAlias = null) Adds a INNER JOIN clause to the query using the AchievementUser relation
  *
  * @method     User findOne(PropelPDO $con = null) Return the first User matching the query
  * @method     User findOneOrCreate(PropelPDO $con = null) Return the first User matching the query, or a new User object populated from the query conditions when no match is found
@@ -356,40 +356,40 @@ abstract class BaseUserQuery extends ModelCriteria
 	}
 
 	/**
-	 * Filter the query by a related ArchievementUser object
+	 * Filter the query by a related AchievementUser object
 	 *
-	 * @param     ArchievementUser $archievementUser  the related object to use as filter
+	 * @param     AchievementUser $achievementUser  the related object to use as filter
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
 	 * @return    UserQuery The current query, for fluid interface
 	 */
-	public function filterByArchievementUser($archievementUser, $comparison = null)
+	public function filterByAchievementUser($achievementUser, $comparison = null)
 	{
-		if ($archievementUser instanceof ArchievementUser) {
+		if ($achievementUser instanceof AchievementUser) {
 			return $this
-				->addUsingAlias(UserPeer::ID, $archievementUser->getUserId(), $comparison);
-		} elseif ($archievementUser instanceof PropelCollection) {
+				->addUsingAlias(UserPeer::ID, $achievementUser->getUserId(), $comparison);
+		} elseif ($achievementUser instanceof PropelCollection) {
 			return $this
-				->useArchievementUserQuery()
-				->filterByPrimaryKeys($archievementUser->getPrimaryKeys())
+				->useAchievementUserQuery()
+				->filterByPrimaryKeys($achievementUser->getPrimaryKeys())
 				->endUse();
 		} else {
-			throw new PropelException('filterByArchievementUser() only accepts arguments of type ArchievementUser or PropelCollection');
+			throw new PropelException('filterByAchievementUser() only accepts arguments of type AchievementUser or PropelCollection');
 		}
 	}
 
 	/**
-	 * Adds a JOIN clause to the query using the ArchievementUser relation
+	 * Adds a JOIN clause to the query using the AchievementUser relation
 	 *
 	 * @param     string $relationAlias optional alias for the relation
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
 	 * @return    UserQuery The current query, for fluid interface
 	 */
-	public function joinArchievementUser($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	public function joinAchievementUser($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
 		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('ArchievementUser');
+		$relationMap = $tableMap->getRelation('AchievementUser');
 
 		// create a ModelJoin object for this join
 		$join = new ModelJoin();
@@ -404,14 +404,14 @@ abstract class BaseUserQuery extends ModelCriteria
 			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
 			$this->addJoinObject($join, $relationAlias);
 		} else {
-			$this->addJoinObject($join, 'ArchievementUser');
+			$this->addJoinObject($join, 'AchievementUser');
 		}
 
 		return $this;
 	}
 
 	/**
-	 * Use the ArchievementUser relation ArchievementUser object
+	 * Use the AchievementUser relation AchievementUser object
 	 *
 	 * @see       useQuery()
 	 *
@@ -419,29 +419,29 @@ abstract class BaseUserQuery extends ModelCriteria
 	 *                                   to be used as main alias in the secondary query
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
-	 * @return    ArchievementUserQuery A secondary query class using the current class as primary query
+	 * @return    AchievementUserQuery A secondary query class using the current class as primary query
 	 */
-	public function useArchievementUserQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	public function useAchievementUserQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
 		return $this
-			->joinArchievementUser($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'ArchievementUser', 'ArchievementUserQuery');
+			->joinAchievementUser($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'AchievementUser', 'AchievementUserQuery');
 	}
 
 	/**
-	 * Filter the query by a related Archievement object
-	 * using the archievement_user table as cross reference
+	 * Filter the query by a related Achievement object
+	 * using the achievement_user table as cross reference
 	 *
-	 * @param     Archievement $archievement the related object to use as filter
+	 * @param     Achievement $achievement the related object to use as filter
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
 	 * @return    UserQuery The current query, for fluid interface
 	 */
-	public function filterByArchievement($archievement, $comparison = Criteria::EQUAL)
+	public function filterByAchievement($achievement, $comparison = Criteria::EQUAL)
 	{
 		return $this
-			->useArchievementUserQuery()
-			->filterByArchievement($archievement, $comparison)
+			->useAchievementUserQuery()
+			->filterByAchievement($achievement, $comparison)
 			->endUse();
 	}
 

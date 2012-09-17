@@ -2,25 +2,25 @@
 
 
 /**
- * Base class that represents a row from the 'archievements' table.
+ * Base class that represents a row from the 'achievements' table.
  *
  * 
  *
  * @package    propel.generator.rla.om
  */
-abstract class BaseArchievement extends BaseObject  implements Persistent
+abstract class BaseAchievement extends BaseObject  implements Persistent
 {
 
 	/**
 	 * Peer class name
 	 */
-	const PEER = 'ArchievementPeer';
+	const PEER = 'AchievementPeer';
 
 	/**
 	 * The Peer class.
 	 * Instance provides a convenient way of calling static methods on a class
 	 * that calling code may not be able to identify.
-	 * @var        ArchievementPeer
+	 * @var        AchievementPeer
 	 */
 	protected static $peer;
 
@@ -61,19 +61,19 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	protected $category_id;
 
 	/**
-	 * @var        Categorie
+	 * @var        Category
 	 */
-	protected $aCategorie;
+	protected $aCategory;
 
 	/**
-	 * @var        array ArchievementUser[] Collection to store aggregation of ArchievementUser objects.
+	 * @var        array AchievementUser[] Collection to store aggregation of AchievementUser objects.
 	 */
-	protected $collArchievementUsers;
+	protected $collAchievementUsers;
 
 	/**
-	 * @var        array ArchievementGroup[] Collection to store aggregation of ArchievementGroup objects.
+	 * @var        array AchievementGroup[] Collection to store aggregation of AchievementGroup objects.
 	 */
-	protected $collArchievementGroups;
+	protected $collAchievementGroups;
 
 	/**
 	 * @var        array User[] Collection to store aggregation of User objects.
@@ -115,13 +115,13 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 * An array of objects scheduled for deletion.
 	 * @var		array
 	 */
-	protected $archievementUsersScheduledForDeletion = null;
+	protected $achievementUsersScheduledForDeletion = null;
 
 	/**
 	 * An array of objects scheduled for deletion.
 	 * @var		array
 	 */
-	protected $archievementGroupsScheduledForDeletion = null;
+	protected $achievementGroupsScheduledForDeletion = null;
 
 	/**
 	 * Get the [id] column value.
@@ -177,7 +177,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
-	 * @return     Archievement The current object (for fluent API support)
+	 * @return     Achievement The current object (for fluent API support)
 	 */
 	public function setId($v)
 	{
@@ -187,7 +187,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 
 		if ($this->id !== $v) {
 			$this->id = $v;
-			$this->modifiedColumns[] = ArchievementPeer::ID;
+			$this->modifiedColumns[] = AchievementPeer::ID;
 		}
 
 		return $this;
@@ -197,7 +197,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 * Set the value of [name] column.
 	 * 
 	 * @param      string $v new value
-	 * @return     Archievement The current object (for fluent API support)
+	 * @return     Achievement The current object (for fluent API support)
 	 */
 	public function setName($v)
 	{
@@ -207,7 +207,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 
 		if ($this->name !== $v) {
 			$this->name = $v;
-			$this->modifiedColumns[] = ArchievementPeer::NAME;
+			$this->modifiedColumns[] = AchievementPeer::NAME;
 		}
 
 		return $this;
@@ -217,7 +217,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 * Set the value of [description] column.
 	 * 
 	 * @param      string $v new value
-	 * @return     Archievement The current object (for fluent API support)
+	 * @return     Achievement The current object (for fluent API support)
 	 */
 	public function setDescription($v)
 	{
@@ -227,7 +227,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 
 		if ($this->description !== $v) {
 			$this->description = $v;
-			$this->modifiedColumns[] = ArchievementPeer::DESCRIPTION;
+			$this->modifiedColumns[] = AchievementPeer::DESCRIPTION;
 		}
 
 		return $this;
@@ -237,7 +237,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 * Set the value of [points] column.
 	 * 
 	 * @param      int $v new value
-	 * @return     Archievement The current object (for fluent API support)
+	 * @return     Achievement The current object (for fluent API support)
 	 */
 	public function setPoints($v)
 	{
@@ -247,7 +247,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 
 		if ($this->points !== $v) {
 			$this->points = $v;
-			$this->modifiedColumns[] = ArchievementPeer::POINTS;
+			$this->modifiedColumns[] = AchievementPeer::POINTS;
 		}
 
 		return $this;
@@ -257,7 +257,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 * Set the value of [category_id] column.
 	 * 
 	 * @param      int $v new value
-	 * @return     Archievement The current object (for fluent API support)
+	 * @return     Achievement The current object (for fluent API support)
 	 */
 	public function setCategoryId($v)
 	{
@@ -267,11 +267,11 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 
 		if ($this->category_id !== $v) {
 			$this->category_id = $v;
-			$this->modifiedColumns[] = ArchievementPeer::CATEGORY_ID;
+			$this->modifiedColumns[] = AchievementPeer::CATEGORY_ID;
 		}
 
-		if ($this->aCategorie !== null && $this->aCategorie->getId() !== $v) {
-			$this->aCategorie = null;
+		if ($this->aCategory !== null && $this->aCategory->getId() !== $v) {
+			$this->aCategory = null;
 		}
 
 		return $this;
@@ -322,10 +322,10 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 5; // 5 = ArchievementPeer::NUM_HYDRATE_COLUMNS.
+			return $startcol + 5; // 5 = AchievementPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating Archievement object", $e);
+			throw new PropelException("Error populating Achievement object", $e);
 		}
 	}
 
@@ -345,8 +345,8 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	public function ensureConsistency()
 	{
 
-		if ($this->aCategorie !== null && $this->category_id !== $this->aCategorie->getId()) {
-			$this->aCategorie = null;
+		if ($this->aCategory !== null && $this->category_id !== $this->aCategory->getId()) {
+			$this->aCategory = null;
 		}
 	} // ensureConsistency
 
@@ -371,13 +371,13 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(ArchievementPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(AchievementPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
 		// We don't need to alter the object instance pool; we're just modifying this instance
 		// already in the pool.
 
-		$stmt = ArchievementPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
+		$stmt = AchievementPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
 		$row = $stmt->fetch(PDO::FETCH_NUM);
 		$stmt->closeCursor();
 		if (!$row) {
@@ -387,10 +387,10 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 
 		if ($deep) {  // also de-associate any related objects?
 
-			$this->aCategorie = null;
-			$this->collArchievementUsers = null;
+			$this->aCategory = null;
+			$this->collAchievementUsers = null;
 
-			$this->collArchievementGroups = null;
+			$this->collAchievementGroups = null;
 
 			$this->collUsers = null;
 			$this->collGroups = null;
@@ -413,12 +413,12 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(ArchievementPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(AchievementPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		$con->beginTransaction();
 		try {
-			$deleteQuery = ArchievementQuery::create()
+			$deleteQuery = AchievementQuery::create()
 				->filterByPrimaryKey($this->getPrimaryKey());
 			$ret = $this->preDelete($con);
 			if ($ret) {
@@ -455,7 +455,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(ArchievementPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(AchievementPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		$con->beginTransaction();
@@ -475,7 +475,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 					$this->postUpdate($con);
 				}
 				$this->postSave($con);
-				ArchievementPeer::addInstanceToPool($this);
+				AchievementPeer::addInstanceToPool($this);
 			} else {
 				$affectedRows = 0;
 			}
@@ -509,11 +509,11 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aCategorie !== null) {
-				if ($this->aCategorie->isModified() || $this->aCategorie->isNew()) {
-					$affectedRows += $this->aCategorie->save($con);
+			if ($this->aCategory !== null) {
+				if ($this->aCategory->isModified() || $this->aCategory->isNew()) {
+					$affectedRows += $this->aCategory->save($con);
 				}
-				$this->setCategorie($this->aCategorie);
+				$this->setCategory($this->aCategory);
 			}
 
 			if ($this->isNew() || $this->isModified()) {
@@ -529,7 +529,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 
 			if ($this->usersScheduledForDeletion !== null) {
 				if (!$this->usersScheduledForDeletion->isEmpty()) {
-					ArchievementUserQuery::create()
+					AchievementUserQuery::create()
 						->filterByPrimaryKeys($this->usersScheduledForDeletion->getPrimaryKeys(false))
 						->delete($con);
 					$this->usersScheduledForDeletion = null;
@@ -544,7 +544,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 
 			if ($this->groupsScheduledForDeletion !== null) {
 				if (!$this->groupsScheduledForDeletion->isEmpty()) {
-					ArchievementGroupQuery::create()
+					AchievementGroupQuery::create()
 						->filterByPrimaryKeys($this->groupsScheduledForDeletion->getPrimaryKeys(false))
 						->delete($con);
 					$this->groupsScheduledForDeletion = null;
@@ -557,34 +557,34 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 				}
 			}
 
-			if ($this->archievementUsersScheduledForDeletion !== null) {
-				if (!$this->archievementUsersScheduledForDeletion->isEmpty()) {
-					ArchievementUserQuery::create()
-						->filterByPrimaryKeys($this->archievementUsersScheduledForDeletion->getPrimaryKeys(false))
+			if ($this->achievementUsersScheduledForDeletion !== null) {
+				if (!$this->achievementUsersScheduledForDeletion->isEmpty()) {
+					AchievementUserQuery::create()
+						->filterByPrimaryKeys($this->achievementUsersScheduledForDeletion->getPrimaryKeys(false))
 						->delete($con);
-					$this->archievementUsersScheduledForDeletion = null;
+					$this->achievementUsersScheduledForDeletion = null;
 				}
 			}
 
-			if ($this->collArchievementUsers !== null) {
-				foreach ($this->collArchievementUsers as $referrerFK) {
+			if ($this->collAchievementUsers !== null) {
+				foreach ($this->collAchievementUsers as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
 				}
 			}
 
-			if ($this->archievementGroupsScheduledForDeletion !== null) {
-				if (!$this->archievementGroupsScheduledForDeletion->isEmpty()) {
-					ArchievementGroupQuery::create()
-						->filterByPrimaryKeys($this->archievementGroupsScheduledForDeletion->getPrimaryKeys(false))
+			if ($this->achievementGroupsScheduledForDeletion !== null) {
+				if (!$this->achievementGroupsScheduledForDeletion->isEmpty()) {
+					AchievementGroupQuery::create()
+						->filterByPrimaryKeys($this->achievementGroupsScheduledForDeletion->getPrimaryKeys(false))
 						->delete($con);
-					$this->archievementGroupsScheduledForDeletion = null;
+					$this->achievementGroupsScheduledForDeletion = null;
 				}
 			}
 
-			if ($this->collArchievementGroups !== null) {
-				foreach ($this->collArchievementGroups as $referrerFK) {
+			if ($this->collAchievementGroups !== null) {
+				foreach ($this->collAchievementGroups as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -610,30 +610,30 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 		$modifiedColumns = array();
 		$index = 0;
 
-		$this->modifiedColumns[] = ArchievementPeer::ID;
+		$this->modifiedColumns[] = AchievementPeer::ID;
 		if (null !== $this->id) {
-			throw new PropelException('Cannot insert a value for auto-increment primary key (' . ArchievementPeer::ID . ')');
+			throw new PropelException('Cannot insert a value for auto-increment primary key (' . AchievementPeer::ID . ')');
 		}
 
 		 // check the columns in natural order for more readable SQL queries
-		if ($this->isColumnModified(ArchievementPeer::ID)) {
+		if ($this->isColumnModified(AchievementPeer::ID)) {
 			$modifiedColumns[':p' . $index++]  = '`ID`';
 		}
-		if ($this->isColumnModified(ArchievementPeer::NAME)) {
+		if ($this->isColumnModified(AchievementPeer::NAME)) {
 			$modifiedColumns[':p' . $index++]  = '`NAME`';
 		}
-		if ($this->isColumnModified(ArchievementPeer::DESCRIPTION)) {
+		if ($this->isColumnModified(AchievementPeer::DESCRIPTION)) {
 			$modifiedColumns[':p' . $index++]  = '`DESCRIPTION`';
 		}
-		if ($this->isColumnModified(ArchievementPeer::POINTS)) {
+		if ($this->isColumnModified(AchievementPeer::POINTS)) {
 			$modifiedColumns[':p' . $index++]  = '`POINTS`';
 		}
-		if ($this->isColumnModified(ArchievementPeer::CATEGORY_ID)) {
+		if ($this->isColumnModified(AchievementPeer::CATEGORY_ID)) {
 			$modifiedColumns[':p' . $index++]  = '`CATEGORY_ID`';
 		}
 
 		$sql = sprintf(
-			'INSERT INTO `archievements` (%s) VALUES (%s)',
+			'INSERT INTO `achievements` (%s) VALUES (%s)',
 			implode(', ', $modifiedColumns),
 			implode(', ', array_keys($modifiedColumns))
 		);
@@ -754,28 +754,28 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aCategorie !== null) {
-				if (!$this->aCategorie->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aCategorie->getValidationFailures());
+			if ($this->aCategory !== null) {
+				if (!$this->aCategory->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aCategory->getValidationFailures());
 				}
 			}
 
 
-			if (($retval = ArchievementPeer::doValidate($this, $columns)) !== true) {
+			if (($retval = AchievementPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
 
-				if ($this->collArchievementUsers !== null) {
-					foreach ($this->collArchievementUsers as $referrerFK) {
+				if ($this->collAchievementUsers !== null) {
+					foreach ($this->collAchievementUsers as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
 					}
 				}
 
-				if ($this->collArchievementGroups !== null) {
-					foreach ($this->collArchievementGroups as $referrerFK) {
+				if ($this->collAchievementGroups !== null) {
+					foreach ($this->collAchievementGroups as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -800,7 +800,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 */
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = ArchievementPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = AchievementPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		$field = $this->getByPosition($pos);
 		return $field;
 	}
@@ -853,11 +853,11 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 */
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
 	{
-		if (isset($alreadyDumpedObjects['Archievement'][serialize($this->getPrimaryKey())])) {
+		if (isset($alreadyDumpedObjects['Achievement'][serialize($this->getPrimaryKey())])) {
 			return '*RECURSION*';
 		}
-		$alreadyDumpedObjects['Archievement'][serialize($this->getPrimaryKey())] = true;
-		$keys = ArchievementPeer::getFieldNames($keyType);
+		$alreadyDumpedObjects['Achievement'][serialize($this->getPrimaryKey())] = true;
+		$keys = AchievementPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getName(),
@@ -866,14 +866,14 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 			$keys[4] => $this->getCategoryId(),
 		);
 		if ($includeForeignObjects) {
-			if (null !== $this->aCategorie) {
-				$result['Categorie'] = $this->aCategorie->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			if (null !== $this->aCategory) {
+				$result['Category'] = $this->aCategory->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
 			}
-			if (null !== $this->collArchievementUsers) {
-				$result['ArchievementUsers'] = $this->collArchievementUsers->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			if (null !== $this->collAchievementUsers) {
+				$result['AchievementUsers'] = $this->collAchievementUsers->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
-			if (null !== $this->collArchievementGroups) {
-				$result['ArchievementGroups'] = $this->collArchievementGroups->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			if (null !== $this->collAchievementGroups) {
+				$result['AchievementGroups'] = $this->collAchievementGroups->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
 		}
 		return $result;
@@ -891,7 +891,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 */
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = ArchievementPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = AchievementPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -943,7 +943,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 */
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = ArchievementPeer::getFieldNames($keyType);
+		$keys = AchievementPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
@@ -959,13 +959,13 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 */
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(ArchievementPeer::DATABASE_NAME);
+		$criteria = new Criteria(AchievementPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(ArchievementPeer::ID)) $criteria->add(ArchievementPeer::ID, $this->id);
-		if ($this->isColumnModified(ArchievementPeer::NAME)) $criteria->add(ArchievementPeer::NAME, $this->name);
-		if ($this->isColumnModified(ArchievementPeer::DESCRIPTION)) $criteria->add(ArchievementPeer::DESCRIPTION, $this->description);
-		if ($this->isColumnModified(ArchievementPeer::POINTS)) $criteria->add(ArchievementPeer::POINTS, $this->points);
-		if ($this->isColumnModified(ArchievementPeer::CATEGORY_ID)) $criteria->add(ArchievementPeer::CATEGORY_ID, $this->category_id);
+		if ($this->isColumnModified(AchievementPeer::ID)) $criteria->add(AchievementPeer::ID, $this->id);
+		if ($this->isColumnModified(AchievementPeer::NAME)) $criteria->add(AchievementPeer::NAME, $this->name);
+		if ($this->isColumnModified(AchievementPeer::DESCRIPTION)) $criteria->add(AchievementPeer::DESCRIPTION, $this->description);
+		if ($this->isColumnModified(AchievementPeer::POINTS)) $criteria->add(AchievementPeer::POINTS, $this->points);
+		if ($this->isColumnModified(AchievementPeer::CATEGORY_ID)) $criteria->add(AchievementPeer::CATEGORY_ID, $this->category_id);
 
 		return $criteria;
 	}
@@ -980,9 +980,9 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 */
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(ArchievementPeer::DATABASE_NAME);
-		$criteria->add(ArchievementPeer::ID, $this->id);
-		$criteria->add(ArchievementPeer::CATEGORY_ID, $this->category_id);
+		$criteria = new Criteria(AchievementPeer::DATABASE_NAME);
+		$criteria->add(AchievementPeer::ID, $this->id);
+		$criteria->add(AchievementPeer::CATEGORY_ID, $this->category_id);
 
 		return $criteria;
 	}
@@ -1028,7 +1028,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param      object $copyObj An object of Archievement (or compatible) type.
+	 * @param      object $copyObj An object of Achievement (or compatible) type.
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
 	 * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
 	 * @throws     PropelException
@@ -1047,15 +1047,15 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 			// store object hash to prevent cycle
 			$this->startCopy = true;
 
-			foreach ($this->getArchievementUsers() as $relObj) {
+			foreach ($this->getAchievementUsers() as $relObj) {
 				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addArchievementUser($relObj->copy($deepCopy));
+					$copyObj->addAchievementUser($relObj->copy($deepCopy));
 				}
 			}
 
-			foreach ($this->getArchievementGroups() as $relObj) {
+			foreach ($this->getAchievementGroups() as $relObj) {
 				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addArchievementGroup($relObj->copy($deepCopy));
+					$copyObj->addAchievementGroup($relObj->copy($deepCopy));
 				}
 			}
 
@@ -1078,7 +1078,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 * objects.
 	 *
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return     Archievement Clone of current object.
+	 * @return     Achievement Clone of current object.
 	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
@@ -1097,24 +1097,24 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 * same instance for all member of this class. The method could therefore
 	 * be static, but this would prevent one from overriding the behavior.
 	 *
-	 * @return     ArchievementPeer
+	 * @return     AchievementPeer
 	 */
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new ArchievementPeer();
+			self::$peer = new AchievementPeer();
 		}
 		return self::$peer;
 	}
 
 	/**
-	 * Declares an association between this object and a Categorie object.
+	 * Declares an association between this object and a Category object.
 	 *
-	 * @param      Categorie $v
-	 * @return     Archievement The current object (for fluent API support)
+	 * @param      Category $v
+	 * @return     Achievement The current object (for fluent API support)
 	 * @throws     PropelException
 	 */
-	public function setCategorie(Categorie $v = null)
+	public function setCategory(Category $v = null)
 	{
 		if ($v === null) {
 			$this->setCategoryId(NULL);
@@ -1122,12 +1122,12 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 			$this->setCategoryId($v->getId());
 		}
 
-		$this->aCategorie = $v;
+		$this->aCategory = $v;
 
 		// Add binding for other direction of this n:n relationship.
-		// If this object has already been added to the Categorie object, it will not be re-added.
+		// If this object has already been added to the Category object, it will not be re-added.
 		if ($v !== null) {
-			$v->addArchievement($this);
+			$v->addAchievement($this);
 		}
 
 		return $this;
@@ -1135,25 +1135,25 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 
 
 	/**
-	 * Get the associated Categorie object
+	 * Get the associated Category object
 	 *
 	 * @param      PropelPDO Optional Connection object.
-	 * @return     Categorie The associated Categorie object.
+	 * @return     Category The associated Category object.
 	 * @throws     PropelException
 	 */
-	public function getCategorie(PropelPDO $con = null)
+	public function getCategory(PropelPDO $con = null)
 	{
-		if ($this->aCategorie === null && ($this->category_id !== null)) {
-			$this->aCategorie = CategorieQuery::create()->findPk($this->category_id, $con);
+		if ($this->aCategory === null && ($this->category_id !== null)) {
+			$this->aCategory = CategoryQuery::create()->findPk($this->category_id, $con);
 			/* The following can be used additionally to
 				guarantee the related object contains a reference
 				to this object.  This level of coupling may, however, be
 				undesirable since it could result in an only partially populated collection
 				in the referenced object.
-				$this->aCategorie->addArchievements($this);
+				$this->aCategory->addAchievements($this);
 			 */
 		}
-		return $this->aCategorie;
+		return $this->aCategory;
 	}
 
 
@@ -1167,32 +1167,32 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 */
 	public function initRelation($relationName)
 	{
-		if ('ArchievementUser' == $relationName) {
-			return $this->initArchievementUsers();
+		if ('AchievementUser' == $relationName) {
+			return $this->initAchievementUsers();
 		}
-		if ('ArchievementGroup' == $relationName) {
-			return $this->initArchievementGroups();
+		if ('AchievementGroup' == $relationName) {
+			return $this->initAchievementGroups();
 		}
 	}
 
 	/**
-	 * Clears out the collArchievementUsers collection
+	 * Clears out the collAchievementUsers collection
 	 *
 	 * This does not modify the database; however, it will remove any associated objects, causing
 	 * them to be refetched by subsequent calls to accessor method.
 	 *
 	 * @return     void
-	 * @see        addArchievementUsers()
+	 * @see        addAchievementUsers()
 	 */
-	public function clearArchievementUsers()
+	public function clearAchievementUsers()
 	{
-		$this->collArchievementUsers = null; // important to set this to NULL since that means it is uninitialized
+		$this->collAchievementUsers = null; // important to set this to NULL since that means it is uninitialized
 	}
 
 	/**
-	 * Initializes the collArchievementUsers collection.
+	 * Initializes the collAchievementUsers collection.
 	 *
-	 * By default this just sets the collArchievementUsers collection to an empty array (like clearcollArchievementUsers());
+	 * By default this just sets the collAchievementUsers collection to an empty array (like clearcollAchievementUsers());
 	 * however, you may wish to override this method in your stub class to provide setting appropriate
 	 * to your application -- for example, setting the initial array to the values stored in database.
 	 *
@@ -1201,171 +1201,171 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 *
 	 * @return     void
 	 */
-	public function initArchievementUsers($overrideExisting = true)
+	public function initAchievementUsers($overrideExisting = true)
 	{
-		if (null !== $this->collArchievementUsers && !$overrideExisting) {
+		if (null !== $this->collAchievementUsers && !$overrideExisting) {
 			return;
 		}
-		$this->collArchievementUsers = new PropelObjectCollection();
-		$this->collArchievementUsers->setModel('ArchievementUser');
+		$this->collAchievementUsers = new PropelObjectCollection();
+		$this->collAchievementUsers->setModel('AchievementUser');
 	}
 
 	/**
-	 * Gets an array of ArchievementUser objects which contain a foreign key that references this object.
+	 * Gets an array of AchievementUser objects which contain a foreign key that references this object.
 	 *
 	 * If the $criteria is not null, it is used to always fetch the results from the database.
 	 * Otherwise the results are fetched from the database the first time, then cached.
 	 * Next time the same method is called without $criteria, the cached collection is returned.
-	 * If this Archievement is new, it will return
+	 * If this Achievement is new, it will return
 	 * an empty collection or the current collection; the criteria is ignored on a new object.
 	 *
 	 * @param      Criteria $criteria optional Criteria object to narrow the query
 	 * @param      PropelPDO $con optional connection object
-	 * @return     PropelCollection|array ArchievementUser[] List of ArchievementUser objects
+	 * @return     PropelCollection|array AchievementUser[] List of AchievementUser objects
 	 * @throws     PropelException
 	 */
-	public function getArchievementUsers($criteria = null, PropelPDO $con = null)
+	public function getAchievementUsers($criteria = null, PropelPDO $con = null)
 	{
-		if(null === $this->collArchievementUsers || null !== $criteria) {
-			if ($this->isNew() && null === $this->collArchievementUsers) {
+		if(null === $this->collAchievementUsers || null !== $criteria) {
+			if ($this->isNew() && null === $this->collAchievementUsers) {
 				// return empty collection
-				$this->initArchievementUsers();
+				$this->initAchievementUsers();
 			} else {
-				$collArchievementUsers = ArchievementUserQuery::create(null, $criteria)
-					->filterByArchievement($this)
+				$collAchievementUsers = AchievementUserQuery::create(null, $criteria)
+					->filterByAchievement($this)
 					->find($con);
 				if (null !== $criteria) {
-					return $collArchievementUsers;
+					return $collAchievementUsers;
 				}
-				$this->collArchievementUsers = $collArchievementUsers;
+				$this->collAchievementUsers = $collAchievementUsers;
 			}
 		}
-		return $this->collArchievementUsers;
+		return $this->collAchievementUsers;
 	}
 
 	/**
-	 * Sets a collection of ArchievementUser objects related by a one-to-many relationship
+	 * Sets a collection of AchievementUser objects related by a one-to-many relationship
 	 * to the current object.
 	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
 	 * and new objects from the given Propel collection.
 	 *
-	 * @param      PropelCollection $archievementUsers A Propel collection.
+	 * @param      PropelCollection $achievementUsers A Propel collection.
 	 * @param      PropelPDO $con Optional connection object
 	 */
-	public function setArchievementUsers(PropelCollection $archievementUsers, PropelPDO $con = null)
+	public function setAchievementUsers(PropelCollection $achievementUsers, PropelPDO $con = null)
 	{
-		$this->archievementUsersScheduledForDeletion = $this->getArchievementUsers(new Criteria(), $con)->diff($archievementUsers);
+		$this->achievementUsersScheduledForDeletion = $this->getAchievementUsers(new Criteria(), $con)->diff($achievementUsers);
 
-		foreach ($archievementUsers as $archievementUser) {
+		foreach ($achievementUsers as $achievementUser) {
 			// Fix issue with collection modified by reference
-			if ($archievementUser->isNew()) {
-				$archievementUser->setArchievement($this);
+			if ($achievementUser->isNew()) {
+				$achievementUser->setAchievement($this);
 			}
-			$this->addArchievementUser($archievementUser);
+			$this->addAchievementUser($achievementUser);
 		}
 
-		$this->collArchievementUsers = $archievementUsers;
+		$this->collAchievementUsers = $achievementUsers;
 	}
 
 	/**
-	 * Returns the number of related ArchievementUser objects.
+	 * Returns the number of related AchievementUser objects.
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct
 	 * @param      PropelPDO $con
-	 * @return     int Count of related ArchievementUser objects.
+	 * @return     int Count of related AchievementUser objects.
 	 * @throws     PropelException
 	 */
-	public function countArchievementUsers(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	public function countAchievementUsers(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
 	{
-		if(null === $this->collArchievementUsers || null !== $criteria) {
-			if ($this->isNew() && null === $this->collArchievementUsers) {
+		if(null === $this->collAchievementUsers || null !== $criteria) {
+			if ($this->isNew() && null === $this->collAchievementUsers) {
 				return 0;
 			} else {
-				$query = ArchievementUserQuery::create(null, $criteria);
+				$query = AchievementUserQuery::create(null, $criteria);
 				if($distinct) {
 					$query->distinct();
 				}
 				return $query
-					->filterByArchievement($this)
+					->filterByAchievement($this)
 					->count($con);
 			}
 		} else {
-			return count($this->collArchievementUsers);
+			return count($this->collAchievementUsers);
 		}
 	}
 
 	/**
-	 * Method called to associate a ArchievementUser object to this object
-	 * through the ArchievementUser foreign key attribute.
+	 * Method called to associate a AchievementUser object to this object
+	 * through the AchievementUser foreign key attribute.
 	 *
-	 * @param      ArchievementUser $l ArchievementUser
-	 * @return     Archievement The current object (for fluent API support)
+	 * @param      AchievementUser $l AchievementUser
+	 * @return     Achievement The current object (for fluent API support)
 	 */
-	public function addArchievementUser(ArchievementUser $l)
+	public function addAchievementUser(AchievementUser $l)
 	{
-		if ($this->collArchievementUsers === null) {
-			$this->initArchievementUsers();
+		if ($this->collAchievementUsers === null) {
+			$this->initAchievementUsers();
 		}
-		if (!$this->collArchievementUsers->contains($l)) { // only add it if the **same** object is not already associated
-			$this->doAddArchievementUser($l);
+		if (!$this->collAchievementUsers->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddAchievementUser($l);
 		}
 
 		return $this;
 	}
 
 	/**
-	 * @param	ArchievementUser $archievementUser The archievementUser object to add.
+	 * @param	AchievementUser $achievementUser The achievementUser object to add.
 	 */
-	protected function doAddArchievementUser($archievementUser)
+	protected function doAddAchievementUser($achievementUser)
 	{
-		$this->collArchievementUsers[]= $archievementUser;
-		$archievementUser->setArchievement($this);
+		$this->collAchievementUsers[]= $achievementUser;
+		$achievementUser->setAchievement($this);
 	}
 
 
 	/**
 	 * If this collection has already been initialized with
 	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Archievement is new, it will return
-	 * an empty collection; or if this Archievement has previously
-	 * been saved, it will retrieve related ArchievementUsers from storage.
+	 * Otherwise if this Achievement is new, it will return
+	 * an empty collection; or if this Achievement has previously
+	 * been saved, it will retrieve related AchievementUsers from storage.
 	 *
 	 * This method is protected by default in order to keep the public
 	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Archievement.
+	 * actually need in Achievement.
 	 *
 	 * @param      Criteria $criteria optional Criteria object to narrow the query
 	 * @param      PropelPDO $con optional connection object
 	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-	 * @return     PropelCollection|array ArchievementUser[] List of ArchievementUser objects
+	 * @return     PropelCollection|array AchievementUser[] List of AchievementUser objects
 	 */
-	public function getArchievementUsersJoinUser($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public function getAchievementUsersJoinUser($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
-		$query = ArchievementUserQuery::create(null, $criteria);
+		$query = AchievementUserQuery::create(null, $criteria);
 		$query->joinWith('User', $join_behavior);
 
-		return $this->getArchievementUsers($query, $con);
+		return $this->getAchievementUsers($query, $con);
 	}
 
 	/**
-	 * Clears out the collArchievementGroups collection
+	 * Clears out the collAchievementGroups collection
 	 *
 	 * This does not modify the database; however, it will remove any associated objects, causing
 	 * them to be refetched by subsequent calls to accessor method.
 	 *
 	 * @return     void
-	 * @see        addArchievementGroups()
+	 * @see        addAchievementGroups()
 	 */
-	public function clearArchievementGroups()
+	public function clearAchievementGroups()
 	{
-		$this->collArchievementGroups = null; // important to set this to NULL since that means it is uninitialized
+		$this->collAchievementGroups = null; // important to set this to NULL since that means it is uninitialized
 	}
 
 	/**
-	 * Initializes the collArchievementGroups collection.
+	 * Initializes the collAchievementGroups collection.
 	 *
-	 * By default this just sets the collArchievementGroups collection to an empty array (like clearcollArchievementGroups());
+	 * By default this just sets the collAchievementGroups collection to an empty array (like clearcollAchievementGroups());
 	 * however, you may wish to override this method in your stub class to provide setting appropriate
 	 * to your application -- for example, setting the initial array to the values stored in database.
 	 *
@@ -1374,151 +1374,151 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 *
 	 * @return     void
 	 */
-	public function initArchievementGroups($overrideExisting = true)
+	public function initAchievementGroups($overrideExisting = true)
 	{
-		if (null !== $this->collArchievementGroups && !$overrideExisting) {
+		if (null !== $this->collAchievementGroups && !$overrideExisting) {
 			return;
 		}
-		$this->collArchievementGroups = new PropelObjectCollection();
-		$this->collArchievementGroups->setModel('ArchievementGroup');
+		$this->collAchievementGroups = new PropelObjectCollection();
+		$this->collAchievementGroups->setModel('AchievementGroup');
 	}
 
 	/**
-	 * Gets an array of ArchievementGroup objects which contain a foreign key that references this object.
+	 * Gets an array of AchievementGroup objects which contain a foreign key that references this object.
 	 *
 	 * If the $criteria is not null, it is used to always fetch the results from the database.
 	 * Otherwise the results are fetched from the database the first time, then cached.
 	 * Next time the same method is called without $criteria, the cached collection is returned.
-	 * If this Archievement is new, it will return
+	 * If this Achievement is new, it will return
 	 * an empty collection or the current collection; the criteria is ignored on a new object.
 	 *
 	 * @param      Criteria $criteria optional Criteria object to narrow the query
 	 * @param      PropelPDO $con optional connection object
-	 * @return     PropelCollection|array ArchievementGroup[] List of ArchievementGroup objects
+	 * @return     PropelCollection|array AchievementGroup[] List of AchievementGroup objects
 	 * @throws     PropelException
 	 */
-	public function getArchievementGroups($criteria = null, PropelPDO $con = null)
+	public function getAchievementGroups($criteria = null, PropelPDO $con = null)
 	{
-		if(null === $this->collArchievementGroups || null !== $criteria) {
-			if ($this->isNew() && null === $this->collArchievementGroups) {
+		if(null === $this->collAchievementGroups || null !== $criteria) {
+			if ($this->isNew() && null === $this->collAchievementGroups) {
 				// return empty collection
-				$this->initArchievementGroups();
+				$this->initAchievementGroups();
 			} else {
-				$collArchievementGroups = ArchievementGroupQuery::create(null, $criteria)
-					->filterByArchievement($this)
+				$collAchievementGroups = AchievementGroupQuery::create(null, $criteria)
+					->filterByAchievement($this)
 					->find($con);
 				if (null !== $criteria) {
-					return $collArchievementGroups;
+					return $collAchievementGroups;
 				}
-				$this->collArchievementGroups = $collArchievementGroups;
+				$this->collAchievementGroups = $collAchievementGroups;
 			}
 		}
-		return $this->collArchievementGroups;
+		return $this->collAchievementGroups;
 	}
 
 	/**
-	 * Sets a collection of ArchievementGroup objects related by a one-to-many relationship
+	 * Sets a collection of AchievementGroup objects related by a one-to-many relationship
 	 * to the current object.
 	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
 	 * and new objects from the given Propel collection.
 	 *
-	 * @param      PropelCollection $archievementGroups A Propel collection.
+	 * @param      PropelCollection $achievementGroups A Propel collection.
 	 * @param      PropelPDO $con Optional connection object
 	 */
-	public function setArchievementGroups(PropelCollection $archievementGroups, PropelPDO $con = null)
+	public function setAchievementGroups(PropelCollection $achievementGroups, PropelPDO $con = null)
 	{
-		$this->archievementGroupsScheduledForDeletion = $this->getArchievementGroups(new Criteria(), $con)->diff($archievementGroups);
+		$this->achievementGroupsScheduledForDeletion = $this->getAchievementGroups(new Criteria(), $con)->diff($achievementGroups);
 
-		foreach ($archievementGroups as $archievementGroup) {
+		foreach ($achievementGroups as $achievementGroup) {
 			// Fix issue with collection modified by reference
-			if ($archievementGroup->isNew()) {
-				$archievementGroup->setArchievement($this);
+			if ($achievementGroup->isNew()) {
+				$achievementGroup->setAchievement($this);
 			}
-			$this->addArchievementGroup($archievementGroup);
+			$this->addAchievementGroup($achievementGroup);
 		}
 
-		$this->collArchievementGroups = $archievementGroups;
+		$this->collAchievementGroups = $achievementGroups;
 	}
 
 	/**
-	 * Returns the number of related ArchievementGroup objects.
+	 * Returns the number of related AchievementGroup objects.
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct
 	 * @param      PropelPDO $con
-	 * @return     int Count of related ArchievementGroup objects.
+	 * @return     int Count of related AchievementGroup objects.
 	 * @throws     PropelException
 	 */
-	public function countArchievementGroups(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	public function countAchievementGroups(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
 	{
-		if(null === $this->collArchievementGroups || null !== $criteria) {
-			if ($this->isNew() && null === $this->collArchievementGroups) {
+		if(null === $this->collAchievementGroups || null !== $criteria) {
+			if ($this->isNew() && null === $this->collAchievementGroups) {
 				return 0;
 			} else {
-				$query = ArchievementGroupQuery::create(null, $criteria);
+				$query = AchievementGroupQuery::create(null, $criteria);
 				if($distinct) {
 					$query->distinct();
 				}
 				return $query
-					->filterByArchievement($this)
+					->filterByAchievement($this)
 					->count($con);
 			}
 		} else {
-			return count($this->collArchievementGroups);
+			return count($this->collAchievementGroups);
 		}
 	}
 
 	/**
-	 * Method called to associate a ArchievementGroup object to this object
-	 * through the ArchievementGroup foreign key attribute.
+	 * Method called to associate a AchievementGroup object to this object
+	 * through the AchievementGroup foreign key attribute.
 	 *
-	 * @param      ArchievementGroup $l ArchievementGroup
-	 * @return     Archievement The current object (for fluent API support)
+	 * @param      AchievementGroup $l AchievementGroup
+	 * @return     Achievement The current object (for fluent API support)
 	 */
-	public function addArchievementGroup(ArchievementGroup $l)
+	public function addAchievementGroup(AchievementGroup $l)
 	{
-		if ($this->collArchievementGroups === null) {
-			$this->initArchievementGroups();
+		if ($this->collAchievementGroups === null) {
+			$this->initAchievementGroups();
 		}
-		if (!$this->collArchievementGroups->contains($l)) { // only add it if the **same** object is not already associated
-			$this->doAddArchievementGroup($l);
+		if (!$this->collAchievementGroups->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddAchievementGroup($l);
 		}
 
 		return $this;
 	}
 
 	/**
-	 * @param	ArchievementGroup $archievementGroup The archievementGroup object to add.
+	 * @param	AchievementGroup $achievementGroup The achievementGroup object to add.
 	 */
-	protected function doAddArchievementGroup($archievementGroup)
+	protected function doAddAchievementGroup($achievementGroup)
 	{
-		$this->collArchievementGroups[]= $archievementGroup;
-		$archievementGroup->setArchievement($this);
+		$this->collAchievementGroups[]= $achievementGroup;
+		$achievementGroup->setAchievement($this);
 	}
 
 
 	/**
 	 * If this collection has already been initialized with
 	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Archievement is new, it will return
-	 * an empty collection; or if this Archievement has previously
-	 * been saved, it will retrieve related ArchievementGroups from storage.
+	 * Otherwise if this Achievement is new, it will return
+	 * an empty collection; or if this Achievement has previously
+	 * been saved, it will retrieve related AchievementGroups from storage.
 	 *
 	 * This method is protected by default in order to keep the public
 	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Archievement.
+	 * actually need in Achievement.
 	 *
 	 * @param      Criteria $criteria optional Criteria object to narrow the query
 	 * @param      PropelPDO $con optional connection object
 	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-	 * @return     PropelCollection|array ArchievementGroup[] List of ArchievementGroup objects
+	 * @return     PropelCollection|array AchievementGroup[] List of AchievementGroup objects
 	 */
-	public function getArchievementGroupsJoinGroup($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public function getAchievementGroupsJoinGroup($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
-		$query = ArchievementGroupQuery::create(null, $criteria);
+		$query = AchievementGroupQuery::create(null, $criteria);
 		$query->joinWith('Group', $join_behavior);
 
-		return $this->getArchievementGroups($query, $con);
+		return $this->getAchievementGroups($query, $con);
 	}
 
 	/**
@@ -1552,12 +1552,12 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 
 	/**
 	 * Gets a collection of User objects related by a many-to-many relationship
-	 * to the current object by way of the archievement_user cross-reference table.
+	 * to the current object by way of the achievement_user cross-reference table.
 	 *
 	 * If the $criteria is not null, it is used to always fetch the results from the database.
 	 * Otherwise the results are fetched from the database the first time, then cached.
 	 * Next time the same method is called without $criteria, the cached collection is returned.
-	 * If this Archievement is new, it will return
+	 * If this Achievement is new, it will return
 	 * an empty collection or the current collection; the criteria is ignored on a new object.
 	 *
 	 * @param      Criteria $criteria Optional query object to filter the query
@@ -1573,7 +1573,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 				$this->initUsers();
 			} else {
 				$collUsers = UserQuery::create(null, $criteria)
-					->filterByArchievement($this)
+					->filterByAchievement($this)
 					->find($con);
 				if (null !== $criteria) {
 					return $collUsers;
@@ -1586,7 +1586,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 
 	/**
 	 * Sets a collection of User objects related by a many-to-many relationship
-	 * to the current object by way of the archievement_user cross-reference table.
+	 * to the current object by way of the achievement_user cross-reference table.
 	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
 	 * and new objects from the given Propel collection.
 	 *
@@ -1595,13 +1595,13 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 */
 	public function setUsers(PropelCollection $users, PropelPDO $con = null)
 	{
-		$archievementUsers = ArchievementUserQuery::create()
+		$achievementUsers = AchievementUserQuery::create()
 			->filterByUser($users)
-			->filterByArchievement($this)
+			->filterByAchievement($this)
 			->find($con);
 
-		$this->usersScheduledForDeletion = $this->getArchievementUsers()->diff($archievementUsers);
-		$this->collArchievementUsers = $archievementUsers;
+		$this->usersScheduledForDeletion = $this->getAchievementUsers()->diff($achievementUsers);
+		$this->collAchievementUsers = $achievementUsers;
 
 		foreach ($users as $user) {
 			// Fix issue with collection modified by reference
@@ -1617,7 +1617,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 
 	/**
 	 * Gets the number of User objects related by a many-to-many relationship
-	 * to the current object by way of the archievement_user cross-reference table.
+	 * to the current object by way of the achievement_user cross-reference table.
 	 *
 	 * @param      Criteria $criteria Optional query object to filter the query
 	 * @param      boolean $distinct Set to true to force count distinct
@@ -1636,7 +1636,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 					$query->distinct();
 				}
 				return $query
-					->filterByArchievement($this)
+					->filterByAchievement($this)
 					->count($con);
 			}
 		} else {
@@ -1646,9 +1646,9 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 
 	/**
 	 * Associate a User object to this object
-	 * through the archievement_user cross reference table.
+	 * through the achievement_user cross reference table.
 	 *
-	 * @param      User $user The ArchievementUser object to relate
+	 * @param      User $user The AchievementUser object to relate
 	 * @return     void
 	 */
 	public function addUser(User $user)
@@ -1668,9 +1668,9 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 */
 	protected function doAddUser($user)
 	{
-		$archievementUser = new ArchievementUser();
-		$archievementUser->setUser($user);
-		$this->addArchievementUser($archievementUser);
+		$achievementUser = new AchievementUser();
+		$achievementUser->setUser($user);
+		$this->addAchievementUser($achievementUser);
 	}
 
 	/**
@@ -1704,12 +1704,12 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 
 	/**
 	 * Gets a collection of Group objects related by a many-to-many relationship
-	 * to the current object by way of the archievement_group cross-reference table.
+	 * to the current object by way of the achievement_group cross-reference table.
 	 *
 	 * If the $criteria is not null, it is used to always fetch the results from the database.
 	 * Otherwise the results are fetched from the database the first time, then cached.
 	 * Next time the same method is called without $criteria, the cached collection is returned.
-	 * If this Archievement is new, it will return
+	 * If this Achievement is new, it will return
 	 * an empty collection or the current collection; the criteria is ignored on a new object.
 	 *
 	 * @param      Criteria $criteria Optional query object to filter the query
@@ -1725,7 +1725,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 				$this->initGroups();
 			} else {
 				$collGroups = GroupQuery::create(null, $criteria)
-					->filterByArchievement($this)
+					->filterByAchievement($this)
 					->find($con);
 				if (null !== $criteria) {
 					return $collGroups;
@@ -1738,7 +1738,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 
 	/**
 	 * Sets a collection of Group objects related by a many-to-many relationship
-	 * to the current object by way of the archievement_group cross-reference table.
+	 * to the current object by way of the achievement_group cross-reference table.
 	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
 	 * and new objects from the given Propel collection.
 	 *
@@ -1747,13 +1747,13 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 */
 	public function setGroups(PropelCollection $groups, PropelPDO $con = null)
 	{
-		$archievementGroups = ArchievementGroupQuery::create()
+		$achievementGroups = AchievementGroupQuery::create()
 			->filterByGroup($groups)
-			->filterByArchievement($this)
+			->filterByAchievement($this)
 			->find($con);
 
-		$this->groupsScheduledForDeletion = $this->getArchievementGroups()->diff($archievementGroups);
-		$this->collArchievementGroups = $archievementGroups;
+		$this->groupsScheduledForDeletion = $this->getAchievementGroups()->diff($achievementGroups);
+		$this->collAchievementGroups = $achievementGroups;
 
 		foreach ($groups as $group) {
 			// Fix issue with collection modified by reference
@@ -1769,7 +1769,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 
 	/**
 	 * Gets the number of Group objects related by a many-to-many relationship
-	 * to the current object by way of the archievement_group cross-reference table.
+	 * to the current object by way of the achievement_group cross-reference table.
 	 *
 	 * @param      Criteria $criteria Optional query object to filter the query
 	 * @param      boolean $distinct Set to true to force count distinct
@@ -1788,7 +1788,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 					$query->distinct();
 				}
 				return $query
-					->filterByArchievement($this)
+					->filterByAchievement($this)
 					->count($con);
 			}
 		} else {
@@ -1798,9 +1798,9 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 
 	/**
 	 * Associate a Group object to this object
-	 * through the archievement_group cross reference table.
+	 * through the achievement_group cross reference table.
 	 *
-	 * @param      Group $group The ArchievementGroup object to relate
+	 * @param      Group $group The AchievementGroup object to relate
 	 * @return     void
 	 */
 	public function addGroup(Group $group)
@@ -1820,9 +1820,9 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 */
 	protected function doAddGroup($group)
 	{
-		$archievementGroup = new ArchievementGroup();
-		$archievementGroup->setGroup($group);
-		$this->addArchievementGroup($archievementGroup);
+		$achievementGroup = new AchievementGroup();
+		$achievementGroup->setGroup($group);
+		$this->addAchievementGroup($achievementGroup);
 	}
 
 	/**
@@ -1855,13 +1855,13 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	public function clearAllReferences($deep = false)
 	{
 		if ($deep) {
-			if ($this->collArchievementUsers) {
-				foreach ($this->collArchievementUsers as $o) {
+			if ($this->collAchievementUsers) {
+				foreach ($this->collAchievementUsers as $o) {
 					$o->clearAllReferences($deep);
 				}
 			}
-			if ($this->collArchievementGroups) {
-				foreach ($this->collArchievementGroups as $o) {
+			if ($this->collAchievementGroups) {
+				foreach ($this->collAchievementGroups as $o) {
 					$o->clearAllReferences($deep);
 				}
 			}
@@ -1877,14 +1877,14 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 			}
 		} // if ($deep)
 
-		if ($this->collArchievementUsers instanceof PropelCollection) {
-			$this->collArchievementUsers->clearIterator();
+		if ($this->collAchievementUsers instanceof PropelCollection) {
+			$this->collAchievementUsers->clearIterator();
 		}
-		$this->collArchievementUsers = null;
-		if ($this->collArchievementGroups instanceof PropelCollection) {
-			$this->collArchievementGroups->clearIterator();
+		$this->collAchievementUsers = null;
+		if ($this->collAchievementGroups instanceof PropelCollection) {
+			$this->collAchievementGroups->clearIterator();
 		}
-		$this->collArchievementGroups = null;
+		$this->collAchievementGroups = null;
 		if ($this->collUsers instanceof PropelCollection) {
 			$this->collUsers->clearIterator();
 		}
@@ -1893,7 +1893,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 			$this->collGroups->clearIterator();
 		}
 		$this->collGroups = null;
-		$this->aCategorie = null;
+		$this->aCategory = null;
 	}
 
 	/**
@@ -1903,7 +1903,7 @@ abstract class BaseArchievement extends BaseObject  implements Persistent
 	 */
 	public function __toString()
 	{
-		return (string) $this->exportTo(ArchievementPeer::DEFAULT_STRING_FORMAT);
+		return (string) $this->exportTo(AchievementPeer::DEFAULT_STRING_FORMAT);
 	}
 
-} // BaseArchievement
+} // BaseAchievement

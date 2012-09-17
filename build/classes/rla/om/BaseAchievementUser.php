@@ -2,25 +2,25 @@
 
 
 /**
- * Base class that represents a row from the 'archievement_user' table.
+ * Base class that represents a row from the 'achievement_user' table.
  *
  * 
  *
  * @package    propel.generator.rla.om
  */
-abstract class BaseArchievementUser extends BaseObject  implements Persistent
+abstract class BaseAchievementUser extends BaseObject  implements Persistent
 {
 
 	/**
 	 * Peer class name
 	 */
-	const PEER = 'ArchievementUserPeer';
+	const PEER = 'AchievementUserPeer';
 
 	/**
 	 * The Peer class.
 	 * Instance provides a convenient way of calling static methods on a class
 	 * that calling code may not be able to identify.
-	 * @var        ArchievementUserPeer
+	 * @var        AchievementUserPeer
 	 */
 	protected static $peer;
 
@@ -37,10 +37,10 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	protected $user_id;
 
 	/**
-	 * The value for the archievement_id field.
+	 * The value for the achievement_id field.
 	 * @var        int
 	 */
-	protected $archievement_id;
+	protected $achievement_id;
 
 	/**
 	 * The value for the confirmed field.
@@ -60,9 +60,9 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	protected $aUser;
 
 	/**
-	 * @var        Archievement
+	 * @var        Achievement
 	 */
-	protected $aArchievement;
+	protected $aAchievement;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -89,13 +89,13 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Get the [archievement_id] column value.
+	 * Get the [achievement_id] column value.
 	 * 
 	 * @return     int
 	 */
-	public function getArchievementId()
+	public function getAchievementId()
 	{
-		return $this->archievement_id;
+		return $this->achievement_id;
 	}
 
 	/**
@@ -150,7 +150,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	 * Set the value of [user_id] column.
 	 * 
 	 * @param      int $v new value
-	 * @return     ArchievementUser The current object (for fluent API support)
+	 * @return     AchievementUser The current object (for fluent API support)
 	 */
 	public function setUserId($v)
 	{
@@ -160,7 +160,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 
 		if ($this->user_id !== $v) {
 			$this->user_id = $v;
-			$this->modifiedColumns[] = ArchievementUserPeer::USER_ID;
+			$this->modifiedColumns[] = AchievementUserPeer::USER_ID;
 		}
 
 		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
@@ -171,28 +171,28 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	} // setUserId()
 
 	/**
-	 * Set the value of [archievement_id] column.
+	 * Set the value of [achievement_id] column.
 	 * 
 	 * @param      int $v new value
-	 * @return     ArchievementUser The current object (for fluent API support)
+	 * @return     AchievementUser The current object (for fluent API support)
 	 */
-	public function setArchievementId($v)
+	public function setAchievementId($v)
 	{
 		if ($v !== null) {
 			$v = (int) $v;
 		}
 
-		if ($this->archievement_id !== $v) {
-			$this->archievement_id = $v;
-			$this->modifiedColumns[] = ArchievementUserPeer::ARCHIEVEMENT_ID;
+		if ($this->achievement_id !== $v) {
+			$this->achievement_id = $v;
+			$this->modifiedColumns[] = AchievementUserPeer::ACHIEVEMENT_ID;
 		}
 
-		if ($this->aArchievement !== null && $this->aArchievement->getId() !== $v) {
-			$this->aArchievement = null;
+		if ($this->aAchievement !== null && $this->aAchievement->getId() !== $v) {
+			$this->aAchievement = null;
 		}
 
 		return $this;
-	} // setArchievementId()
+	} // setAchievementId()
 
 	/**
 	 * Sets the value of the [confirmed] column.
@@ -202,7 +202,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	 * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
 	 * 
 	 * @param      boolean|integer|string $v The new value
-	 * @return     ArchievementUser The current object (for fluent API support)
+	 * @return     AchievementUser The current object (for fluent API support)
 	 */
 	public function setConfirmed($v)
 	{
@@ -216,7 +216,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 
 		if ($this->confirmed !== $v) {
 			$this->confirmed = $v;
-			$this->modifiedColumns[] = ArchievementUserPeer::CONFIRMED;
+			$this->modifiedColumns[] = AchievementUserPeer::CONFIRMED;
 		}
 
 		return $this;
@@ -227,7 +227,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	 * 
 	 * @param      mixed $v string, integer (timestamp), or DateTime value.
 	 *               Empty strings are treated as NULL.
-	 * @return     ArchievementUser The current object (for fluent API support)
+	 * @return     AchievementUser The current object (for fluent API support)
 	 */
 	public function setDate($v)
 	{
@@ -237,7 +237,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 			$newDateAsString = $dt ? $dt->format('Y-m-d H:i:s') : null;
 			if ($currentDateAsString !== $newDateAsString) {
 				$this->date = $newDateAsString;
-				$this->modifiedColumns[] = ArchievementUserPeer::DATE;
+				$this->modifiedColumns[] = AchievementUserPeer::DATE;
 			}
 		} // if either are not null
 
@@ -277,7 +277,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 		try {
 
 			$this->user_id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-			$this->archievement_id = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
+			$this->achievement_id = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
 			$this->confirmed = ($row[$startcol + 2] !== null) ? (boolean) $row[$startcol + 2] : null;
 			$this->date = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
 			$this->resetModified();
@@ -288,10 +288,10 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 4; // 4 = ArchievementUserPeer::NUM_HYDRATE_COLUMNS.
+			return $startcol + 4; // 4 = AchievementUserPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating ArchievementUser object", $e);
+			throw new PropelException("Error populating AchievementUser object", $e);
 		}
 	}
 
@@ -314,8 +314,8 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 		if ($this->aUser !== null && $this->user_id !== $this->aUser->getId()) {
 			$this->aUser = null;
 		}
-		if ($this->aArchievement !== null && $this->archievement_id !== $this->aArchievement->getId()) {
-			$this->aArchievement = null;
+		if ($this->aAchievement !== null && $this->achievement_id !== $this->aAchievement->getId()) {
+			$this->aAchievement = null;
 		}
 	} // ensureConsistency
 
@@ -340,13 +340,13 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(ArchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(AchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
 		// We don't need to alter the object instance pool; we're just modifying this instance
 		// already in the pool.
 
-		$stmt = ArchievementUserPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
+		$stmt = AchievementUserPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
 		$row = $stmt->fetch(PDO::FETCH_NUM);
 		$stmt->closeCursor();
 		if (!$row) {
@@ -357,7 +357,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 		if ($deep) {  // also de-associate any related objects?
 
 			$this->aUser = null;
-			$this->aArchievement = null;
+			$this->aAchievement = null;
 		} // if (deep)
 	}
 
@@ -377,12 +377,12 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(ArchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(AchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		$con->beginTransaction();
 		try {
-			$deleteQuery = ArchievementUserQuery::create()
+			$deleteQuery = AchievementUserQuery::create()
 				->filterByPrimaryKey($this->getPrimaryKey());
 			$ret = $this->preDelete($con);
 			if ($ret) {
@@ -419,7 +419,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(ArchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(AchievementUserPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		$con->beginTransaction();
@@ -439,7 +439,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 					$this->postUpdate($con);
 				}
 				$this->postSave($con);
-				ArchievementUserPeer::addInstanceToPool($this);
+				AchievementUserPeer::addInstanceToPool($this);
 			} else {
 				$affectedRows = 0;
 			}
@@ -480,11 +480,11 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 				$this->setUser($this->aUser);
 			}
 
-			if ($this->aArchievement !== null) {
-				if ($this->aArchievement->isModified() || $this->aArchievement->isNew()) {
-					$affectedRows += $this->aArchievement->save($con);
+			if ($this->aAchievement !== null) {
+				if ($this->aAchievement->isModified() || $this->aAchievement->isNew()) {
+					$affectedRows += $this->aAchievement->save($con);
 				}
-				$this->setArchievement($this->aArchievement);
+				$this->setAchievement($this->aAchievement);
 			}
 
 			if ($this->isNew() || $this->isModified()) {
@@ -519,21 +519,21 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 
 
 		 // check the columns in natural order for more readable SQL queries
-		if ($this->isColumnModified(ArchievementUserPeer::USER_ID)) {
+		if ($this->isColumnModified(AchievementUserPeer::USER_ID)) {
 			$modifiedColumns[':p' . $index++]  = '`USER_ID`';
 		}
-		if ($this->isColumnModified(ArchievementUserPeer::ARCHIEVEMENT_ID)) {
-			$modifiedColumns[':p' . $index++]  = '`ARCHIEVEMENT_ID`';
+		if ($this->isColumnModified(AchievementUserPeer::ACHIEVEMENT_ID)) {
+			$modifiedColumns[':p' . $index++]  = '`ACHIEVEMENT_ID`';
 		}
-		if ($this->isColumnModified(ArchievementUserPeer::CONFIRMED)) {
+		if ($this->isColumnModified(AchievementUserPeer::CONFIRMED)) {
 			$modifiedColumns[':p' . $index++]  = '`CONFIRMED`';
 		}
-		if ($this->isColumnModified(ArchievementUserPeer::DATE)) {
+		if ($this->isColumnModified(AchievementUserPeer::DATE)) {
 			$modifiedColumns[':p' . $index++]  = '`DATE`';
 		}
 
 		$sql = sprintf(
-			'INSERT INTO `archievement_user` (%s) VALUES (%s)',
+			'INSERT INTO `achievement_user` (%s) VALUES (%s)',
 			implode(', ', $modifiedColumns),
 			implode(', ', array_keys($modifiedColumns))
 		);
@@ -545,8 +545,8 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 					case '`USER_ID`':
 						$stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
 						break;
-					case '`ARCHIEVEMENT_ID`':
-						$stmt->bindValue($identifier, $this->archievement_id, PDO::PARAM_INT);
+					case '`ACHIEVEMENT_ID`':
+						$stmt->bindValue($identifier, $this->achievement_id, PDO::PARAM_INT);
 						break;
 					case '`CONFIRMED`':
 						$stmt->bindValue($identifier, (int) $this->confirmed, PDO::PARAM_INT);
@@ -650,14 +650,14 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 				}
 			}
 
-			if ($this->aArchievement !== null) {
-				if (!$this->aArchievement->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aArchievement->getValidationFailures());
+			if ($this->aAchievement !== null) {
+				if (!$this->aAchievement->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aAchievement->getValidationFailures());
 				}
 			}
 
 
-			if (($retval = ArchievementUserPeer::doValidate($this, $columns)) !== true) {
+			if (($retval = AchievementUserPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
@@ -680,7 +680,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	 */
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = ArchievementUserPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = AchievementUserPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		$field = $this->getByPosition($pos);
 		return $field;
 	}
@@ -699,7 +699,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 				return $this->getUserId();
 				break;
 			case 1:
-				return $this->getArchievementId();
+				return $this->getAchievementId();
 				break;
 			case 2:
 				return $this->getConfirmed();
@@ -730,14 +730,14 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	 */
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
 	{
-		if (isset($alreadyDumpedObjects['ArchievementUser'][serialize($this->getPrimaryKey())])) {
+		if (isset($alreadyDumpedObjects['AchievementUser'][serialize($this->getPrimaryKey())])) {
 			return '*RECURSION*';
 		}
-		$alreadyDumpedObjects['ArchievementUser'][serialize($this->getPrimaryKey())] = true;
-		$keys = ArchievementUserPeer::getFieldNames($keyType);
+		$alreadyDumpedObjects['AchievementUser'][serialize($this->getPrimaryKey())] = true;
+		$keys = AchievementUserPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getUserId(),
-			$keys[1] => $this->getArchievementId(),
+			$keys[1] => $this->getAchievementId(),
 			$keys[2] => $this->getConfirmed(),
 			$keys[3] => $this->getDate(),
 		);
@@ -745,8 +745,8 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 			if (null !== $this->aUser) {
 				$result['User'] = $this->aUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
 			}
-			if (null !== $this->aArchievement) {
-				$result['Archievement'] = $this->aArchievement->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			if (null !== $this->aAchievement) {
+				$result['Achievement'] = $this->aAchievement->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
 			}
 		}
 		return $result;
@@ -764,7 +764,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	 */
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = ArchievementUserPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = AchievementUserPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -783,7 +783,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 				$this->setUserId($value);
 				break;
 			case 1:
-				$this->setArchievementId($value);
+				$this->setAchievementId($value);
 				break;
 			case 2:
 				$this->setConfirmed($value);
@@ -813,10 +813,10 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	 */
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = ArchievementUserPeer::getFieldNames($keyType);
+		$keys = AchievementUserPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setUserId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setArchievementId($arr[$keys[1]]);
+		if (array_key_exists($keys[1], $arr)) $this->setAchievementId($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setConfirmed($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setDate($arr[$keys[3]]);
 	}
@@ -828,12 +828,12 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	 */
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(ArchievementUserPeer::DATABASE_NAME);
+		$criteria = new Criteria(AchievementUserPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(ArchievementUserPeer::USER_ID)) $criteria->add(ArchievementUserPeer::USER_ID, $this->user_id);
-		if ($this->isColumnModified(ArchievementUserPeer::ARCHIEVEMENT_ID)) $criteria->add(ArchievementUserPeer::ARCHIEVEMENT_ID, $this->archievement_id);
-		if ($this->isColumnModified(ArchievementUserPeer::CONFIRMED)) $criteria->add(ArchievementUserPeer::CONFIRMED, $this->confirmed);
-		if ($this->isColumnModified(ArchievementUserPeer::DATE)) $criteria->add(ArchievementUserPeer::DATE, $this->date);
+		if ($this->isColumnModified(AchievementUserPeer::USER_ID)) $criteria->add(AchievementUserPeer::USER_ID, $this->user_id);
+		if ($this->isColumnModified(AchievementUserPeer::ACHIEVEMENT_ID)) $criteria->add(AchievementUserPeer::ACHIEVEMENT_ID, $this->achievement_id);
+		if ($this->isColumnModified(AchievementUserPeer::CONFIRMED)) $criteria->add(AchievementUserPeer::CONFIRMED, $this->confirmed);
+		if ($this->isColumnModified(AchievementUserPeer::DATE)) $criteria->add(AchievementUserPeer::DATE, $this->date);
 
 		return $criteria;
 	}
@@ -848,9 +848,9 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	 */
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(ArchievementUserPeer::DATABASE_NAME);
-		$criteria->add(ArchievementUserPeer::USER_ID, $this->user_id);
-		$criteria->add(ArchievementUserPeer::ARCHIEVEMENT_ID, $this->archievement_id);
+		$criteria = new Criteria(AchievementUserPeer::DATABASE_NAME);
+		$criteria->add(AchievementUserPeer::USER_ID, $this->user_id);
+		$criteria->add(AchievementUserPeer::ACHIEVEMENT_ID, $this->achievement_id);
 
 		return $criteria;
 	}
@@ -864,7 +864,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	{
 		$pks = array();
 		$pks[0] = $this->getUserId();
-		$pks[1] = $this->getArchievementId();
+		$pks[1] = $this->getAchievementId();
 
 		return $pks;
 	}
@@ -878,7 +878,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	public function setPrimaryKey($keys)
 	{
 		$this->setUserId($keys[0]);
-		$this->setArchievementId($keys[1]);
+		$this->setAchievementId($keys[1]);
 	}
 
 	/**
@@ -887,7 +887,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	 */
 	public function isPrimaryKeyNull()
 	{
-		return (null === $this->getUserId()) && (null === $this->getArchievementId());
+		return (null === $this->getUserId()) && (null === $this->getAchievementId());
 	}
 
 	/**
@@ -896,7 +896,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param      object $copyObj An object of ArchievementUser (or compatible) type.
+	 * @param      object $copyObj An object of AchievementUser (or compatible) type.
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
 	 * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
 	 * @throws     PropelException
@@ -904,7 +904,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
 	{
 		$copyObj->setUserId($this->getUserId());
-		$copyObj->setArchievementId($this->getArchievementId());
+		$copyObj->setAchievementId($this->getAchievementId());
 		$copyObj->setConfirmed($this->getConfirmed());
 		$copyObj->setDate($this->getDate());
 
@@ -933,7 +933,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	 * objects.
 	 *
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return     ArchievementUser Clone of current object.
+	 * @return     AchievementUser Clone of current object.
 	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
@@ -952,12 +952,12 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	 * same instance for all member of this class. The method could therefore
 	 * be static, but this would prevent one from overriding the behavior.
 	 *
-	 * @return     ArchievementUserPeer
+	 * @return     AchievementUserPeer
 	 */
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new ArchievementUserPeer();
+			self::$peer = new AchievementUserPeer();
 		}
 		return self::$peer;
 	}
@@ -966,7 +966,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	 * Declares an association between this object and a User object.
 	 *
 	 * @param      User $v
-	 * @return     ArchievementUser The current object (for fluent API support)
+	 * @return     AchievementUser The current object (for fluent API support)
 	 * @throws     PropelException
 	 */
 	public function setUser(User $v = null)
@@ -982,7 +982,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 		// Add binding for other direction of this n:n relationship.
 		// If this object has already been added to the User object, it will not be re-added.
 		if ($v !== null) {
-			$v->addArchievementUser($this);
+			$v->addAchievementUser($this);
 		}
 
 		return $this;
@@ -1005,33 +1005,33 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 				to this object.  This level of coupling may, however, be
 				undesirable since it could result in an only partially populated collection
 				in the referenced object.
-				$this->aUser->addArchievementUsers($this);
+				$this->aUser->addAchievementUsers($this);
 			 */
 		}
 		return $this->aUser;
 	}
 
 	/**
-	 * Declares an association between this object and a Archievement object.
+	 * Declares an association between this object and a Achievement object.
 	 *
-	 * @param      Archievement $v
-	 * @return     ArchievementUser The current object (for fluent API support)
+	 * @param      Achievement $v
+	 * @return     AchievementUser The current object (for fluent API support)
 	 * @throws     PropelException
 	 */
-	public function setArchievement(Archievement $v = null)
+	public function setAchievement(Achievement $v = null)
 	{
 		if ($v === null) {
-			$this->setArchievementId(NULL);
+			$this->setAchievementId(NULL);
 		} else {
-			$this->setArchievementId($v->getId());
+			$this->setAchievementId($v->getId());
 		}
 
-		$this->aArchievement = $v;
+		$this->aAchievement = $v;
 
 		// Add binding for other direction of this n:n relationship.
-		// If this object has already been added to the Archievement object, it will not be re-added.
+		// If this object has already been added to the Achievement object, it will not be re-added.
 		if ($v !== null) {
-			$v->addArchievementUser($this);
+			$v->addAchievementUser($this);
 		}
 
 		return $this;
@@ -1039,27 +1039,27 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 
 
 	/**
-	 * Get the associated Archievement object
+	 * Get the associated Achievement object
 	 *
 	 * @param      PropelPDO Optional Connection object.
-	 * @return     Archievement The associated Archievement object.
+	 * @return     Achievement The associated Achievement object.
 	 * @throws     PropelException
 	 */
-	public function getArchievement(PropelPDO $con = null)
+	public function getAchievement(PropelPDO $con = null)
 	{
-		if ($this->aArchievement === null && ($this->archievement_id !== null)) {
-			$this->aArchievement = ArchievementQuery::create()
-				->filterByArchievementUser($this) // here
+		if ($this->aAchievement === null && ($this->achievement_id !== null)) {
+			$this->aAchievement = AchievementQuery::create()
+				->filterByAchievementUser($this) // here
 				->findOne($con);
 			/* The following can be used additionally to
 				guarantee the related object contains a reference
 				to this object.  This level of coupling may, however, be
 				undesirable since it could result in an only partially populated collection
 				in the referenced object.
-				$this->aArchievement->addArchievementUsers($this);
+				$this->aAchievement->addAchievementUsers($this);
 			 */
 		}
-		return $this->aArchievement;
+		return $this->aAchievement;
 	}
 
 	/**
@@ -1068,7 +1068,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	public function clear()
 	{
 		$this->user_id = null;
-		$this->archievement_id = null;
+		$this->achievement_id = null;
 		$this->confirmed = null;
 		$this->date = null;
 		$this->alreadyInSave = false;
@@ -1094,7 +1094,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 		} // if ($deep)
 
 		$this->aUser = null;
-		$this->aArchievement = null;
+		$this->aAchievement = null;
 	}
 
 	/**
@@ -1104,7 +1104,7 @@ abstract class BaseArchievementUser extends BaseObject  implements Persistent
 	 */
 	public function __toString()
 	{
-		return (string) $this->exportTo(ArchievementUserPeer::DEFAULT_STRING_FORMAT);
+		return (string) $this->exportTo(AchievementUserPeer::DEFAULT_STRING_FORMAT);
 	}
 
-} // BaseArchievementUser
+} // BaseAchievementUser

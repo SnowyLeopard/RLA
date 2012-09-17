@@ -8,7 +8,7 @@
     <column name="level" type="enum" required="true" valueSet="admin,mod,user" />
   </table>
 
-  <table name="archievements" phpName="Archievement">
+  <table name="achievements" phpName="Achievement">
     <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
     <column name="name" type="varchar" size="255" required="true" />
     <column name="description" type="varchar" size="255" required="true" />
@@ -30,31 +30,31 @@
     </foreign-key>
   </table>
   
-  <table name="categories" phpName="Categorie">
+  <table name="categories" phpName="Category">
     <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
     <column name="name" type="varchar" size="255" required="true" />
     <column name="description" type="varchar" size="255" required="true" />
   </table>
 
-  <table name="archievement_user" isCrossRef="true">
+  <table name="achievement_user" isCrossRef="true">
     <column name="user_id" type="integer" primaryKey="true" />
-    <column name="archievement_id" type="integer" primaryKey="true" />
+    <column name="achievement_id" type="integer" primaryKey="true" />
     <column name="confirmed" type="boolean" required="true" />
     <column name="date" type="timestamp" />
     <foreign-key foreignTable="users">
       <reference local="user_id" foreign="id" />
     </foreign-key>
-    <foreign-key foreignTable="archievements">
-      <reference local="archievement_id" foreign="id" />
+    <foreign-key foreignTable="achievements">
+      <reference local="achievement_id" foreign="id" />
     </foreign-key>
   </table>
 
-  <table name="archievement_group" isCrossRef="true">
-    <column name="archievement_id" type="integer" primaryKey="true" />
+  <table name="achievement_group" isCrossRef="true">
+    <column name="achievement_id" type="integer" primaryKey="true" />
     <column name="group_id" type="integer" primaryKey="true" />
     <column name="weight" type="integer" required="true" />
-    <foreign-key foreignTable="archievements">
-      <reference local="archievement_id" foreign="id" />
+    <foreign-key foreignTable="achievements">
+      <reference local="achievement_id" foreign="id" />
     </foreign-key>
     <foreign-key foreignTable="groups">
       <reference local="group_id" foreign="id" />

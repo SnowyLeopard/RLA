@@ -3,7 +3,7 @@
 
 
 /**
- * Skeleton subclass for performing query and update operations on the 'categories' table.
+ * Skeleton subclass for performing query and update operations on the 'achievements' table.
  *
  * 
  *
@@ -13,6 +13,6 @@
  *
  * @package    propel.generator.rla
  */
-class CategoriePeer extends BaseCategoriePeer {
+class AchievementQuery extends BaseAchievementQuery {
 
-} // CategoriePeer
+} // AchievementQuery

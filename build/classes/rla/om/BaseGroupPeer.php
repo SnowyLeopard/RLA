@@ -489,7 +489,7 @@ abstract class BaseGroupPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related Categorie table
+	 * Returns the number of rows matching criteria, joining the related Category table
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -497,7 +497,7 @@ abstract class BaseGroupPeer {
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
 	 * @return     int Number of matching rows.
 	 */
-	public static function doCountJoinCategorie(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doCountJoinCategory(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -524,7 +524,7 @@ abstract class BaseGroupPeer {
 			$con = Propel::getConnection(GroupPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
-		$criteria->addJoin(GroupPeer::CATEGORY_ID, CategoriePeer::ID, $join_behavior);
+		$criteria->addJoin(GroupPeer::CATEGORY_ID, CategoryPeer::ID, $join_behavior);
 
 		$stmt = BasePeer::doCount($criteria, $con);
 
@@ -539,7 +539,7 @@ abstract class BaseGroupPeer {
 
 
 	/**
-	 * Selects a collection of Group objects pre-filled with their Categorie objects.
+	 * Selects a collection of Group objects pre-filled with their Category objects.
 	 * @param      Criteria  $criteria
 	 * @param      PropelPDO $con
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
@@ -547,7 +547,7 @@ abstract class BaseGroupPeer {
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinCategorie(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doSelectJoinCategory(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		$criteria = clone $criteria;
 
@@ -558,9 +558,9 @@ abstract class BaseGroupPeer {
 
 		GroupPeer::addSelectColumns($criteria);
 		$startcol = GroupPeer::NUM_HYDRATE_COLUMNS;
-		CategoriePeer::addSelectColumns($criteria);
+		CategoryPeer::addSelectColumns($criteria);
 
-		$criteria->addJoin(GroupPeer::CATEGORY_ID, CategoriePeer::ID, $join_behavior);
+		$criteria->addJoin(GroupPeer::CATEGORY_ID, CategoryPeer::ID, $join_behavior);
 
 		$stmt = BasePeer::doSelect($criteria, $con);
 		$results = array();
@@ -580,19 +580,19 @@ abstract class BaseGroupPeer {
 				GroupPeer::addInstanceToPool($obj1, $key1);
 			} // if $obj1 already loaded
 
-			$key2 = CategoriePeer::getPrimaryKeyHashFromRow($row, $startcol);
+			$key2 = CategoryPeer::getPrimaryKeyHashFromRow($row, $startcol);
 			if ($key2 !== null) {
-				$obj2 = CategoriePeer::getInstanceFromPool($key2);
+				$obj2 = CategoryPeer::getInstanceFromPool($key2);
 				if (!$obj2) {
 
-					$cls = CategoriePeer::getOMClass(false);
+					$cls = CategoryPeer::getOMClass(false);
 
 					$obj2 = new $cls();
 					$obj2->hydrate($row, $startcol);
-					CategoriePeer::addInstanceToPool($obj2, $key2);
+					CategoryPeer::addInstanceToPool($obj2, $key2);
 				} // if obj2 already loaded
 
-				// Add the $obj1 (Group) to $obj2 (Categorie)
+				// Add the $obj1 (Group) to $obj2 (Category)
 				$obj2->addGroup($obj1);
 
 			} // if joined row was not null
@@ -640,7 +640,7 @@ abstract class BaseGroupPeer {
 			$con = Propel::getConnection(GroupPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
-		$criteria->addJoin(GroupPeer::CATEGORY_ID, CategoriePeer::ID, $join_behavior);
+		$criteria->addJoin(GroupPeer::CATEGORY_ID, CategoryPeer::ID, $join_behavior);
 
 		$stmt = BasePeer::doCount($criteria, $con);
 
@@ -675,10 +675,10 @@ abstract class BaseGroupPeer {
 		GroupPeer::addSelectColumns($criteria);
 		$startcol2 = GroupPeer::NUM_HYDRATE_COLUMNS;
 
-		CategoriePeer::addSelectColumns($criteria);
-		$startcol3 = $startcol2 + CategoriePeer::NUM_HYDRATE_COLUMNS;
+		CategoryPeer::addSelectColumns($criteria);
+		$startcol3 = $startcol2 + CategoryPeer::NUM_HYDRATE_COLUMNS;
 
-		$criteria->addJoin(GroupPeer::CATEGORY_ID, CategoriePeer::ID, $join_behavior);
+		$criteria->addJoin(GroupPeer::CATEGORY_ID, CategoryPeer::ID, $join_behavior);
 
 		$stmt = BasePeer::doSelect($criteria, $con);
 		$results = array();
@@ -697,21 +697,21 @@ abstract class BaseGroupPeer {
 				GroupPeer::addInstanceToPool($obj1, $key1);
 			} // if obj1 already loaded
 
-			// Add objects for joined Categorie rows
+			// Add objects for joined Category rows
 
-			$key2 = CategoriePeer::getPrimaryKeyHashFromRow($row, $startcol2);
+			$key2 = CategoryPeer::getPrimaryKeyHashFromRow($row, $startcol2);
 			if ($key2 !== null) {
-				$obj2 = CategoriePeer::getInstanceFromPool($key2);
+				$obj2 = CategoryPeer::getInstanceFromPool($key2);
 				if (!$obj2) {
 
-					$cls = CategoriePeer::getOMClass(false);
+					$cls = CategoryPeer::getOMClass(false);
 
 					$obj2 = new $cls();
 					$obj2->hydrate($row, $startcol2);
-					CategoriePeer::addInstanceToPool($obj2, $key2);
+					CategoryPeer::addInstanceToPool($obj2, $key2);
 				} // if obj2 loaded
 
-				// Add the $obj1 (Group) to the collection in $obj2 (Categorie)
+				// Add the $obj1 (Group) to the collection in $obj2 (Category)
 				$obj2->addGroup($obj1);
 			} // if joined row not null
 

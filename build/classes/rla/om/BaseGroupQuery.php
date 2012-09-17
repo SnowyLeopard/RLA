@@ -22,13 +22,13 @@
  * @method     GroupQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     GroupQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     GroupQuery leftJoinCategorie($relationAlias = null) Adds a LEFT JOIN clause to the query using the Categorie relation
- * @method     GroupQuery rightJoinCategorie($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Categorie relation
- * @method     GroupQuery innerJoinCategorie($relationAlias = null) Adds a INNER JOIN clause to the query using the Categorie relation
+ * @method     GroupQuery leftJoinCategory($relationAlias = null) Adds a LEFT JOIN clause to the query using the Category relation
+ * @method     GroupQuery rightJoinCategory($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Category relation
+ * @method     GroupQuery innerJoinCategory($relationAlias = null) Adds a INNER JOIN clause to the query using the Category relation
  *
- * @method     GroupQuery leftJoinArchievementGroup($relationAlias = null) Adds a LEFT JOIN clause to the query using the ArchievementGroup relation
- * @method     GroupQuery rightJoinArchievementGroup($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ArchievementGroup relation
- * @method     GroupQuery innerJoinArchievementGroup($relationAlias = null) Adds a INNER JOIN clause to the query using the ArchievementGroup relation
+ * @method     GroupQuery leftJoinAchievementGroup($relationAlias = null) Adds a LEFT JOIN clause to the query using the AchievementGroup relation
+ * @method     GroupQuery rightJoinAchievementGroup($relationAlias = null) Adds a RIGHT JOIN clause to the query using the AchievementGroup relation
+ * @method     GroupQuery innerJoinAchievementGroup($relationAlias = null) Adds a INNER JOIN clause to the query using the AchievementGroup relation
  *
  * @method     Group findOne(PropelPDO $con = null) Return the first Group matching the query
  * @method     Group findOneOrCreate(PropelPDO $con = null) Return the first Group matching the query, or a new Group object populated from the query conditions when no match is found
@@ -323,7 +323,7 @@ abstract class BaseGroupQuery extends ModelCriteria
 	 * $query->filterByCategoryId(array('min' => 12)); // WHERE category_id > 12
 	 * </code>
 	 *
-	 * @see       filterByCategorie()
+	 * @see       filterByCategory()
 	 *
 	 * @param     mixed $categoryId The value to use as filter.
 	 *              Use scalar values for equality.
@@ -374,41 +374,41 @@ abstract class BaseGroupQuery extends ModelCriteria
 	}
 
 	/**
-	 * Filter the query by a related Categorie object
+	 * Filter the query by a related Category object
 	 *
-	 * @param     Categorie|PropelCollection $categorie The related object(s) to use as filter
+	 * @param     Category|PropelCollection $category The related object(s) to use as filter
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
 	 * @return    GroupQuery The current query, for fluid interface
 	 */
-	public function filterByCategorie($categorie, $comparison = null)
+	public function filterByCategory($category, $comparison = null)
 	{
-		if ($categorie instanceof Categorie) {
+		if ($category instanceof Category) {
 			return $this
-				->addUsingAlias(GroupPeer::CATEGORY_ID, $categorie->getId(), $comparison);
-		} elseif ($categorie instanceof PropelCollection) {
+				->addUsingAlias(GroupPeer::CATEGORY_ID, $category->getId(), $comparison);
+		} elseif ($category instanceof PropelCollection) {
 			if (null === $comparison) {
 				$comparison = Criteria::IN;
 			}
 			return $this
-				->addUsingAlias(GroupPeer::CATEGORY_ID, $categorie->toKeyValue('PrimaryKey', 'Id'), $comparison);
+				->addUsingAlias(GroupPeer::CATEGORY_ID, $category->toKeyValue('PrimaryKey', 'Id'), $comparison);
 		} else {
-			throw new PropelException('filterByCategorie() only accepts arguments of type Categorie or PropelCollection');
+			throw new PropelException('filterByCategory() only accepts arguments of type Category or PropelCollection');
 		}
 	}
 
 	/**
-	 * Adds a JOIN clause to the query using the Categorie relation
+	 * Adds a JOIN clause to the query using the Category relation
 	 *
 	 * @param     string $relationAlias optional alias for the relation
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
 	 * @return    GroupQuery The current query, for fluid interface
 	 */
-	public function joinCategorie($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	public function joinCategory($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
 		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('Categorie');
+		$relationMap = $tableMap->getRelation('Category');
 
 		// create a ModelJoin object for this join
 		$join = new ModelJoin();
@@ -423,14 +423,14 @@ abstract class BaseGroupQuery extends ModelCriteria
 			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
 			$this->addJoinObject($join, $relationAlias);
 		} else {
-			$this->addJoinObject($join, 'Categorie');
+			$this->addJoinObject($join, 'Category');
 		}
 
 		return $this;
 	}
 
 	/**
-	 * Use the Categorie relation Categorie object
+	 * Use the Category relation Category object
 	 *
 	 * @see       useQuery()
 	 *
@@ -438,50 +438,50 @@ abstract class BaseGroupQuery extends ModelCriteria
 	 *                                   to be used as main alias in the secondary query
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
-	 * @return    CategorieQuery A secondary query class using the current class as primary query
+	 * @return    CategoryQuery A secondary query class using the current class as primary query
 	 */
-	public function useCategorieQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	public function useCategoryQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
 		return $this
-			->joinCategorie($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'Categorie', 'CategorieQuery');
+			->joinCategory($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Category', 'CategoryQuery');
 	}
 
 	/**
-	 * Filter the query by a related ArchievementGroup object
+	 * Filter the query by a related AchievementGroup object
 	 *
-	 * @param     ArchievementGroup $archievementGroup  the related object to use as filter
+	 * @param     AchievementGroup $achievementGroup  the related object to use as filter
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
 	 * @return    GroupQuery The current query, for fluid interface
 	 */
-	public function filterByArchievementGroup($archievementGroup, $comparison = null)
+	public function filterByAchievementGroup($achievementGroup, $comparison = null)
 	{
-		if ($archievementGroup instanceof ArchievementGroup) {
+		if ($achievementGroup instanceof AchievementGroup) {
 			return $this
-				->addUsingAlias(GroupPeer::ID, $archievementGroup->getGroupId(), $comparison);
-		} elseif ($archievementGroup instanceof PropelCollection) {
+				->addUsingAlias(GroupPeer::ID, $achievementGroup->getGroupId(), $comparison);
+		} elseif ($achievementGroup instanceof PropelCollection) {
 			return $this
-				->useArchievementGroupQuery()
-				->filterByPrimaryKeys($archievementGroup->getPrimaryKeys())
+				->useAchievementGroupQuery()
+				->filterByPrimaryKeys($achievementGroup->getPrimaryKeys())
 				->endUse();
 		} else {
-			throw new PropelException('filterByArchievementGroup() only accepts arguments of type ArchievementGroup or PropelCollection');
+			throw new PropelException('filterByAchievementGroup() only accepts arguments of type AchievementGroup or PropelCollection');
 		}
 	}
 
 	/**
-	 * Adds a JOIN clause to the query using the ArchievementGroup relation
+	 * Adds a JOIN clause to the query using the AchievementGroup relation
 	 *
 	 * @param     string $relationAlias optional alias for the relation
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
 	 * @return    GroupQuery The current query, for fluid interface
 	 */
-	public function joinArchievementGroup($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	public function joinAchievementGroup($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
 		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('ArchievementGroup');
+		$relationMap = $tableMap->getRelation('AchievementGroup');
 
 		// create a ModelJoin object for this join
 		$join = new ModelJoin();
@@ -496,14 +496,14 @@ abstract class BaseGroupQuery extends ModelCriteria
 			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
 			$this->addJoinObject($join, $relationAlias);
 		} else {
-			$this->addJoinObject($join, 'ArchievementGroup');
+			$this->addJoinObject($join, 'AchievementGroup');
 		}
 
 		return $this;
 	}
 
 	/**
-	 * Use the ArchievementGroup relation ArchievementGroup object
+	 * Use the AchievementGroup relation AchievementGroup object
 	 *
 	 * @see       useQuery()
 	 *
@@ -511,29 +511,29 @@ abstract class BaseGroupQuery extends ModelCriteria
 	 *                                   to be used as main alias in the secondary query
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
-	 * @return    ArchievementGroupQuery A secondary query class using the current class as primary query
+	 * @return    AchievementGroupQuery A secondary query class using the current class as primary query
 	 */
-	public function useArchievementGroupQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	public function useAchievementGroupQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
 		return $this
-			->joinArchievementGroup($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'ArchievementGroup', 'ArchievementGroupQuery');
+			->joinAchievementGroup($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'AchievementGroup', 'AchievementGroupQuery');
 	}
 
 	/**
-	 * Filter the query by a related Archievement object
-	 * using the archievement_group table as cross reference
+	 * Filter the query by a related Achievement object
+	 * using the achievement_group table as cross reference
 	 *
-	 * @param     Archievement $archievement the related object to use as filter
+	 * @param     Achievement $achievement the related object to use as filter
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
 	 * @return    GroupQuery The current query, for fluid interface
 	 */
-	public function filterByArchievement($archievement, $comparison = Criteria::EQUAL)
+	public function filterByAchievement($achievement, $comparison = Criteria::EQUAL)
 	{
 		return $this
-			->useArchievementGroupQuery()
-			->filterByArchievement($archievement, $comparison)
+			->useAchievementGroupQuery()
+			->filterByAchievement($achievement, $comparison)
 			->endUse();
 	}
 

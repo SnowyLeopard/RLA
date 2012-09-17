@@ -56,8 +56,8 @@ class UserTableMap extends TableMap
 	 */
 	public function buildRelations()
 	{
-		$this->addRelation('ArchievementUser', 'ArchievementUser', RelationMap::ONE_TO_MANY, array('id' => 'user_id', ), null, null, 'ArchievementUsers');
-		$this->addRelation('Archievement', 'Archievement', RelationMap::MANY_TO_MANY, array(), null, null, 'Archievements');
+		$this->addRelation('AchievementUser', 'AchievementUser', RelationMap::ONE_TO_MANY, array('id' => 'user_id', ), null, null, 'AchievementUsers');
+		$this->addRelation('Achievement', 'Achievement', RelationMap::MANY_TO_MANY, array(), null, null, 'Achievements');
 	} // buildRelations()
 
 } // UserTableMap

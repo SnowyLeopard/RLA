@@ -6,68 +6,68 @@
  *
  * 
  *
- * @method     CategorieQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     CategorieQuery orderByName($order = Criteria::ASC) Order by the name column
- * @method     CategorieQuery orderByDescription($order = Criteria::ASC) Order by the description column
+ * @method     CategoryQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     CategoryQuery orderByName($order = Criteria::ASC) Order by the name column
+ * @method     CategoryQuery orderByDescription($order = Criteria::ASC) Order by the description column
  *
- * @method     CategorieQuery groupById() Group by the id column
- * @method     CategorieQuery groupByName() Group by the name column
- * @method     CategorieQuery groupByDescription() Group by the description column
+ * @method     CategoryQuery groupById() Group by the id column
+ * @method     CategoryQuery groupByName() Group by the name column
+ * @method     CategoryQuery groupByDescription() Group by the description column
  *
- * @method     CategorieQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
- * @method     CategorieQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
- * @method     CategorieQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ * @method     CategoryQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
+ * @method     CategoryQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
+ * @method     CategoryQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     CategorieQuery leftJoinArchievement($relationAlias = null) Adds a LEFT JOIN clause to the query using the Archievement relation
- * @method     CategorieQuery rightJoinArchievement($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Archievement relation
- * @method     CategorieQuery innerJoinArchievement($relationAlias = null) Adds a INNER JOIN clause to the query using the Archievement relation
+ * @method     CategoryQuery leftJoinAchievement($relationAlias = null) Adds a LEFT JOIN clause to the query using the Achievement relation
+ * @method     CategoryQuery rightJoinAchievement($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Achievement relation
+ * @method     CategoryQuery innerJoinAchievement($relationAlias = null) Adds a INNER JOIN clause to the query using the Achievement relation
  *
- * @method     CategorieQuery leftJoinGroup($relationAlias = null) Adds a LEFT JOIN clause to the query using the Group relation
- * @method     CategorieQuery rightJoinGroup($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Group relation
- * @method     CategorieQuery innerJoinGroup($relationAlias = null) Adds a INNER JOIN clause to the query using the Group relation
+ * @method     CategoryQuery leftJoinGroup($relationAlias = null) Adds a LEFT JOIN clause to the query using the Group relation
+ * @method     CategoryQuery rightJoinGroup($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Group relation
+ * @method     CategoryQuery innerJoinGroup($relationAlias = null) Adds a INNER JOIN clause to the query using the Group relation
  *
- * @method     Categorie findOne(PropelPDO $con = null) Return the first Categorie matching the query
- * @method     Categorie findOneOrCreate(PropelPDO $con = null) Return the first Categorie matching the query, or a new Categorie object populated from the query conditions when no match is found
+ * @method     Category findOne(PropelPDO $con = null) Return the first Category matching the query
+ * @method     Category findOneOrCreate(PropelPDO $con = null) Return the first Category matching the query, or a new Category object populated from the query conditions when no match is found
  *
- * @method     Categorie findOneById(int $id) Return the first Categorie filtered by the id column
- * @method     Categorie findOneByName(string $name) Return the first Categorie filtered by the name column
- * @method     Categorie findOneByDescription(string $description) Return the first Categorie filtered by the description column
+ * @method     Category findOneById(int $id) Return the first Category filtered by the id column
+ * @method     Category findOneByName(string $name) Return the first Category filtered by the name column
+ * @method     Category findOneByDescription(string $description) Return the first Category filtered by the description column
  *
- * @method     array findById(int $id) Return Categorie objects filtered by the id column
- * @method     array findByName(string $name) Return Categorie objects filtered by the name column
- * @method     array findByDescription(string $description) Return Categorie objects filtered by the description column
+ * @method     array findById(int $id) Return Category objects filtered by the id column
+ * @method     array findByName(string $name) Return Category objects filtered by the name column
+ * @method     array findByDescription(string $description) Return Category objects filtered by the description column
  *
  * @package    propel.generator.rla.om
  */
-abstract class BaseCategorieQuery extends ModelCriteria
+abstract class BaseCategoryQuery extends ModelCriteria
 {
 	
 	/**
-	 * Initializes internal state of BaseCategorieQuery object.
+	 * Initializes internal state of BaseCategoryQuery object.
 	 *
 	 * @param     string $dbName The dabase name
 	 * @param     string $modelName The phpName of a model, e.g. 'Book'
 	 * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
 	 */
-	public function __construct($dbName = 'RLA', $modelName = 'Categorie', $modelAlias = null)
+	public function __construct($dbName = 'RLA', $modelName = 'Category', $modelAlias = null)
 	{
 		parent::__construct($dbName, $modelName, $modelAlias);
 	}
 
 	/**
-	 * Returns a new CategorieQuery object.
+	 * Returns a new CategoryQuery object.
 	 *
 	 * @param     string $modelAlias The alias of a model in the query
 	 * @param     Criteria $criteria Optional Criteria to build the query from
 	 *
-	 * @return    CategorieQuery
+	 * @return    CategoryQuery
 	 */
 	public static function create($modelAlias = null, $criteria = null)
 	{
-		if ($criteria instanceof CategorieQuery) {
+		if ($criteria instanceof CategoryQuery) {
 			return $criteria;
 		}
-		$query = new CategorieQuery();
+		$query = new CategoryQuery();
 		if (null !== $modelAlias) {
 			$query->setModelAlias($modelAlias);
 		}
@@ -89,19 +89,19 @@ abstract class BaseCategorieQuery extends ModelCriteria
 	 * @param     mixed $key Primary key to use for the query
 	 * @param     PropelPDO $con an optional connection object
 	 *
-	 * @return    Categorie|array|mixed the result, formatted by the current formatter
+	 * @return    Category|array|mixed the result, formatted by the current formatter
 	 */
 	public function findPk($key, $con = null)
 	{
 		if ($key === null) {
 			return null;
 		}
-		if ((null !== ($obj = CategoriePeer::getInstanceFromPool((string) $key))) && !$this->formatter) {
+		if ((null !== ($obj = CategoryPeer::getInstanceFromPool((string) $key))) && !$this->formatter) {
 			// the object is alredy in the instance pool
 			return $obj;
 		}
 		if ($con === null) {
-			$con = Propel::getConnection(CategoriePeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(CategoryPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 		$this->basePreSelect($con);
 		if ($this->formatter || $this->modelAlias || $this->with || $this->select
@@ -120,7 +120,7 @@ abstract class BaseCategorieQuery extends ModelCriteria
 	 * @param     mixed $key Primary key to use for the query
 	 * @param     PropelPDO $con A connection object
 	 *
-	 * @return    Categorie A model object, or null if the key is not found
+	 * @return    Category A model object, or null if the key is not found
 	 */
 	protected function findPkSimple($key, $con)
 	{
@@ -135,9 +135,9 @@ abstract class BaseCategorieQuery extends ModelCriteria
 		}
 		$obj = null;
 		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$obj = new Categorie();
+			$obj = new Category();
 			$obj->hydrate($row);
-			CategoriePeer::addInstanceToPool($obj, (string) $row[0]);
+			CategoryPeer::addInstanceToPool($obj, (string) $row[0]);
 		}
 		$stmt->closeCursor();
 
@@ -150,7 +150,7 @@ abstract class BaseCategorieQuery extends ModelCriteria
 	 * @param     mixed $key Primary key to use for the query
 	 * @param     PropelPDO $con A connection object
 	 *
-	 * @return    Categorie|array|mixed the result, formatted by the current formatter
+	 * @return    Category|array|mixed the result, formatted by the current formatter
 	 */
 	protected function findPkComplex($key, $con)
 	{
@@ -190,11 +190,11 @@ abstract class BaseCategorieQuery extends ModelCriteria
 	 *
 	 * @param     mixed $key Primary key to use for the query
 	 *
-	 * @return    CategorieQuery The current query, for fluid interface
+	 * @return    CategoryQuery The current query, for fluid interface
 	 */
 	public function filterByPrimaryKey($key)
 	{
-		return $this->addUsingAlias(CategoriePeer::ID, $key, Criteria::EQUAL);
+		return $this->addUsingAlias(CategoryPeer::ID, $key, Criteria::EQUAL);
 	}
 
 	/**
@@ -202,11 +202,11 @@ abstract class BaseCategorieQuery extends ModelCriteria
 	 *
 	 * @param     array $keys The list of primary key to use for the query
 	 *
-	 * @return    CategorieQuery The current query, for fluid interface
+	 * @return    CategoryQuery The current query, for fluid interface
 	 */
 	public function filterByPrimaryKeys($keys)
 	{
-		return $this->addUsingAlias(CategoriePeer::ID, $keys, Criteria::IN);
+		return $this->addUsingAlias(CategoryPeer::ID, $keys, Criteria::IN);
 	}
 
 	/**
@@ -225,14 +225,14 @@ abstract class BaseCategorieQuery extends ModelCriteria
 	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
-	 * @return    CategorieQuery The current query, for fluid interface
+	 * @return    CategoryQuery The current query, for fluid interface
 	 */
 	public function filterById($id = null, $comparison = null)
 	{
 		if (is_array($id) && null === $comparison) {
 			$comparison = Criteria::IN;
 		}
-		return $this->addUsingAlias(CategoriePeer::ID, $id, $comparison);
+		return $this->addUsingAlias(CategoryPeer::ID, $id, $comparison);
 	}
 
 	/**
@@ -248,7 +248,7 @@ abstract class BaseCategorieQuery extends ModelCriteria
 	 *              Accepts wildcards (* and % trigger a LIKE)
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
-	 * @return    CategorieQuery The current query, for fluid interface
+	 * @return    CategoryQuery The current query, for fluid interface
 	 */
 	public function filterByName($name = null, $comparison = null)
 	{
@@ -260,7 +260,7 @@ abstract class BaseCategorieQuery extends ModelCriteria
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(CategoriePeer::NAME, $name, $comparison);
+		return $this->addUsingAlias(CategoryPeer::NAME, $name, $comparison);
 	}
 
 	/**
@@ -276,7 +276,7 @@ abstract class BaseCategorieQuery extends ModelCriteria
 	 *              Accepts wildcards (* and % trigger a LIKE)
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
-	 * @return    CategorieQuery The current query, for fluid interface
+	 * @return    CategoryQuery The current query, for fluid interface
 	 */
 	public function filterByDescription($description = null, $comparison = null)
 	{
@@ -288,44 +288,44 @@ abstract class BaseCategorieQuery extends ModelCriteria
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(CategoriePeer::DESCRIPTION, $description, $comparison);
+		return $this->addUsingAlias(CategoryPeer::DESCRIPTION, $description, $comparison);
 	}
 
 	/**
-	 * Filter the query by a related Archievement object
+	 * Filter the query by a related Achievement object
 	 *
-	 * @param     Archievement $archievement  the related object to use as filter
+	 * @param     Achievement $achievement  the related object to use as filter
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
-	 * @return    CategorieQuery The current query, for fluid interface
+	 * @return    CategoryQuery The current query, for fluid interface
 	 */
-	public function filterByArchievement($archievement, $comparison = null)
+	public function filterByAchievement($achievement, $comparison = null)
 	{
-		if ($archievement instanceof Archievement) {
+		if ($achievement instanceof Achievement) {
 			return $this
-				->addUsingAlias(CategoriePeer::ID, $archievement->getCategoryId(), $comparison);
-		} elseif ($archievement instanceof PropelCollection) {
+				->addUsingAlias(CategoryPeer::ID, $achievement->getCategoryId(), $comparison);
+		} elseif ($achievement instanceof PropelCollection) {
 			return $this
-				->useArchievementQuery()
-				->filterByPrimaryKeys($archievement->getPrimaryKeys())
+				->useAchievementQuery()
+				->filterByPrimaryKeys($achievement->getPrimaryKeys())
 				->endUse();
 		} else {
-			throw new PropelException('filterByArchievement() only accepts arguments of type Archievement or PropelCollection');
+			throw new PropelException('filterByAchievement() only accepts arguments of type Achievement or PropelCollection');
 		}
 	}
 
 	/**
-	 * Adds a JOIN clause to the query using the Archievement relation
+	 * Adds a JOIN clause to the query using the Achievement relation
 	 *
 	 * @param     string $relationAlias optional alias for the relation
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
-	 * @return    CategorieQuery The current query, for fluid interface
+	 * @return    CategoryQuery The current query, for fluid interface
 	 */
-	public function joinArchievement($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	public function joinAchievement($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
 		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('Archievement');
+		$relationMap = $tableMap->getRelation('Achievement');
 
 		// create a ModelJoin object for this join
 		$join = new ModelJoin();
@@ -340,14 +340,14 @@ abstract class BaseCategorieQuery extends ModelCriteria
 			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
 			$this->addJoinObject($join, $relationAlias);
 		} else {
-			$this->addJoinObject($join, 'Archievement');
+			$this->addJoinObject($join, 'Achievement');
 		}
 
 		return $this;
 	}
 
 	/**
-	 * Use the Archievement relation Archievement object
+	 * Use the Achievement relation Achievement object
 	 *
 	 * @see       useQuery()
 	 *
@@ -355,13 +355,13 @@ abstract class BaseCategorieQuery extends ModelCriteria
 	 *                                   to be used as main alias in the secondary query
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
-	 * @return    ArchievementQuery A secondary query class using the current class as primary query
+	 * @return    AchievementQuery A secondary query class using the current class as primary query
 	 */
-	public function useArchievementQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	public function useAchievementQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
 		return $this
-			->joinArchievement($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'Archievement', 'ArchievementQuery');
+			->joinAchievement($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Achievement', 'AchievementQuery');
 	}
 
 	/**
@@ -370,13 +370,13 @@ abstract class BaseCategorieQuery extends ModelCriteria
 	 * @param     Group $group  the related object to use as filter
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
-	 * @return    CategorieQuery The current query, for fluid interface
+	 * @return    CategoryQuery The current query, for fluid interface
 	 */
 	public function filterByGroup($group, $comparison = null)
 	{
 		if ($group instanceof Group) {
 			return $this
-				->addUsingAlias(CategoriePeer::ID, $group->getCategoryId(), $comparison);
+				->addUsingAlias(CategoryPeer::ID, $group->getCategoryId(), $comparison);
 		} elseif ($group instanceof PropelCollection) {
 			return $this
 				->useGroupQuery()
@@ -393,7 +393,7 @@ abstract class BaseCategorieQuery extends ModelCriteria
 	 * @param     string $relationAlias optional alias for the relation
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
-	 * @return    CategorieQuery The current query, for fluid interface
+	 * @return    CategoryQuery The current query, for fluid interface
 	 */
 	public function joinGroup($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
@@ -440,17 +440,17 @@ abstract class BaseCategorieQuery extends ModelCriteria
 	/**
 	 * Exclude object from result
 	 *
-	 * @param     Categorie $categorie Object to remove from the list of results
+	 * @param     Category $category Object to remove from the list of results
 	 *
-	 * @return    CategorieQuery The current query, for fluid interface
+	 * @return    CategoryQuery The current query, for fluid interface
 	 */
-	public function prune($categorie = null)
+	public function prune($category = null)
 	{
-		if ($categorie) {
-			$this->addUsingAlias(CategoriePeer::ID, $categorie->getId(), Criteria::NOT_EQUAL);
+		if ($category) {
+			$this->addUsingAlias(CategoryPeer::ID, $category->getId(), Criteria::NOT_EQUAL);
 		}
 
 		return $this;
 	}
 
-} // BaseCategorieQuery
+} // BaseCategoryQuery

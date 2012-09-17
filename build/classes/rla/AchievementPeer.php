@@ -3,7 +3,7 @@
 
 
 /**
- * Skeleton subclass for performing query and update operations on the 'archievements' table.
+ * Skeleton subclass for performing query and update operations on the 'achievements' table.
  *
  * 
  *
@@ -13,6 +13,6 @@
  *
  * @package    propel.generator.rla
  */
-class ArchievementPeer extends BaseArchievementPeer {
+class AchievementPeer extends BaseAchievementPeer {
 
-} // ArchievementPeer
+} // AchievementPeer
