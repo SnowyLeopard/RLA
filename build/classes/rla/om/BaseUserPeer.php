@@ -43,8 +43,8 @@ abstract class BaseUserPeer {
 	/** the column name for the PASSWORD field */
 	const PASSWORD = 'users.PASSWORD';
 
-	/** the column name for the HASH field */
-	const HASH = 'users.HASH';
+	/** the column name for the SALT field */
+	const SALT = 'users.SALT';
 
 	/** the column name for the LEVEL field */
 	const LEVEL = 'users.LEVEL';
@@ -73,11 +73,11 @@ abstract class BaseUserPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Username', 'Password', 'Hash', 'Level', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'username', 'password', 'hash', 'level', ),
-		BasePeer::TYPE_COLNAME => array (self::ID, self::USERNAME, self::PASSWORD, self::HASH, self::LEVEL, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'USERNAME', 'PASSWORD', 'HASH', 'LEVEL', ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'username', 'password', 'hash', 'level', ),
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Username', 'Password', 'Salt', 'Level', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'username', 'password', 'salt', 'level', ),
+		BasePeer::TYPE_COLNAME => array (self::ID, self::USERNAME, self::PASSWORD, self::SALT, self::LEVEL, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'USERNAME', 'PASSWORD', 'SALT', 'LEVEL', ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'username', 'password', 'salt', 'level', ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
@@ -88,11 +88,11 @@ abstract class BaseUserPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Username' => 1, 'Password' => 2, 'Hash' => 3, 'Level' => 4, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'username' => 1, 'password' => 2, 'hash' => 3, 'level' => 4, ),
-		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::USERNAME => 1, self::PASSWORD => 2, self::HASH => 3, self::LEVEL => 4, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'USERNAME' => 1, 'PASSWORD' => 2, 'HASH' => 3, 'LEVEL' => 4, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'username' => 1, 'password' => 2, 'hash' => 3, 'level' => 4, ),
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Username' => 1, 'Password' => 2, 'Salt' => 3, 'Level' => 4, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'username' => 1, 'password' => 2, 'salt' => 3, 'level' => 4, ),
+		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::USERNAME => 1, self::PASSWORD => 2, self::SALT => 3, self::LEVEL => 4, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'USERNAME' => 1, 'PASSWORD' => 2, 'SALT' => 3, 'LEVEL' => 4, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'username' => 1, 'password' => 2, 'salt' => 3, 'level' => 4, ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
@@ -196,13 +196,13 @@ abstract class BaseUserPeer {
 			$criteria->addSelectColumn(UserPeer::ID);
 			$criteria->addSelectColumn(UserPeer::USERNAME);
 			$criteria->addSelectColumn(UserPeer::PASSWORD);
-			$criteria->addSelectColumn(UserPeer::HASH);
+			$criteria->addSelectColumn(UserPeer::SALT);
 			$criteria->addSelectColumn(UserPeer::LEVEL);
 		} else {
 			$criteria->addSelectColumn($alias . '.ID');
 			$criteria->addSelectColumn($alias . '.USERNAME');
 			$criteria->addSelectColumn($alias . '.PASSWORD');
-			$criteria->addSelectColumn($alias . '.HASH');
+			$criteria->addSelectColumn($alias . '.SALT');
 			$criteria->addSelectColumn($alias . '.LEVEL');
 		}
 	}

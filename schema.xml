@@ -4,7 +4,7 @@
     <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
     <column name="username" type="varchar" size="30" required="true" />
     <column name="password" type="varchar" size="60" required="true" />
-    <column name="hash" type="varchar" size="60" required="true" />
+    <column name="salt" type="varchar" size="60" required="true" />
     <column name="level" type="enum" required="true" valueSet="admin,mod,user" />
   </table>
 

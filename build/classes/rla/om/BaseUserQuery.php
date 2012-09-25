@@ -9,13 +9,13 @@
  * @method     UserQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     UserQuery orderByUsername($order = Criteria::ASC) Order by the username column
  * @method     UserQuery orderByPassword($order = Criteria::ASC) Order by the password column
- * @method     UserQuery orderByHash($order = Criteria::ASC) Order by the hash column
+ * @method     UserQuery orderBySalt($order = Criteria::ASC) Order by the salt column
  * @method     UserQuery orderByLevel($order = Criteria::ASC) Order by the level column
  *
  * @method     UserQuery groupById() Group by the id column
  * @method     UserQuery groupByUsername() Group by the username column
  * @method     UserQuery groupByPassword() Group by the password column
- * @method     UserQuery groupByHash() Group by the hash column
+ * @method     UserQuery groupBySalt() Group by the salt column
  * @method     UserQuery groupByLevel() Group by the level column
  *
  * @method     UserQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
@@ -32,13 +32,13 @@
  * @method     User findOneById(int $id) Return the first User filtered by the id column
  * @method     User findOneByUsername(string $username) Return the first User filtered by the username column
  * @method     User findOneByPassword(string $password) Return the first User filtered by the password column
- * @method     User findOneByHash(string $hash) Return the first User filtered by the hash column
+ * @method     User findOneBySalt(string $salt) Return the first User filtered by the salt column
  * @method     User findOneByLevel(int $level) Return the first User filtered by the level column
  *
  * @method     array findById(int $id) Return User objects filtered by the id column
  * @method     array findByUsername(string $username) Return User objects filtered by the username column
  * @method     array findByPassword(string $password) Return User objects filtered by the password column
- * @method     array findByHash(string $hash) Return User objects filtered by the hash column
+ * @method     array findBySalt(string $salt) Return User objects filtered by the salt column
  * @method     array findByLevel(int $level) Return User objects filtered by the level column
  *
  * @package    propel.generator.rla.om
@@ -128,7 +128,7 @@ abstract class BaseUserQuery extends ModelCriteria
 	 */
 	protected function findPkSimple($key, $con)
 	{
-		$sql = 'SELECT `ID`, `USERNAME`, `PASSWORD`, `HASH`, `LEVEL` FROM `users` WHERE `ID` = :p0';
+		$sql = 'SELECT `ID`, `USERNAME`, `PASSWORD`, `SALT`, `LEVEL` FROM `users` WHERE `ID` = :p0';
 		try {
 			$stmt = $con->prepare($sql);
 			$stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -296,31 +296,31 @@ abstract class BaseUserQuery extends ModelCriteria
 	}
 
 	/**
-	 * Filter the query on the hash column
+	 * Filter the query on the salt column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByHash('fooValue');   // WHERE hash = 'fooValue'
-	 * $query->filterByHash('%fooValue%'); // WHERE hash LIKE '%fooValue%'
+	 * $query->filterBySalt('fooValue');   // WHERE salt = 'fooValue'
+	 * $query->filterBySalt('%fooValue%'); // WHERE salt LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $hash The value to use as filter.
+	 * @param     string $salt The value to use as filter.
 	 *              Accepts wildcards (* and % trigger a LIKE)
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
 	 * @return    UserQuery The current query, for fluid interface
 	 */
-	public function filterByHash($hash = null, $comparison = null)
+	public function filterBySalt($salt = null, $comparison = null)
 	{
 		if (null === $comparison) {
-			if (is_array($hash)) {
+			if (is_array($salt)) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $hash)) {
-				$hash = str_replace('*', '%', $hash);
+			} elseif (preg_match('/[\%\*]/', $salt)) {
+				$salt = str_replace('*', '%', $salt);
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(UserPeer::HASH, $hash, $comparison);
+		return $this->addUsingAlias(UserPeer::SALT, $salt, $comparison);
 	}
 
 	/**

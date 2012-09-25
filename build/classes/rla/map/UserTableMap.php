@@ -41,7 +41,7 @@ class UserTableMap extends TableMap
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
 		$this->addColumn('USERNAME', 'Username', 'VARCHAR', true, 30, null);
 		$this->addColumn('PASSWORD', 'Password', 'VARCHAR', true, 60, null);
-		$this->addColumn('HASH', 'Hash', 'VARCHAR', true, 60, null);
+		$this->addColumn('SALT', 'Salt', 'VARCHAR', true, 60, null);
 		$this->addColumn('LEVEL', 'Level', 'ENUM', true, null, null);
 		$this->getColumn('LEVEL', false)->setValueSet(array (
   0 => 'admin',

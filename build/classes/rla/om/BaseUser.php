@@ -49,10 +49,10 @@ abstract class BaseUser extends BaseObject  implements Persistent
 	protected $password;
 
 	/**
-	 * The value for the hash field.
+	 * The value for the salt field.
 	 * @var        string
 	 */
-	protected $hash;
+	protected $salt;
 
 	/**
 	 * The value for the level field.
@@ -127,13 +127,13 @@ abstract class BaseUser extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Get the [hash] column value.
+	 * Get the [salt] column value.
 	 * 
 	 * @return     string
 	 */
-	public function getHash()
+	public function getSalt()
 	{
-		return $this->hash;
+		return $this->salt;
 	}
 
 	/**
@@ -214,24 +214,24 @@ abstract class BaseUser extends BaseObject  implements Persistent
 	} // setPassword()
 
 	/**
-	 * Set the value of [hash] column.
+	 * Set the value of [salt] column.
 	 * 
 	 * @param      string $v new value
 	 * @return     User The current object (for fluent API support)
 	 */
-	public function setHash($v)
+	public function setSalt($v)
 	{
 		if ($v !== null) {
 			$v = (string) $v;
 		}
 
-		if ($this->hash !== $v) {
-			$this->hash = $v;
-			$this->modifiedColumns[] = UserPeer::HASH;
+		if ($this->salt !== $v) {
+			$this->salt = $v;
+			$this->modifiedColumns[] = UserPeer::SALT;
 		}
 
 		return $this;
-	} // setHash()
+	} // setSalt()
 
 	/**
 	 * Set the value of [level] column.
@@ -292,7 +292,7 @@ abstract class BaseUser extends BaseObject  implements Persistent
 			$this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
 			$this->username = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
 			$this->password = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-			$this->hash = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
+			$this->salt = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
 			$this->level = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
 			$this->resetModified();
 
@@ -554,8 +554,8 @@ abstract class BaseUser extends BaseObject  implements Persistent
 		if ($this->isColumnModified(UserPeer::PASSWORD)) {
 			$modifiedColumns[':p' . $index++]  = '`PASSWORD`';
 		}
-		if ($this->isColumnModified(UserPeer::HASH)) {
-			$modifiedColumns[':p' . $index++]  = '`HASH`';
+		if ($this->isColumnModified(UserPeer::SALT)) {
+			$modifiedColumns[':p' . $index++]  = '`SALT`';
 		}
 		if ($this->isColumnModified(UserPeer::LEVEL)) {
 			$modifiedColumns[':p' . $index++]  = '`LEVEL`';
@@ -580,8 +580,8 @@ abstract class BaseUser extends BaseObject  implements Persistent
 					case '`PASSWORD`':
 						$stmt->bindValue($identifier, $this->password, PDO::PARAM_STR);
 						break;
-					case '`HASH`':
-						$stmt->bindValue($identifier, $this->hash, PDO::PARAM_STR);
+					case '`SALT`':
+						$stmt->bindValue($identifier, $this->salt, PDO::PARAM_STR);
 						break;
 					case '`LEVEL`':
 						$stmt->bindValue($identifier, $this->level, PDO::PARAM_INT);
@@ -734,7 +734,7 @@ abstract class BaseUser extends BaseObject  implements Persistent
 				return $this->getPassword();
 				break;
 			case 3:
-				return $this->getHash();
+				return $this->getSalt();
 				break;
 			case 4:
 				return $this->getLevel();
@@ -771,7 +771,7 @@ abstract class BaseUser extends BaseObject  implements Persistent
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getUsername(),
 			$keys[2] => $this->getPassword(),
-			$keys[3] => $this->getHash(),
+			$keys[3] => $this->getSalt(),
 			$keys[4] => $this->getLevel(),
 		);
 		if ($includeForeignObjects) {
@@ -819,7 +819,7 @@ abstract class BaseUser extends BaseObject  implements Persistent
 				$this->setPassword($value);
 				break;
 			case 3:
-				$this->setHash($value);
+				$this->setSalt($value);
 				break;
 			case 4:
 				$valueSet = UserPeer::getValueSet(UserPeer::LEVEL);
@@ -855,7 +855,7 @@ abstract class BaseUser extends BaseObject  implements Persistent
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setUsername($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setPassword($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setHash($arr[$keys[3]]);
+		if (array_key_exists($keys[3], $arr)) $this->setSalt($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setLevel($arr[$keys[4]]);
 	}
 
@@ -871,7 +871,7 @@ abstract class BaseUser extends BaseObject  implements Persistent
 		if ($this->isColumnModified(UserPeer::ID)) $criteria->add(UserPeer::ID, $this->id);
 		if ($this->isColumnModified(UserPeer::USERNAME)) $criteria->add(UserPeer::USERNAME, $this->username);
 		if ($this->isColumnModified(UserPeer::PASSWORD)) $criteria->add(UserPeer::PASSWORD, $this->password);
-		if ($this->isColumnModified(UserPeer::HASH)) $criteria->add(UserPeer::HASH, $this->hash);
+		if ($this->isColumnModified(UserPeer::SALT)) $criteria->add(UserPeer::SALT, $this->salt);
 		if ($this->isColumnModified(UserPeer::LEVEL)) $criteria->add(UserPeer::LEVEL, $this->level);
 
 		return $criteria;
@@ -937,7 +937,7 @@ abstract class BaseUser extends BaseObject  implements Persistent
 	{
 		$copyObj->setUsername($this->getUsername());
 		$copyObj->setPassword($this->getPassword());
-		$copyObj->setHash($this->getHash());
+		$copyObj->setSalt($this->getSalt());
 		$copyObj->setLevel($this->getLevel());
 
 		if ($deepCopy && !$this->startCopy) {
@@ -1350,7 +1350,7 @@ abstract class BaseUser extends BaseObject  implements Persistent
 		$this->id = null;
 		$this->username = null;
 		$this->password = null;
-		$this->hash = null;
+		$this->salt = null;
 		$this->level = null;
 		$this->alreadyInSave = false;
 		$this->alreadyInValidation = false;
