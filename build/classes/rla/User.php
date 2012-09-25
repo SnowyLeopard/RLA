@@ -11,6 +11,23 @@
  *
  * @package    propel.generator.rla
  */
-class User extends BaseUser {
+class User extends BaseUser 
+
+  public function setPassword($passwd)
+  {
+    parent::setPassword(crypt($passwd, $this->generateSalt()));
+  }
+
+  public function checkPassword($passwd)
+  {
+    return crypt($passwd, $this->getSalt()) == $this->getPassword();
+  }
+
+  public function generateSalt()
+  {
+    $salt = '$2y$15$' . sha1(uniqid(rand(), TRUE)) . '$';
+    $this->setSalt($salt);
+    return $salt;
+  }
 
 } // User
