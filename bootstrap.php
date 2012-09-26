@@ -3,6 +3,9 @@
 // Determine the root dir.
 $root = dirname(__FILE__);
 
+// Start the session.
+session_start();
+
 /** 
  * Propel, the database management system.
  */
@@ -36,8 +39,14 @@ $loader = new UniversalClassLoader();
 $loader->useIncludePath(true);
 $loader->register();
 
-// Helper functions.
-function printr($array)
+/**
+ * Autoloader for the Helper class. 
+ */
+spl_autoload_register(function($class) 
 {
-  echo '<pre>' . print_r($array, true) . '</pre>';
-}
+  if ($class == 'Helper') 
+  {
+    global $root;
+    require_once "$root/helper.php";
+  }
+});
