@@ -27,8 +27,20 @@ $router = new Router($loader, 'routes.yml',
   $context);
 
 // The routing process.
-$q = isset($_GET['q']) ? trim($_GET['q'], '/') : 'user/1';
-$template_vars = array('messages' => array(), 'errors' => array());
+$q = isset($_GET['q']) ? trim($_GET['q'], '/') : '';
+$template_vars = array(
+  'messages' => array(), 
+  'errors' => array(),
+  'current_user' => Helper::getUser(),
+  'logged_in' => Helper::getUser() != NULL,
+);
+function url() 
+{
+  global $router;
+  return call_user_func_array(array($router, 'generate'), func_get_args());
+}
+$twig->addFunction('url', new Twig_Function_Function('url'));
+
 try
 {
   // Let symfony route.
@@ -52,6 +64,12 @@ try
   }
   
   // Optionally, execute a handler script/file.
+  $fn = $root . '/handlers/' . $page . '.php';
+  if (file_exists($fn))
+  {
+    require_once $fn;
+  }
+
   $fn = $root . '/handlers/' . $page . '-' . $context->getMethod() . '.php';
   if (file_exists($fn))
   {
